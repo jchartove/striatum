@@ -1,0 +1,20 @@
+% iNap: persistent sodium current (source: unknown)
+% Tags: sodium, current, intrinsic
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Parameters
+gNap=.15; % mS/cm2
+ENap=50; 
+napshift=0;
+
+% Functions
+alpha(IN)=.001*exp((-85-IN)/30);
+beta(IN)=.0034./(exp((-17-IN)/10)+1);
+minf(IN)=1./(1+exp(-(IN+(55.7+napshift))/7.7));
+INap(IN,h)=gNap*minf(IN).^3.*h.*(IN-ENap);
+
+% ODEs
+hNap' = alpha(IN).*(1-hNap)-beta(IN).*hNap
+hNap(0)=rand(Npop,1)
+
+% Interface
+current => -INap(IN,hNap)

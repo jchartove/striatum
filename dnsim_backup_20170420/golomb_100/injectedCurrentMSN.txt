@@ -1,0 +1,13 @@
+% injectedCurrentMSN
+
+% parameters
+injectedCurrent = 1.19
+freq = 1/(2*pi)
+sinmult = 0
+% onset = 0
+
+% current
+iinj(t)= injectedCurrent + sinmult*sin(2*pi*freq*t/1000)
+
+current => iinj(t)
+% current => injectedCurrent

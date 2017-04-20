@@ -1,0 +1,7 @@
+gl = [0.13]  %wilson has this as 0.13
+vl = [-70] %wilson has this as -70
+ 
+ileak(v) = gl*(v-vl)
+ 
+current => -ileak(v)
+ 

@@ -1,0 +1,13 @@
+vk = -90
+gkdr = 225
+
+ninf(v) = 1/(1+exp(-(v+12.4)/6.8))
+taun(v) = (1/(0.087+11.4*(1+exp((v+14.6)/8.6)))) * (1/(0.087+11.4*(1+exp(-(v-1.3)/18.7))))
+
+ikdr(v,n) = gKdr*(n.^4).*(v-vk)
+
+n' = (ninf(v)-n)/taun(v)
+
+n(0) = 0.5*ones(Npop,1) %made up
+
+current => -ikdr(v,n)

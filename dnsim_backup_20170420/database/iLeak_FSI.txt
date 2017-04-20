@@ -1,0 +1,13 @@
+% iLeak_FSI: HH-type leakage current, from
+%   Borgers et al, PNAS, 2008
+%   http://www.pnas.org/content/105/46/18023.abstract
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Parameters
+gL = .3;    % mS/cm^2
+EL = 10.6;  % mV
+
+% Functions
+ILeak_FSI(IN) = gL.*((IN+65)-EL)
+
+% Interface
+current => -ILeak_FSI(IN)

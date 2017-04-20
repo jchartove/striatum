@@ -1,0 +1,30 @@
+% iinh_FSI: synaptic inhibition, from
+%   Borgers et al, PNAS, 2008
+%   http://www.pnas.org/content/105/46/18023.abstract
+% Tags: synapse, connection
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Parameters
+ginh = 2.5;
+Einh = -80;
+IC = [0.1];
+IC_noise = [0];
+tauinh = 12;
+
+% Connectivity
+width = inf;   % fanout (connection distance)
+Nmax = max(Npre,Npost);
+srcpos = linspace(1,Nmax,Npre)'*ones(1,Npost);      % linear position (sources)
+dstpos = (linspace(1,Nmax,Npost)'*ones(1,Npre))';   % linear position (targets)
+netcon = (abs(srcpos-dstpos)<=width)';              % adjacency matrix (connect elements closer than width)
+
+% Functions
+Iinh(IN,s) = (ginh.*(netcon*s).*(IN-Einh));
+
+% ODEs
+s' = (1 + tanh(IN./10)./2).*(1-s)./0.5 - s./tauinh;
+% debug
+s(0) = 0.1.*ones(Npre,1);
+% s(0) = IC+IC_noise.*rand(Npre,1);
+
+% Interface
+current => -Iinh(OUT,s)
