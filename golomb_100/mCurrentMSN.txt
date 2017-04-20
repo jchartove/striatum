@@ -1,0 +1,32 @@
+% mCurrentMSN
+
+% parameters
+g_m = 1.2; % 1.3; % mS/cm^2 % 1.2 parkinsonian, 1.3 normal
+E_m = -100; % mV
+Q10 = 2.3;
+vhalf = -30;
+
+% Qs
+Qs = Q10^(.1*(37-23))
+
+% alpha_m
+alpha_m(V) = Qs*1e-4*(V-vhalf)./(1-exp(-(V-vhalf)/9))
+
+% beta_m
+beta_m(V) = -Qs*1e-4*(V-vhalf)./(1-exp((V-vhalf)/9))
+
+% ode
+m' = alpha_m(V).*(1-m) - beta_m(V).*m % activation
+
+% ic
+V_IC = -63+63*randn(Npop,1)
+% alpha_m_ic = Qs*1e-4*(V_IC-vhalf)/(1-exp(-(V_IC-vhalf)/9))
+% beta_m_ic = -Qs*1e-4*(V_IC-vhalf)/(1-exp((V_IC-vhalf)/9))
+% m(0) = alpha_m_ic/(alpha_m_ic+beta_m_ic)*ones(Npop,1)
+
+m(0) = Q10^(.1*(37-23))*1e-4*(V_IC-vhalf)/(1-exp(-(V_IC-vhalf)/9))/(Q10^(.1*(37-23))*1e-4*(V_IC-vhalf)/(1-exp(-(V_IC-vhalf)/9))-Q10^(.1*(37-23))*1e-4*(V_IC-vhalf)/(1-exp((V_IC-vhalf)/9)))*randn(Npop,1)
+
+% current
+i_m(V,m) = g_m*m.*(V-E_m)
+
+current => -i_m(V,m)

@@ -1,0 +1,10 @@
+% leakCurrentMSN
+
+% parameters
+g_l = 0.1;
+E_l = -67;
+
+% current
+i_l(V)=g_l*(V-E_l)
+
+current => -i_l(V)

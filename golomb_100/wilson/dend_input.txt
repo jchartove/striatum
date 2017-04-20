@@ -1,0 +1,6 @@
+DA = [0.5]
+tonic = [0]
+tonic2 = tonic + 10.*DA
+I(t) = tonic2
+
+current => I(t)

@@ -1,0 +1,4 @@
+tonic = [0]
+I(t) = tonic
+
+current => I(t)
