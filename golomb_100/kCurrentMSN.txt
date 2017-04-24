@@ -1,8 +1,10 @@
 % kCurrentMSN
 
 % parameters
-g_k = 80; % mS/cm^2
-E_k = -100; % mV
+g_k = 80; 
+% mS/cm^2
+E_k = -100; 
+% mV
 
 % alpha_m
 alpha_m(V) = 0.032*(V+52)./(1-exp(-(V+52)/5))
@@ -12,7 +14,8 @@ beta_m(V) = 0.5*exp(-(V+57)/40)
 
 
 % ode
-m' = alpha_m(V).*(1-m)-beta_m(V).*m % activation
+m' = alpha_m(V).*(1-m)-beta_m(V).*m 
+% activation
 
 % ic
 V_IC = -63+63*randn(Npop,1)

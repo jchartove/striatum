@@ -3,7 +3,8 @@ g_esyn = [1]
 g_isyn = [1]
 E_esyn = [0]
 E_isyn = [-85]
-tau_i = [1] %i feel like this controls the height??
+tau_i = [1] 
+%i feel like this controls the height??
 tau_1 = [1]
 N_einputs = [50]
 N_iinputs = [0]

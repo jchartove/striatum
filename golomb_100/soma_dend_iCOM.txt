@@ -1,4 +1,5 @@
-gcom = [0.15] %wilson has this as 4
+gcom = [0.15] 
+%wilson has this as 4
  
 compcon = eye(Npost,Npre)
 

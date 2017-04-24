@@ -5,8 +5,10 @@ tauD = [13]
 tauR = [0.25]
 IC = [0.1]
 IC_noise = [0]
-i_con = [0.3] %0.3 for >2 cells. might want to change this
-numcells = [100] %this doesn't actually do anything
+i_con = [0.3] 
+%0.3 for >2 cells. might want to change this
+numcells = [100] 
+%this doesn't actually do anything
 
 gsyn2 = gsyn - DA.*(gsyn - 0.005)
  

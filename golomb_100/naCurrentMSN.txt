@@ -1,8 +1,10 @@
 % naCurrentMSN
 
 % parameters
-g_na = 100; % mS/cm^2
-E_na = 50;  % mV
+g_na = 100; 
+% mS/cm^2
+E_na = 50;  
+% mV
 
 % alpha_m
 alpha_m(V) = 0.32*(V+54)./(1-exp(-(V+54)/4))
@@ -17,8 +19,10 @@ alpha_h(V) = 0.128*exp(-(V+50)/18)
 beta_h(V) = 4./(1+exp(-(V+27)/5))
 
 % ode
-m' = alpha_m(V).*(1-m)-beta_m(V).*m % activation
-h' = alpha_h(V).*(1-h)-beta_h(V).*h % inactivation
+m' = alpha_m(V).*(1-m)-beta_m(V).*m 
+% activation
+h' = alpha_h(V).*(1-h)-beta_h(V).*h 
+% inactivation
 
 % ic
 V_IC = -63+63*randn(Npop,1)
