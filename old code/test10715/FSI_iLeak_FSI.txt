@@ -1,0 +1,7 @@
+gL = [0.3]
+EL = [10.6]
+ 
+ILeak_FSI(IN) = gL.*((IN+65)-EL)
+ 
+current => -ILeak_FSI(IN)
+ 

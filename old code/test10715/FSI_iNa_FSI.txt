@@ -1,0 +1,19 @@
+gNa = [120]
+ENa = [115]
+IC_noise = [0]
+h_IC = [0]
+m_IC = [0]
+ 
+aM(IN) = (2.5-.1.*(IN+65))./(exp(2.5-.1.*(IN+65))-1)
+bM(IN) = 4.*exp(-(IN+65)./18)
+aH(IN) = .07.*exp(-(IN+65)./20)
+bH(IN) = 1./(exp(3-.1.*(IN+65))+1)
+INa_FSI(IN,mNa,hNa) = gNa.*mNa.^3.*hNa.*((IN+65)-ENa)
+ 
+mNa' = aM(IN).*(1-mNa)-bM(IN).*mNa;
+mNa(0) = 0.1.*ones(Npop,1)
+hNa' = aH(IN).*(1-hNa)-bH(IN).*hNa;
+hNa(0) = 0.1.*ones(Npop,1)
+ 
+current => -INa_FSI(IN,mNa,hNa)
+ 
