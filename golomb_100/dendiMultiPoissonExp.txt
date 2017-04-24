@@ -12,8 +12,8 @@ fraction_shared = [0]
 fraction_gamma =[0]
 randstart = [0]
  
-Ge = corr_Poisson(Npop, N_einputs, rate, tau_i, tau_1, 2, .5, Tfinal, dt, fraction_shared)
-Gi = corr_Poisson(Npop, N_iinputs, rate, tau_i, tau_1, 5, .5, Tfinal, dt, fraction_shared)
+Ge = corrPoisson(Npop, N_einputs, rate, tau_i, tau_1, 2, .5, Tfinal, dt, fraction_shared)
+Gi = corrPoisson(Npop, N_iinputs, rate, tau_i, tau_1, 5, .5, Tfinal, dt, fraction_shared)
 
 Gte(t) = g_esyn.*Ge(:, max(1,round(t/dt)))
 Itrain_e(v,t) = Gte(t).*(v - E_esyn)
@@ -21,5 +21,6 @@ Gti(t) = g_isyn.*Gi(:, max(1,round(t/dt)))
 Itrain_i(v,t) = Gti(t).*(v - E_isyn)
 Itrain(v,t) = Itrain_e(v,t) + Itrain_i(v,t)
  
-current => -Itrain(IN,t)
+current => -Itrain(v,t)
+%this said IN instead of v before
  

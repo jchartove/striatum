@@ -1,4 +1,4 @@
- function psps =gamma_Poisson(no_cells, inputs_per_cell, rate, tau_i, tau_1, tau_d, tau_r, T, dt, fraction_shared, fraction_gamma, randstart)
+ function psps =gammaPoisson(no_cells, inputs_per_cell, rate, tau_i, tau_1, tau_d, tau_r, T, dt, fraction_shared, fraction_gamma, randstart)
 
 t = 0:dt:T;
 

@@ -1,4 +1,4 @@
-function psps = multi_Poisson(no_cells, inputs_per_cell, rate, tau_i, tau_1, tau_d, tau_r, T, dt)
+function psps = multiPoisson(no_cells, inputs_per_cell, rate, tau_i, tau_1, tau_d, tau_r, T, dt)
 
 t = 0:dt:T;
 
