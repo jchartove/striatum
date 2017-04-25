@@ -7,4 +7,4 @@ E_l = -67;
 % current
 i_l(V)=g_l*(V-E_l)
 
-current => -i_l(V)
+@current += -i_l(V)

@@ -31,9 +31,10 @@ s' = -s./tau_gaba + 2*(1+tanh(IN/4)).*(1-s);
 % IN refers to the presynaptic V
 
 % ic
-IC = 1e-4
-IC_noise = 0
-s(0) = IC+IC_noise.*rand(Npre,1)
+% IC = 1e-4
+% IC_noise = 0
+% s = IC+IC_noise
+%previously had s(0) = IC+IC_noise.*rand(Npre,1) but that stopped working
 
 % current
 i_gaba(V,s) = g_gaba.*(netcon*s).*(V-E_gaba)

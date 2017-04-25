@@ -41,4 +41,4 @@ h(0) = 0.128*exp(-(V_IC+50)/18)/(0.128*exp(-(V_IC+50)/18)+4/(1+exp(-(V_IC+27)/5)
 % current
 i_na(V,m,h) = g_na*m.^3.*h.*(V-E_na)
 
-current => -i_na(V,m,h)
+@current += -i_na(V,m,h)

@@ -14,5 +14,5 @@ mask = genmask(Npre,Npost,gcon,g_GAP2,0,1,0)
 dV(IN,OUT) = ((IN*ones(1,size(IN,1)))'-(OUT*ones(1,size(OUT,1))))
 IGAP(IN,OUT) = g_GAP2.*sum(dV(IN,OUT).*mask,2)
  
-current => IGAP(IN,OUT)
+@current += IGAP(IN,OUT)
  

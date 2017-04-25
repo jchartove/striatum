@@ -3,8 +3,8 @@ clear
 %cd '/project/crc-nak/jchartove/striatum/golomb_100';
 
 eqns={
-  %'dV/dt=@current';
-	'V''=(current)./cm'
+  'dV/dt=Iapp+@current';
+	%'V''=(current)./cm'
 };
 
 for numcells = [100]
@@ -14,13 +14,13 @@ spec.nodes(1).name = 'soma';
 spec.nodes(1).size = numcells;
 spec.nodes(1).equations = eqns;
 spec.nodes(1).mechanism_list = {'soma_golomb_K','soma_golomb_Kdr','soma_input','soma_golomb_Na','soma_leak'}; 
-spec.nodes(1).parameters = {'v_IC',-90+90*rand(1,numcells), 'Tfinal', T0};
+spec.nodes(1).parameters = {'v_IC',-90+90*rand(1,numcells), 'Tfinal', T0, 'Iapp',0};
 
 spec.nodes(2).name = 'dend';
 spec.nodes(2).size = numcells;
 spec.nodes(2).equations = eqns;
 spec.nodes(2).mechanism_list = {'dend_golomb_K','dend_golomb_Kdr','dend_golomb_Na','dend_input','dend_leak','dend_iMultiPoissonExp'};
-spec.nodes(2).parameters = {'v_IC',-90+90*rand(1,numcells), 'Tfinal', T0}; 
+spec.nodes(2).parameters = {'v_IC',-90+90*rand(1,numcells), 'Tfinal', T0, 'Iapp',0}; 
 
 ncells = 100;  % number of MSN cells in the pool
 g_gaba = 0.1/(ncells-1); % recurrent gaba conductance, normalized to the number of cells
@@ -32,13 +32,13 @@ spec.nodes(3).name = 'D1';
 spec.nodes(3).size = ncells;
 spec.nodes(3).equations = eqns;
 spec.nodes(3).mechanism_list = {'naCurrentMSN','kCurrentMSN','mCurrentMSN','leakCurrentMSN','injectedCurrentD1','noisyInputMSN'};
-spec.nodes(3).parameters = {'cm',1,'V_IC',-63,'g_m',g_m,'Tfinal', T0}; % V_IC refers to the initial condition for the membrane 
+spec.nodes(3).parameters = {'cm',1,'V_IC',-63,'g_m',g_m,'Tfinal', T0, 'Iapp',0}; % V_IC refers to the initial condition for the membrane 
 
 spec.nodes(4).name = 'D2';
 spec.nodes(4).size = ncells;
 spec.nodes(4).equations = eqns;
 spec.nodes(4).mechanism_list = {'naCurrentMSN','kCurrentMSN','mCurrentMSN','leakCurrentMSN','injectedCurrentD2','noisyInputMSN'};
-spec.nodes(4).parameters = {'cm',1,'V_IC',-63,'g_m',g_m,'Tfinal', T0}; % V_IC refers to the initial condition for the membrane potential
+spec.nodes(4).parameters = {'cm',1,'V_IC',-63,'g_m',g_m,'Tfinal', T0, 'Iapp',0}; % V_IC refers to the initial condition for the membrane potential
 
 
 spec.connections(1).direction = 'soma->soma';
@@ -57,21 +57,23 @@ spec.connections(4).direction = 'dend->dend';
 spec.connections(4).mechanism_list = {'dend_dend_iGAP'};
 spec.connections(4).parameters = [];
 
-spec.connections(5).direction = [spec.nodes(3).name,'->',spec.nodes(3).name];
-spec.connections(5).mechanism_list = {'gabaRecInputMSN'};
-spec.connections(5).parameters = {'g_gaba',g_gaba};
+spec.connections(5).direction = 'soma->D1';
+spec.connections(5).mechanism_list = {'soma_MSN_iSYN'};
+spec.connections(5).parameters = {'gsyn',6*g_gaba};
 
-spec.connections(6).direction = [spec.nodes(4).name,'->',spec.nodes(4).name];
-spec.connections(6).mechanism_list = {'gabaRecInputMSN'};
-spec.connections(6).parameters = {'g_gaba',g_gaba};
+spec.connections(6).direction = 'soma->D2';
+spec.connections(6).mechanism_list = {'soma_MSN_iSYN'};
+spec.connections(6).parameters = {'gsyn',6*g_gaba};
 
-spec.connections(7).direction = 'soma->D1';
-spec.connections(7).mechanism_list = {'soma_MSN_iSYN'};
-spec.connections(7).parameters = {'gsyn',6*g_gaba};
+%spec.connections(7).direction = [spec.nodes(3).name,'->',spec.nodes(3).name];
+%spec.connections(7).mechanism_list = {'gabaRecInputMSN'};
+%spec.connections(7).parameters = {'g_gaba',g_gaba};
 
-spec.connections(8).direction = 'soma->D2';
-spec.connections(8).mechanism_list = {'soma_MSN_iSYN'};
-spec.connections(8).parameters = {'gsyn',6*g_gaba};
+%spec.connections(8).direction = [spec.nodes(4).name,'->',spec.nodes(4).name];
+%spec.connections(8).mechanism_list = {'gabaRecInputMSN'};
+%spec.connections(8).parameters = {'g_gaba',g_gaba};
+
+
 
 %dnsim(spec); % open model in DNSim GUI
 
@@ -190,7 +192,7 @@ vary={
 % values = {'[0,1]','[0:20]','[9:13]'}
 
 memlimit = '64G';
-data_dir = '/projectnb/crc-nak/chartove/dnsim/';
+data_dir = '/projectnb/crc-nak/chartove/dnsim/'; %try to cd to this directory and leave data_dir blank
 cluster_flag = 0;
 overwrite_flag = 1;
 save_data_flag = 1;

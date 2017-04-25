@@ -10,5 +10,5 @@ DA = 0
 % current
 iinj(t)= injectedCurrent + sinmult*sin(2*pi*freq*t/1000) + 0.1*DA
 
-current => iinj(t)
-% current => injectedCurrent
+@current += iinj(t)
+% @current += injectedCurrent

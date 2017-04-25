@@ -9,5 +9,5 @@ sinmult = 0
 % current
 iinj(t)= injectedCurrent + sinmult*sin(2*pi*freq*t/1000)
 
-current => iinj(t)
-% current => injectedCurrent
+@current += iinj(t)
+% @current += injectedCurrent

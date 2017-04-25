@@ -5,5 +5,5 @@ vl = [-54.4]
  
 ileak(v) = gl*(v-vl)
  
-current => -ileak(v)
+@current += -ileak(v)
  

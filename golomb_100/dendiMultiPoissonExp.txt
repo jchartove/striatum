@@ -21,6 +21,6 @@ Gti(t) = g_isyn.*Gi(:, max(1,round(t/dt)))
 Itrain_i(v,t) = Gti(t).*(v - E_isyn)
 Itrain(v,t) = Itrain_e(v,t) + Itrain_i(v,t)
  
-current => -Itrain(v,t)
+@current += -Itrain(v,t)
 %this said IN instead of v before
  

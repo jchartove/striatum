@@ -11,5 +11,5 @@ ikdr(v,n) = gkdr_dend.*(n.^nexp).*(v-vk)
 n' = (ninf(v)-n)./taun(v);
 n(0) = 0.05 + 0.45*rand(Npop,1)
  
-current => -ikdr(v,n)
+@current += -ikdr(v,n)
  

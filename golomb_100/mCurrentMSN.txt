@@ -32,4 +32,4 @@ m(0) = Q10^(.1*(37-23))*1e-4*(V_IC-vhalf)/(1-exp(-(V_IC-vhalf)/9))/(Q10^(.1*(37-
 % current
 i_m(V,m) = g_m*m.*(V-E_m)
 
-current => -i_m(V,m)
+@current += -i_m(V,m)

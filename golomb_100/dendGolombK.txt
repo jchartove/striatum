@@ -12,5 +12,5 @@ a(0) = 0.15 + 0.60*rand(Npop,1)
 b' = (binf(v)-b)./taub;
 b(0) = 0.15 + 0.45*rand(Npop,1)
  
-current => -id(v,a,b)
+@current += -id(v,a,b)
  
