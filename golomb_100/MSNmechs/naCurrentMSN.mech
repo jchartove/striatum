@@ -39,6 +39,6 @@ m(0) = 0.32*(V_IC+54)/(1-exp(-(V_IC+54)/4))/(0.32*(V_IC+54)/(1-exp(-(V_IC+54)/4)
 h(0) = 0.128*exp(-(V_IC+50)/18)/(0.128*exp(-(V_IC+50)/18)+4/(1+exp(-(V_IC+27)/5)))*randn(Npop,1)
 
 % current
-i_na(V,m,h) = g_na*m.^3.*h.*(V-E_na)
+naCurrentMSN(V,m,h) = g_na*m.^3.*h.*(V-E_na)
 
-@current += -i_na(V,m,h)
+@current += -naCurrentMSN(V,m,h)

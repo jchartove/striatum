@@ -7,7 +7,7 @@ sinmult = 0
 % onset = 0
 
 % current
-iinj(t)= injectedCurrent + sinmult*sin(2*pi*freq*t/1000)
+injectedCurrentMSN(t)= injectedCurrent + sinmult*sin(2*pi*freq*t/1000)
 
-@current += iinj(t)
+@current += injectedCurrentMSN(t)
 % @current += injectedCurrent

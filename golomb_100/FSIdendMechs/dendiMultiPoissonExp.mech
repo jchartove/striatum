@@ -16,11 +16,11 @@ Ge = corrPoisson(Npop, N_einputs, rate, tau_i, tau_1, 2, .5, Tfinal, dt, fractio
 Gi = corrPoisson(Npop, N_iinputs, rate, tau_i, tau_1, 5, .5, Tfinal, dt, fraction_shared)
 
 Gte(t) = g_esyn.*Ge(:, max(1,round(t/dt)))
-Itrain_e(v,t) = Gte(t).*(v - E_esyn)
+dendiMultiPoissonExp_e(v,t) = Gte(t).*(v - E_esyn)
 Gti(t) = g_isyn.*Gi(:, max(1,round(t/dt)))
-Itrain_i(v,t) = Gti(t).*(v - E_isyn)
-Itrain(v,t) = Itrain_e(v,t) + Itrain_i(v,t)
+dendiMultiPoissonExp_i(v,t) = Gti(t).*(v - E_isyn)
+dendiMultiPoissonExp(v,t) = dendiMultiPoissonExp_e(v,t) + dendiMultiPoissonExp_i(v,t)
  
-@current += -Itrain(v,t)
+@current += -.dendiMultiPoissonExp(v,t)
 %this said IN instead of v before
  

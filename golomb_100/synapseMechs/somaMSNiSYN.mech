@@ -18,10 +18,10 @@ srcpos = linspace(1,Nmax,Npre)'*ones(1,Npost)
 dstpos = (linspace(1,Nmax,Npost)'*ones(1,Npre))'
 mask = genmask(Npre,Npost,i_con,gsyn2,1,0,ko)
 
-ISYN(V,s,t) = (gsyn2.*(mask*s).*(V-Esyn))
+somaMSNiSYN(V,s,t) = (gsyn2.*(mask*s).*(V-Esyn))
  
 s' = -s./tauD + ((1-s)/tauR).*(1+tanh(IN/10));
 s(0) = IC+IC_noise.*rand(Npre,1)
  
-@current += -ISYN(OUT,s,t)
+@current += -somaMSNiSYN(OUT,s,t)
  

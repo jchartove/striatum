@@ -7,10 +7,10 @@ gna_dend = gna/10
 minf(v) = 1./(1+exp(-(v-thetam)./11.5))
 hinf(v) = 1./(1+exp(-(v+58.3)./-6.7))
 tauh(v) = 0.5 + 14./(1+exp(-(v+60)./-12))
-ina(v,h) = gna_dend.*h.*(minf(v).^3).*(v-vna)
+dendGolombNa(v,h) = gna_dend.*h.*(minf(v).^3).*(v-vna)
  
 h' = (hinf(v)-h)./tauh(v);
 h(0) = 0.05 + 0.85*rand(Npop,1)
  
-@current += -ina(v,h)
+@current += -dendGolombNa(v,h)
  

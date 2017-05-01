@@ -13,13 +13,13 @@ T0 = 2000;
 spec.nodes(1).name = 'soma';
 spec.nodes(1).size = numcells;
 spec.nodes(1).equations = eqns;
-spec.nodes(1).mechanism_list = {'soma_golomb_K','soma_golomb_Kdr','soma_input','soma_golomb_Na','soma_leak'}; 
+spec.nodes(1).mechanism_list = {'somaGolombK','somaGolombKdr','somainput','somaGolombNa','somaLeak'}; 
 spec.nodes(1).parameters = {'v_IC',-90+90*rand(1,numcells), 'Tfinal', T0, 'Iapp',0};
 
 spec.nodes(2).name = 'dend';
 spec.nodes(2).size = numcells;
 spec.nodes(2).equations = eqns;
-spec.nodes(2).mechanism_list = {'dend_golomb_K','dend_golomb_Kdr','dend_golomb_Na','dend_input','dend_leak','dend_iMultiPoissonExp'};
+spec.nodes(2).mechanism_list = {'dendGolombK','dendGolombKdr','dendGolombNa','dendInput','dendLeak','dendiMultiPoissonExp'};
 spec.nodes(2).parameters = {'v_IC',-90+90*rand(1,numcells), 'Tfinal', T0, 'Iapp',0}; 
 
 ncells = 100;  % number of MSN cells in the pool
@@ -42,27 +42,27 @@ spec.nodes(4).parameters = {'cm',1,'V_IC',-63,'g_m',g_m,'Tfinal', T0, 'Iapp',0};
 
 
 spec.connections(1).direction = 'soma->soma';
-spec.connections(1).mechanism_list = {'soma_soma_iSYN'};
+spec.connections(1).mechanism_list = {'somaSomaiSYN'};
 spec.connections(1).parameters = [];
 
 spec.connections(2).direction = 'soma->dend';
-spec.connections(2).mechanism_list = {'soma_dend_iCOM'};
+spec.connections(2).mechanism_list = {'somaDendiCOM'};
 spec.connections(2).parameters = [];
 
 spec.connections(3).direction = 'dend->soma';
-spec.connections(3).mechanism_list = {'dend_soma_iCOM'};
+spec.connections(3).mechanism_list = {'dendSomaiCOM'};
 spec.connections(3).parameters = [];
 
 spec.connections(4).direction = 'dend->dend';
-spec.connections(4).mechanism_list = {'dend_dend_iGAP'};
+spec.connections(4).mechanism_list = {'dendDendiGAP'};
 spec.connections(4).parameters = [];
 
 spec.connections(5).direction = 'soma->D1';
-spec.connections(5).mechanism_list = {'soma_MSN_iSYN'};
+spec.connections(5).mechanism_list = {'somaMSNiSYN'};
 spec.connections(5).parameters = {'gsyn',6*g_gaba};
 
 spec.connections(6).direction = 'soma->D2';
-spec.connections(6).mechanism_list = {'soma_MSN_iSYN'};
+spec.connections(6).mechanism_list = {'somaMSNiSYN'};
 spec.connections(6).parameters = {'gsyn',6*g_gaba};
 
 %spec.connections(7).direction = [spec.nodes(3).name,'->',spec.nodes(3).name];
@@ -170,13 +170,13 @@ spec.connections(6).parameters = {'gsyn',6*g_gaba};
 % variable = {'freq','injectedCurrent','i_con','gsyn'}
 % values = {'[1:80]','[1.0:0.2:1.8]','[0]','[0]'}
 
-scope = {'(dend,dend-dend,soma-soma,D1,D2)','(soma-D1,soma-D2)','(D1,D2)','(soma,dend)'};
-variable = {'DA','gsyn','g_m','taub'};
-values = {'[0:1]','[0.01]','[1.3]','[120]'};
+% scope = {'(dend,dend-dend,soma-soma,D1,D2)','(soma-D1,soma-D2)','(D1,D2)','(soma,dend)'};
+% variable = {'DA','gsyn','g_m','taub'};
+% values = {'[0:1]','[0.01]','[1.3]','[120]'};
 
 vary={
-  '(dend,dend-dend,soma-soma,D1,D2)',	'DA',	[0:1];
-  '(soma-D1,soma-D2)',           		'gsyn',	[0.01];
+  '(dend,dend->dend,soma->soma,D1,D2)',	'DA',	[0:1];
+  '(soma->D1,soma->D2)',           		'gsyn',	[0.01];
   '(D1,D2)',   							'g_m',	[1.3];
   '(soma,dend)',						'taub', [120];
 };

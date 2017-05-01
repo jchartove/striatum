@@ -1,4 +1,4 @@
 tonic = [0]
-I(t) = tonic
+somaInput(t) = tonic
 
-@current += I(t)
+@current += somaInput(t)

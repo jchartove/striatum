@@ -37,7 +37,7 @@ s' = -s./tau_gaba + 2*(1+tanh(IN/4)).*(1-s);
 %previously had s(0) = IC+IC_noise.*rand(Npre,1) but that stopped working
 
 % current
-i_gaba(V,s) = g_gaba.*(netcon*s).*(V-E_gaba)
+gabaRecInputMSN(V,s) = g_gaba.*(netcon*s).*(V-E_gaba)
 
 % save gaba input
 % suffix = '';
@@ -45,5 +45,5 @@ i_gaba(V,s) = g_gaba.*(netcon*s).*(V-E_gaba)
 % inputName = 'gabaRecInput';
 % returnedVal = saveInput(inputName,g_gaba.*(netcon*s).*(V-E_gaba));
 
-current => -i_gaba(OUT,s) 
+current => -gabaRecInputMSN(OUT,s) 
 % OUT refers to the postsynaptic V
