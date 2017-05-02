@@ -65,13 +65,13 @@ spec.connections(6).direction = 'soma->D2';
 spec.connections(6).mechanism_list = {'somaMSNiSYN'};
 spec.connections(6).parameters = {'Tfinal', T0, 'gsyn',6*g_gaba};
 
-%spec.connections(7).direction = [spec.nodes(3).name,'->',spec.nodes(3).name];
-%spec.connections(7).mechanism_list = {'gabaRecInputMSN'};
-%spec.connections(7).parameters = {'g_gaba',g_gaba};
+spec.connections(7).direction = 'D1->D1';
+spec.connections(7).mechanism_list = {'gabaRecInputMSN'};
+spec.connections(7).parameters = {'g_gaba',g_gaba};
 
-%spec.connections(8).direction = [spec.nodes(4).name,'->',spec.nodes(4).name];
-%spec.connections(8).mechanism_list = {'gabaRecInputMSN'};
-%spec.connections(8).parameters = {'g_gaba',g_gaba};
+spec.connections(8).direction = 'D2->D2';
+spec.connections(8).mechanism_list = {'gabaRecInputMSN'};
+spec.connections(8).parameters = {'g_gaba',g_gaba};
 
 
 
@@ -213,11 +213,11 @@ downsample_factor = 10;
               'save_results_flag',save_results_flag,'solver','rk4',...
               'memlimit',memlimit,'compile_flag',compile_flag,...
               'disk_flag',disk_flag,'downsample_factor',downsample_factor,...
-              'vary',vary, 'dt', .01, ...
-              'plot_functions',{@PlotData,@PlotData},...
-              'plot_options',{{'plot_type','waveform','format','png'},...
-                              {'plot_type','power','format','png',...
-                               'xlim',[0 40]}});
+              'vary',vary, 'dt', .01);
+              %'plot_functions',{@PlotData,@PlotData},...
+              %'plot_options',{{'plot_type','waveform','format','png'},...
+              %                {'plot_type','power','format','png',...
+              %                 'xlim',[0 40]}}});
 
 end
 			  %'addpath','/project/crc-nak/jchartove/dnsim',...
