@@ -11,16 +11,17 @@ N_iinputs = [0]
 fraction_shared = [0]
 fraction_gamma =[0]
 randstart = [0]
+Tfinal = [4000]
  
 Ge = corrPoisson(Npop, N_einputs, rate, tau_i, tau_1, 2, .5, Tfinal, dt, fraction_shared)
 Gi = corrPoisson(Npop, N_iinputs, rate, tau_i, tau_1, 5, .5, Tfinal, dt, fraction_shared)
 
-Gte(t) = g_esyn.*Ge(:, max(1,round(t/dt)))
-dendiMultiPoissonExp_e(v,t) = Gte(t).*(v - E_esyn)
-Gti(t) = g_isyn.*Gi(:, max(1,round(t/dt)))
-dendiMultiPoissonExp_i(v,t) = Gti(t).*(v - E_isyn)
-dendiMultiPoissonExp(v,t) = dendiMultiPoissonExp_e(v,t) + dendiMultiPoissonExp_i(v,t)
+Gte(t) = g_esyn.*Ge(:, max(1,round(t/dt)))'
+dendiMultiPoissonExp_e(X,t) = Gte(t).*(X - E_esyn)
+Gti(t) = g_isyn.*Gi(:, max(1,round(t/dt)))'
+dendiMultiPoissonExp_i(X,t) = Gti(t).*(X - E_isyn)
+dendiMultiPoissonExp(X,t) = dendiMultiPoissonExp_e(X,t) + dendiMultiPoissonExp_i(X,t)
  
-@current += -.dendiMultiPoissonExp(v,t)
-%this said IN instead of v before
+@current += -dendiMultiPoissonExp(X,t)
+%this said IN instead of X before
  

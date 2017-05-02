@@ -43,27 +43,27 @@ spec.nodes(4).parameters = {'cm',1,'V_IC',-63,'g_m',g_m,'Tfinal', T0, 'Iapp',0};
 
 spec.connections(1).direction = 'soma->soma';
 spec.connections(1).mechanism_list = {'somaSomaiSYN'};
-spec.connections(1).parameters = [];
+spec.connections(1).parameters = {'Tfinal', T0};
 
 spec.connections(2).direction = 'soma->dend';
 spec.connections(2).mechanism_list = {'somaDendiCOM'};
-spec.connections(2).parameters = [];
+spec.connections(2).parameters = {'Tfinal', T0};
 
 spec.connections(3).direction = 'dend->soma';
 spec.connections(3).mechanism_list = {'dendSomaiCOM'};
-spec.connections(3).parameters = [];
+spec.connections(3).parameters = {'Tfinal', T0};
 
 spec.connections(4).direction = 'dend->dend';
 spec.connections(4).mechanism_list = {'dendDendiGAP'};
-spec.connections(4).parameters = [];
+spec.connections(4).parameters = {'Tfinal', T0};
 
 spec.connections(5).direction = 'soma->D1';
 spec.connections(5).mechanism_list = {'somaMSNiSYN'};
-spec.connections(5).parameters = {'gsyn',6*g_gaba};
+spec.connections(5).parameters = {'Tfinal', T0, 'gsyn',6*g_gaba};
 
 spec.connections(6).direction = 'soma->D2';
 spec.connections(6).mechanism_list = {'somaMSNiSYN'};
-spec.connections(6).parameters = {'gsyn',6*g_gaba};
+spec.connections(6).parameters = {'Tfinal', T0, 'gsyn',6*g_gaba};
 
 %spec.connections(7).direction = [spec.nodes(3).name,'->',spec.nodes(3).name];
 %spec.connections(7).mechanism_list = {'gabaRecInputMSN'};
@@ -191,8 +191,9 @@ vary={
 % variable = {'DA','tonic','tauD'}
 % values = {'[0,1]','[0:20]','[9:13]'}
 
+
+cd '/projectnb/crc-nak/chartove/dnsim/'; %try to cd to this directory and leave data_dir blank
 memlimit = '64G';
-data_dir = '/projectnb/crc-nak/chartove/dnsim/'; %try to cd to this directory and leave data_dir blank
 cluster_flag = 0;
 overwrite_flag = 1;
 save_data_flag = 1;
@@ -206,7 +207,7 @@ downsample_factor = 10;
 
 % local run of the simulation,
 %   i.e. in the interactive session you're running this same script in
-[~,~]=SimulateModel(spec,'save_data_flag',save_data_flag,'study_dir',data_dir,...
+[~,~]=SimulateModel(spec,'save_data_flag',save_data_flag,'study_dir',[],...
               'cluster_flag',cluster_flag,'verbose_flag',verbose_flag,...
               'overwrite_flag',overwrite_flag,'tspan',[0 T0],...
               'save_results_flag',save_results_flag,'solver','rk4',...

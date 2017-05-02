@@ -3,15 +3,15 @@ gna = [112]
 thetam = [-24]
 trial = [1]
  
-minf(v) = 1./(1+exp(-(v-thetam)./11.5))
-hinf(v) = 1./(1+exp(-(v+58.3)./-6.7)) 
-%wilson has this as 1./(1+exp(-(v+57)./-6.7))
-tauh(v) = 0.5 + 14./(1+exp(-(v+60)./-12)) 
-%wilson has this as 0.5 + 14.5./(1+exp(-(v+60)./12))
-somaGolombNa(v,h) = gna.*h.*(minf(v).^3).*(v-vna)
+minf(X) = 1./(1+exp(-(X-thetam)./11.5))
+hinf(X) = 1./(1+exp(-(X+58.3)./-6.7)) 
+%wilson has this as 1./(1+exp(-(X+57)./-6.7))
+tauh(X) = 0.5 + 14./(1+exp(-(X+60)./-12)) 
+%wilson has this as 0.5 + 14.5./(1+exp(-(X+60)./12))
+somaGolombNa(X,h) = gna.*h.*(minf(X).^3).*(X-vna)
  
-h' = (hinf(v)-h)./tauh(v);
+h' = (hinf(X)-h)./tauh(X);
 h(0) = 0.05 + 0.85*rand(Npop,1)
  
-@current += -somaGolombNa(v,h)
+@current += -somaGolombNa(X,h)
  

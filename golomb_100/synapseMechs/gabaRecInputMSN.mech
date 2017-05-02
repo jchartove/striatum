@@ -28,7 +28,7 @@ netcon = ones(Npop)-eye(Npop)
 
 % ode:
 s' = -s./tau_gaba + 2*(1+tanh(IN/4)).*(1-s); 
-% IN refers to the presynaptic V
+% IN refers to the presynaptic X
 
 % ic
 % IC = 1e-4
@@ -37,13 +37,13 @@ s' = -s./tau_gaba + 2*(1+tanh(IN/4)).*(1-s);
 %previously had s(0) = IC+IC_noise.*rand(Npre,1) but that stopped working
 
 % current
-gabaRecInputMSN(V,s) = g_gaba.*(netcon*s).*(V-E_gaba)
+gabaRecInputMSN(X,s) = g_gaba.*(netcon*s).*(X-E_gaba)
 
 % save gaba input
 % suffix = '';
 % inputName = ['gabaRecInput',suffix];
 % inputName = 'gabaRecInput';
-% returnedVal = saveInput(inputName,g_gaba.*(netcon*s).*(V-E_gaba));
+% returnedVal = saveInput(inputName,g_gaba.*(netcon*s).*(X-E_gaba));
 
 current => -gabaRecInputMSN(OUT,s) 
-% OUT refers to the postsynaptic V
+% OUT refers to the postsynaptic X

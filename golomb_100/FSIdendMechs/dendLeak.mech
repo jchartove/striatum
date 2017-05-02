@@ -1,7 +1,7 @@
 gl = [0.03]
 vl = [-54.4]
  
-dendLeak(v) = gl*(v-vl)
+dendLeak(X) = gl*(X-vl)
  
-@current += -dendLeak(v)
+@current += -dendLeak(X)
  

@@ -3,7 +3,7 @@ gl = [0.03]
 vl = [-54.4] 
 %wilson has this as -70
  
-somaLeak(v) = gl*(v-vl)
+somaLeak(X) = gl*(X-vl)
  
-@current += -somaLeak(v)
+@current += -somaLeak(X)
  

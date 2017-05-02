@@ -3,14 +3,14 @@ gd = [8]
 taub = [150]
 gd_dend = gd/10
  
-ainf(v) = 1./(1+exp(-(v+50)./20))
-binf(v) = 1./(1+exp(-(v+70)./-6))
-dendGolombK(v,a,b) = gd_dend.*(a.^3).*b.*(v-vk)
+ainf(X) = 1./(1+exp(-(X+50)./20))
+binf(X) = 1./(1+exp(-(X+70)./-6))
+dendGolombK(X,a,b) = gd_dend.*(a.^3).*b.*(X-vk)
  
-a' = (ainf(v)-a)./2;
+a' = (ainf(X)-a)./2;
 a(0) = 0.15 + 0.60*rand(Npop,1)
-b' = (binf(v)-b)./taub;
+b' = (binf(X)-b)./taub;
 b(0) = 0.15 + 0.45*rand(Npop,1)
  
-@current += -dendGolombK(v,a,b)
+@current += -dendGolombK(X,a,b)
  

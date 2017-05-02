@@ -12,13 +12,13 @@ vhalf = -30;
 Qs = Q10^(.1*(37-23))
 
 % alpha_m
-alpha_m(V) = Qs*1e-4*(V-vhalf)./(1-exp(-(V-vhalf)/9))
+alpha_m(X) = Qs*1e-4*(X-vhalf)./(1-exp(-(X-vhalf)/9))
 
 % beta_m
-beta_m(V) = -Qs*1e-4*(V-vhalf)./(1-exp((V-vhalf)/9))
+beta_m(X) = -Qs*1e-4*(X-vhalf)./(1-exp((X-vhalf)/9))
 
 % ode
-m' = alpha_m(V).*(1-m) - beta_m(V).*m 
+m' = alpha_m(X).*(1-m) - beta_m(X).*m 
 % activation
 
 % ic
@@ -30,6 +30,6 @@ V_IC = -63+63*randn(Npop,1)
 m(0) = Q10^(.1*(37-23))*1e-4*(V_IC-vhalf)/(1-exp(-(V_IC-vhalf)/9))/(Q10^(.1*(37-23))*1e-4*(V_IC-vhalf)/(1-exp(-(V_IC-vhalf)/9))-Q10^(.1*(37-23))*1e-4*(V_IC-vhalf)/(1-exp((V_IC-vhalf)/9)))*randn(Npop,1)
 
 % current
-mCurrentMSN(V,m) = g_m*m.*(V-E_m)
+mCurrentMSN(X,m) = g_m*m.*(X-E_m)
 
-@current += -mCurrentMSN(V,m)
+@current += -mCurrentMSN(X,m)

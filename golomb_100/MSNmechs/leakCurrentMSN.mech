@@ -5,6 +5,6 @@ g_l = 0.1;
 E_l = -67;
 
 % current
-leakCurrentMSN(V)=g_l*(V-E_l)
+leakCurrentMSN(X)=g_l*(X-E_l)
 
-@current += -leakCurrentMSN(V)
+@current += -leakCurrentMSN(X)

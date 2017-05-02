@@ -7,14 +7,14 @@ E_k = -100;
 % mV
 
 % alpha_m
-alpha_m(V) = 0.032*(V+52)./(1-exp(-(V+52)/5))
+alpha_m(X) = 0.032*(X+52)./(1-exp(-(X+52)/5))
 
 % beta_m
-beta_m(V) = 0.5*exp(-(V+57)/40)
+beta_m(X) = 0.5*exp(-(X+57)/40)
 
 
 % ode
-m' = alpha_m(V).*(1-m)-beta_m(V).*m 
+m' = alpha_m(X).*(1-m)-beta_m(X).*m 
 % activation
 
 % ic
@@ -26,6 +26,6 @@ V_IC = -63+63*randn(Npop,1)
 m(0) = 0.032*(V_IC+52)/(1-exp(-(V_IC+52)/5))/(0.032*(V_IC+52)/(1-exp(-(V_IC+52)/5))+0.5*exp(-(V_IC+57)/40))*randn(Npop,1)
 
 % current
-kCurrentMSN(V,m)=g_k*m.^4.*(V-E_k)
+kCurrentMSN(X,m)=g_k*m.^4.*(X-E_k)
 
-@current += -kCurrentMSN(V,m)
+@current += -kCurrentMSN(X,m)

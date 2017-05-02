@@ -3,8 +3,8 @@ gcom = [0.15]
  
 compcon = eye(Npost,Npre)
 
-dV(IN,OUT) = ((IN*ones(1,size(IN,1)))'-(OUT*ones(1,size(OUT,1))))
+dV(IN,OUT) = ((ones(1,size(IN,1))*IN)'-(ones(1,size(OUT,1))*OUT))
 somaDendiCOM(IN,OUT) = gcom.*sum(dV(IN,OUT).*compcon,2)
  
-@current += somaDendiCOM(IN,OUT)
+@current += somaDendiCOM(IN,OUT)'
  
