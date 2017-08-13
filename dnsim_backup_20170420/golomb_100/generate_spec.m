@@ -10,7 +10,7 @@ function generate_spec(directory, avgfr, spike_pairs, v_new, filenew, time, dt, 
 
         m = mean(lfp);
         signal = lfp - m; %zero-center
-        signal = detrend(signal);
+        signal = double(detrend(signal));
         [y] = power_spectrum(signal',time,0,0);
         totalp = sum(y(1:150)); %total power. below: eeg bands
         dp = sum(y(1:3));
