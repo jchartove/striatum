@@ -195,7 +195,7 @@ namearray = cellfun(@num2str,vary,'UniformOutput',0);
 namestr = strjoin(reshape(namearray, 1, []));
 cd '/projectnb/crc-nak/chartove/dynasim/'; %try to cd to this directory and leave data_dir blank
 memlimit = '64G';
-cluster_flag = 0;
+cluster_flag = 1;
 overwrite_flag = 1;
 save_data_flag = 1;
 % Even if `save_data_flag` is 0, if running on cluster this must be off too in
