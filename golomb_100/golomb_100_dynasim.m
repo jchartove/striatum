@@ -191,8 +191,9 @@ vary={
 % variable = {'DA','tonic','tauD'}
 % values = {'[0,1]','[0:20]','[9:13]'}
 
-
-cd '/projectnb/crc-nak/chartove/dnsim/'; %try to cd to this directory and leave data_dir blank
+namearray = cellfun(@num2str,vary,'UniformOutput',0);
+namestr = strjoin(reshape(namearray, 1, []));
+cd '/projectnb/crc-nak/chartove/dynasim/'; %try to cd to this directory and leave data_dir blank
 memlimit = '64G';
 cluster_flag = 0;
 overwrite_flag = 1;
@@ -207,7 +208,7 @@ downsample_factor = 10;
 
 % local run of the simulation,
 %   i.e. in the interactive session you're running this same script in
-[~,~]=SimulateModel(spec,'save_data_flag',save_data_flag,'study_dir',[],...
+[~,~]=dsSimulate(spec,'save_data_flag',save_data_flag,'study_dir',[],...
               'cluster_flag',cluster_flag,'verbose_flag',verbose_flag,...
               'overwrite_flag',overwrite_flag,'tspan',[0 T0],...
               'save_results_flag',save_results_flag,'solver','rk4',...
