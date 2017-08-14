@@ -13,7 +13,7 @@ T0 = 2000;
 spec.nodes(1).name = 'soma';
 spec.nodes(1).size = numcells;
 spec.nodes(1).equations = eqns;
-spec.nodes(1).mechanism_list = {'somaGolombK','somaGolombKdr','somainput','somaGolombNa','somaLeak'}; 
+spec.nodes(1).mechanism_list = {'somaGolombK','somaGolombKdr','somaInput','somaGolombNa','somaLeak'}; 
 spec.nodes(1).parameters = {'v_IC',-90+90*rand(1,numcells), 'Tfinal', T0, 'Iapp',0};
 
 spec.nodes(2).name = 'dend';
