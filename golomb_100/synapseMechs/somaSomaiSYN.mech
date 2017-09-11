@@ -12,16 +12,12 @@ numcells = [100]
 
 gsyn2 = gsyn - DA.*(gsyn - 0.005)
  
-width = inf
-Nmax = max(Npre,Npost)
-srcpos = linspace(1,Nmax,Npre)'*ones(1,Npost)
-dstpos = (linspace(1,Nmax,Npost)'*ones(1,Npre))'
 mask = genmask(Npre,Npost,i_con,gsyn2,1,1,0)
 
 somaSomaiSYN(X,s) = (gsyn2.*(s*mask).*(X-Esyn))
  
 s' = -s./tauD + ((1-s)/tauR).*(1+tanh(IN/10));
-s(0) = IC+IC_noise.*rand(Npre,1)
+s(0) = IC+IC_noise.*rand(1,Npre)
  
 @current += -somaSomaiSYN(OUT,s)
  

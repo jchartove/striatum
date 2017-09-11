@@ -10,7 +10,7 @@ tauh(X) = 0.5 + 14./(1+exp(-(X+60)./-12))
 dendGolombNa(X,h) = gna_dend.*h.*(minf(X).^3).*(X-vna)
  
 h' = (hinf(X)-h)./tauh(X);
-h(0) = 0.05 + 0.85*rand(Npop,1)
+h(0) = 0.05 + 0.85*rand(1,Npop)
  
 @current += -dendGolombNa(X,h)
  

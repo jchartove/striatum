@@ -9,7 +9,7 @@ taun(X) = tau_mult*(0.087+11.4./(1+exp((X+14.6)./8.6))) .* (0.087+11.4./(1+exp(-
 dendGolombKdr(X,n) = gkdr_dend.*(n.^nexp).*(X-vk)
  
 n' = (ninf(X)-n)./taun(X);
-n(0) = 0.05 + 0.45*rand(Npop,1)
+n(0) = 0.05 + 0.45*rand(1,Npop)
  
 @current += -dendGolombKdr(X,n)
  

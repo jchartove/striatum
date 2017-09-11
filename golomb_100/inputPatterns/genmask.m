@@ -16,7 +16,8 @@ function mask = genmask(Npre,Npost,con,cond,dir,aut,ko)
 		filename = strcat('gjmask_', mat2str(clock),'.mat')
 	end
 	
-	mask(:,(Npre-ko):end)=0
+	mask(:,(Npre-ko):end)=0;
+	mask = mask'
 	save(strcat('/projectnb/crc-nak/chartove/dnsim/masks/', filename))
 	pwd
 end

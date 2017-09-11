@@ -8,9 +8,9 @@ binf(X) = 1./(1+exp(-(X+70)./-6))
 dendGolombK(X,a,b) = gd_dend.*(a.^3).*b.*(X-vk)
  
 a' = (ainf(X)-a)./2;
-a(0) = 0.15 + 0.60*rand(Npop,1)
+a(0) = 0.15 + 0.60*rand(1,Npop)
 b' = (binf(X)-b)./taub;
-b(0) = 0.15 + 0.45*rand(Npop,1)
+b(0) = 0.15 + 0.45*rand(1,Npop)
  
 @current += -dendGolombK(X,a,b)
  

@@ -22,12 +22,12 @@ m' = alpha_m(X).*(1-m) - beta_m(X).*m
 % activation
 
 % ic
-V_IC = -63+63*randn(Npop,1)
+V_IC = -63+63*randn(1,Npop)
 % alpha_m_ic = Qs*1e-4*(V_IC-vhalf)/(1-exp(-(V_IC-vhalf)/9))
 % beta_m_ic = -Qs*1e-4*(V_IC-vhalf)/(1-exp((V_IC-vhalf)/9))
-% m(0) = alpha_m_ic/(alpha_m_ic+beta_m_ic)*ones(Npop,1)
+% m(0) = alpha_m_ic/(alpha_m_ic+beta_m_ic)*ones(1,Npop)
 
-m(0) = Q10^(.1*(37-23))*1e-4*(V_IC-vhalf)/(1-exp(-(V_IC-vhalf)/9))/(Q10^(.1*(37-23))*1e-4*(V_IC-vhalf)/(1-exp(-(V_IC-vhalf)/9))-Q10^(.1*(37-23))*1e-4*(V_IC-vhalf)/(1-exp((V_IC-vhalf)/9)))*randn(Npop,1)
+m(0) = Q10^(.1*(37-23))*1e-4*(V_IC-vhalf)/(1-exp(-(V_IC-vhalf)/9))/(Q10^(.1*(37-23))*1e-4*(V_IC-vhalf)/(1-exp(-(V_IC-vhalf)/9))-Q10^(.1*(37-23))*1e-4*(V_IC-vhalf)/(1-exp((V_IC-vhalf)/9)))*randn(1,Npop)
 
 % current
 mCurrentMSN(X,m) = g_m*m.*(X-E_m)

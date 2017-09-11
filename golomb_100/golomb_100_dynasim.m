@@ -2,12 +2,15 @@ clear
 % Model: golomb_activedend_10
 %cd '/project/crc-nak/jchartove/striatum/golomb_100';
 
+%addpath(genpath(pwd));
+
 eqns={
   'dV/dt=Iapp+@current';
 	%'V''=(current)./cm'
 };
 
-for numcells = [100]
+% for 
+    numcells = [10]
 spec=[];
 T0 = 2000;
 spec.nodes(1).name = 'soma';
@@ -22,7 +25,7 @@ spec.nodes(2).equations = eqns;
 spec.nodes(2).mechanism_list = {'dendGolombK','dendGolombKdr','dendGolombNa','dendInput','dendLeak','dendiMultiPoissonExp'};
 spec.nodes(2).parameters = {'v_IC',-90+90*rand(1,numcells), 'Tfinal', T0, 'Iapp',0}; 
 
-ncells = 100;  % number of MSN cells in the pool
+ncells = 10;  % number of MSN cells in the pool
 g_gaba = 0.1/(ncells-1); % recurrent gaba conductance, normalized to the number of cells
 g_m = 1.2; % 1.2; % 1.3; % 1.2 parkinsonian, 1.3 normal
 %V_ic = -63;
@@ -46,12 +49,16 @@ spec.connections(1).mechanism_list = {'somaSomaiSYN'};
 spec.connections(1).parameters = {'Tfinal', T0};
 
 spec.connections(2).direction = 'soma->dend';
-spec.connections(2).mechanism_list = {'somaDendiCOM'};
-spec.connections(2).parameters = {'Tfinal', T0};
+% spec.connections(2).mechanism_list = {'somaDendiCOM'};
+% spec.connections(2).parameters = {'Tfinal', T0};
+spec.connections(2).mechanism_list = {'iCOM'};
+spec.connections(2).parameters = {'gCOM',.15};
 
 spec.connections(3).direction = 'dend->soma';
-spec.connections(3).mechanism_list = {'dendSomaiCOM'};
-spec.connections(3).parameters = {'Tfinal', T0};
+% spec.connections(3).mechanism_list = {'dendSomaiCOM'};
+% spec.connections(3).parameters = {'Tfinal', T0};
+spec.connections(3).mechanism_list = {'iCOM'};
+spec.connections(3).parameters = {'gCOM', .15};
 
 spec.connections(4).direction = 'dend->dend';
 spec.connections(4).mechanism_list = {'dendDendiGAP'};
@@ -72,8 +79,6 @@ spec.connections(7).parameters = {'g_gaba',g_gaba};
 spec.connections(8).direction = 'D2->D2';
 spec.connections(8).mechanism_list = {'gabaRecInputMSN'};
 spec.connections(8).parameters = {'g_gaba',g_gaba};
-
-
 
 %dnsim(spec); % open model in DNSim GUI
 
@@ -219,6 +224,7 @@ downsample_factor = 10;
               %'plot_options',{{'plot_type','waveform','format','png'},...
               %                {'plot_type','power','format','png',...
               %                 'xlim',[0 40]}}});
-
-end
+dsPlot(data,'plot_type','raster');
+dsPlot(data);
+% end
 			  %'addpath','/project/crc-nak/jchartove/dnsim',...
