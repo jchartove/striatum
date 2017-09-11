@@ -10,7 +10,7 @@ eqns={
 };
 
 % for 
-    numcells = [10]
+    numcells = [100]
 spec=[];
 T0 = 2000;
 spec.nodes(1).name = 'soma';
@@ -25,7 +25,7 @@ spec.nodes(2).equations = eqns;
 spec.nodes(2).mechanism_list = {'dendGolombK','dendGolombKdr','dendGolombNa','dendInput','dendLeak','dendiMultiPoissonExp'};
 spec.nodes(2).parameters = {'v_IC',-90+90*rand(1,numcells), 'Tfinal', T0, 'Iapp',0}; 
 
-ncells = 10;  % number of MSN cells in the pool
+ncells = 100;  % number of MSN cells in the pool
 g_gaba = 0.1/(ncells-1); % recurrent gaba conductance, normalized to the number of cells
 g_m = 1.2; % 1.2; % 1.3; % 1.2 parkinsonian, 1.3 normal
 %V_ic = -63;

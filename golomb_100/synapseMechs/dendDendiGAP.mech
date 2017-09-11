@@ -12,8 +12,8 @@ mask = genmask(Npre,Npost,gcon,g_GAP2,0,1,0)
 %dendDendiGAP(IN,OUT) = g_GAP2.*sum(dV(IN,OUT).*mask,2)
 %@current += dendDendiGAP(IN,OUT)'
 
-dV(IN,OUT) = (IN'*ones(1,size(IN,2)))-(OUT'*ones(1,size(OUT,2)))
-dendDendiGAP(IN,OUT) = g_GAP2.*sum(dV(IN,OUT).*mask,2)'
+dV(IN,OUT) = ((IN'*ones(1,size(IN,2)))'-(OUT'*ones(1,size(OUT,2))))'
+dendDendiGAP(IN,OUT) = g_GAP2.*sum(dV(IN,OUT).*mask,1)
  
 @current += dendDendiGAP(IN,OUT)
  
