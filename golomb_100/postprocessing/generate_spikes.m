@@ -17,7 +17,7 @@ function [avgfr,spike_pairs, spike_indicator] = generate_spikes(data, v_new, fil
             spikes = spikes + s;
         end
 
-        avgfr = mean(spikes)/(T_new/(1000/dt));
+        avgfr = mean(spikes)/(T_new/(100/dt)); %was this 100? why was this 100?
 
         spike_pairs = 0;
 %         if numcells<=10 % this calculation is so expensive i'm sorry
@@ -48,7 +48,7 @@ function [avgfr,spike_pairs, spike_indicator] = generate_spikes(data, v_new, fil
 
         %%%%%%%%%%%%%%%%%%%% spike plots
         handle0 = figure;
-        hist(spikes/(T_new/(1000/dt)))
+        hist(spikes/(T_new/(100/dt))) %sometimes you have to make 1000s into 100s and i can't be bothered to figure out why
         xlabel('Firing rate');
         imgtitle = strcat(filenew,'hist.png')
         title(imgtitle);
@@ -65,7 +65,7 @@ function [avgfr,spike_pairs, spike_indicator] = generate_spikes(data, v_new, fil
         title(imgtitle);
         saveas(handle1, imgtitle, 'png');
 
-        xlim([T_start*dt+100 (T_start*dt)+200]);
+        xlim([T_start*dt+10 (T_start*dt)+20]);
         imgtitle = strcat(filenew,'spikes_zoom.png')
         title(imgtitle);
         saveas(handle1, imgtitle, 'png');
@@ -81,7 +81,7 @@ function [avgfr,spike_pairs, spike_indicator] = generate_spikes(data, v_new, fil
         title(imgtitle);
         saveas(handle2, imgtitle, 'png');
 
-        xlim([T_start+(100/dt) T_start+(200/dt)]);
+        xlim([T_start+(10/dt) T_start+(20/dt)]);
         imgtitle = strcat(filenew,'raster_zoom.png')
         title(imgtitle);
         saveas(handle2, imgtitle, 'png');

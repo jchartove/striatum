@@ -1,4 +1,4 @@
-function generate_spec(directory, avgfr, spike_pairs, v_new, filenew, time, dt, numcells, fileID, formatSpec)
+function generate_spec(directory, avgfr, spike_pairs, v_new, filenew, time, dt, numcells, fileID, formatSpec, mods)
 
         if numcells > 1
             lfp = mean(v_new');
@@ -46,7 +46,7 @@ function generate_spec(directory, avgfr, spike_pairs, v_new, filenew, time, dt, 
 
         %%%%%%%%%%%%%%%%%%%%% spectrogram
         handle3pt5 = figure;
-        [s,w,t] = spectrogram(signal,1000,900,[0:150],1000/dt,'yaxis');
+        [s,w,t] = spectrogram(signal,1000,900,[0:150],100/dt,'yaxis'); %everything is off by 10 in my life
 		imagesc(t,[1:151],abs(s));
         set(gca,'YTick',[0:5:150]);
         ylim([0 100]);
@@ -87,6 +87,7 @@ function generate_spec(directory, avgfr, spike_pairs, v_new, filenew, time, dt, 
             strcat(num2str(totalp),',') strcat(num2str(dp),',') strcat(num2str(thp),',') strcat(num2str(ap),',') ...
             strcat(num2str(bp),',') strcat(num2str(gplow),',') strcat(num2str(gphigh),',') strcat(num2str(hfop),',')  ...
             strcat(num2str(lowpeak),',') strcat(num2str(bpeak),',') strcat(num2str(glopeak),',') strcat(num2str(ghipeak),',') ...
-			strcat(num2str(hfopeak),',') strcat(num2str(gpeak),',') strcat(num2str(hipeak),',') strcat(num2str(checksum),',')}
+			strcat(num2str(hfopeak),',') strcat(num2str(gpeak),',') strcat(num2str(hipeak),',') strcat(num2str(checksum),',') ...
+			strcat(strjoin(mods(:,1)'),',') strcat(strjoin(mods(:,2)'),',') num2str(cell2mat(mods(:,3)')) }
 		fprintf(fileID,formatSpec,output{1,:});
 end

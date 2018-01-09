@@ -27,7 +27,7 @@ spec.nodes(2).parameters = {'v_IC',-90+90*rand(1,numcells), 'Tfinal', T0, 'Iapp'
 
 ncells = 100;  % number of MSN cells in the pool
 g_gaba = 0.1/(ncells-1); % recurrent gaba conductance, normalized to the number of cells
-g_m = 1.2; % 1.2; % 1.3; % 1.2 parkinsonian, 1.3 normal
+g_m = 1.3; % 1.2; % 1.3; % 1.2 parkinsonian, 1.3 normal
 %V_ic = -63;
 vrand = 63*rand(1,ncells);
 
@@ -37,11 +37,11 @@ spec.nodes(3).equations = eqns;
 spec.nodes(3).mechanism_list = {'naCurrentMSN','kCurrentMSN','mCurrentMSN','leakCurrentMSN','injectedCurrentD1','noisyInputMSN'};
 spec.nodes(3).parameters = {'cm',1,'V_IC',-63,'g_m',g_m,'Tfinal', T0, 'Iapp',0}; % V_IC refers to the initial condition for the membrane 
 
-spec.nodes(4).name = 'D2';
-spec.nodes(4).size = ncells;
-spec.nodes(4).equations = eqns;
-spec.nodes(4).mechanism_list = {'naCurrentMSN','kCurrentMSN','mCurrentMSN','leakCurrentMSN','injectedCurrentD2','noisyInputMSN'};
-spec.nodes(4).parameters = {'cm',1,'V_IC',-63,'g_m',g_m,'Tfinal', T0, 'Iapp',0}; % V_IC refers to the initial condition for the membrane potential
+%spec.nodes(4).name = 'D2';
+%spec.nodes(4).size = 2; %remember to change this back later
+%spec.nodes(4).equations = eqns;
+%spec.nodes(4).mechanism_list = {'naCurrentMSN','kCurrentMSN','mCurrentMSN','leakCurrentMSN','injectedCurrentD2','noisyInputMSN'};
+%spec.nodes(4).parameters = {'cm',1,'V_IC',-63,'g_m',g_m,'Tfinal', T0, 'Iapp',0}; % V_IC refers to the initial condition for the membrane potential
 
 
 spec.connections(1).direction = 'soma->soma';
@@ -68,17 +68,17 @@ spec.connections(5).direction = 'soma->D1';
 spec.connections(5).mechanism_list = {'somaMSNiSYN'};
 spec.connections(5).parameters = {'Tfinal', T0, 'gsyn',6*g_gaba};
 
-spec.connections(6).direction = 'soma->D2';
-spec.connections(6).mechanism_list = {'somaMSNiSYN'};
-spec.connections(6).parameters = {'Tfinal', T0, 'gsyn',6*g_gaba};
+spec.connections(6).direction = 'D1->D1';
+spec.connections(6).mechanism_list = {'gabaRecInputMSN'};
+spec.connections(6).parameters = {'g_gaba',g_gaba};
 
-spec.connections(7).direction = 'D1->D1';
-spec.connections(7).mechanism_list = {'gabaRecInputMSN'};
-spec.connections(7).parameters = {'g_gaba',g_gaba};
+%spec.connections(7).direction = 'soma->D2';
+%spec.connections(7).mechanism_list = {'somaMSNiSYN'};
+%spec.connections(7).parameters = {'Tfinal', T0, 'gsyn',6*g_gaba};
 
-spec.connections(8).direction = 'D2->D2';
-spec.connections(8).mechanism_list = {'gabaRecInputMSN'};
-spec.connections(8).parameters = {'g_gaba',g_gaba};
+%spec.connections(8).direction = 'D2->D2';
+%spec.connections(8).mechanism_list = {'gabaRecInputMSN'};
+%spec.connections(8).parameters = {'g_gaba',g_gaba};
 
 %dnsim(spec); % open model in DNSim GUI
 
@@ -179,11 +179,23 @@ spec.connections(8).parameters = {'g_gaba',g_gaba};
 % variable = {'DA','gsyn','g_m','taub'};
 % values = {'[0:1]','[0.01]','[1.3]','[120]'};
 
+%vary={
+%  '(dend,dend->dend,soma->soma,D1,D2)',	'DA',	[0:1];
+%  '(soma->D1,soma->D2)',           		'gsyn',	[0.01];
+%  '(D1,D2)',   							'g_m',	[1.3];
+%  '(soma,dend)',						'taub', [120];
+%};
+
+% vary={
+%  '(D1,D2,dend-dend, soma-soma))',			'DA',	[0:0.1:1];
+%  '(soma->D1,soma->D2)',           			'gsyn',	[0.00];
+%  '(D1,D2)',   			'g_m',	[1.3];
+%};
+
 vary={
-  '(dend,dend->dend,soma->soma,D1,D2)',	'DA',	[0:1];
-  '(soma->D1,soma->D2)',           		'gsyn',	[0.01];
-  '(D1,D2)',   							'g_m',	[1.3];
-  '(soma,dend)',						'taub', [120];
+  '(dend)',			'tonic',	[0:2:20];
+  '(dend-dend)',			'g_GAP',	[0:0.1:1];
+  '(soma-soma)',			'gsyn',	[0:0.02:0.2];
 };
 
 %scope = {'(dend,dend-dend,soma-soma)','(soma-D1,soma-D2)','(D1,D2)','(D1,D2)'};
@@ -224,7 +236,7 @@ downsample_factor = 10;
               %'plot_options',{{'plot_type','waveform','format','png'},...
               %                {'plot_type','power','format','png',...
               %                 'xlim',[0 40]}}});
-dsPlot(data,'plot_type','raster');
-dsPlot(data);
+%dsPlot(data,'plot_type','raster');
+%dsPlot(data);
 % end
 			  %'addpath','/project/crc-nak/jchartove/dnsim',...
