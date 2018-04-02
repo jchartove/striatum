@@ -36,8 +36,9 @@ spec.connections(4).mechanism_list = {'dendDendiGAP'};
 spec.connections(4).parameters = {'Tfinal', T0};
 
 vary={
-  '(dend)',			'tonic',	[0:2:20];
-  '(dend)',			'fs_noise',	[0:2:20];
+  '(dend)',			'tonic',	[0:1:10];
+  '(dend)',			'rate',	[0:0.2:4];
+  '(dend)',			'DA',	[0];
   '(dend-dend)',			'g_GAP',	[0];
   '(soma-soma)',			'gsyn',	[0];
 };

@@ -18,6 +18,6 @@ function mask = genmask(Npre,Npost,con,cond,dir,aut,ko)
 	
 	mask(:,(Npre-ko):end)=0;
 	mask = mask'
-	save(strcat('/projectnb/crc-nak/chartove/dnsim/masks/', filename))
+	save(strcat('/projectnb/crc-nak/chartove/dynasim/masks/', filename))
 	pwd
 end

@@ -22,7 +22,7 @@ for file = datafiles'
     numcells = size(soma_V,2);
     
     %%%%%%%%image generation
-    time = zeros(1,size(soma_V));
+    time = zeros(1,size(soma_V,1));
     for j = 1:new_T
         time(j) = (j-1)*simulator_options.dt;
     end

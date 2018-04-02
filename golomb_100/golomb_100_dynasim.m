@@ -193,9 +193,11 @@ spec.connections(6).parameters = {'g_gaba',g_gaba};
 %};
 
 vary={
-  '(dend)',			'tonic',	[0:2:20];
-  '(dend-dend)',			'g_GAP',	[0:0.1:1];
-  '(soma-soma)',			'gsyn',	[0:0.02:0.2];
+  '(soma,dend)',			'gd',	[8];
+  '(D1,D2,dend-dend, soma-soma)',			'DA',	[0];
+  '(dend)',			'tonic',	[0:5:20];
+  '(dend-dend)',			'g_GAP',	[0:0.25:1];
+  '(soma-soma)',			'gsyn',	[0:0.05:0.2];
 };
 
 %scope = {'(dend,dend-dend,soma-soma)','(soma-D1,soma-D2)','(D1,D2)','(D1,D2)'};
