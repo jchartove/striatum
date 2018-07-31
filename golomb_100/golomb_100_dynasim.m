@@ -194,10 +194,10 @@ spec.connections(6).parameters = {'g_gaba',g_gaba};
 
 vary={
   '(soma,dend)',			'gd',	[8];
-  '(D1,D2,dend-dend, soma-soma)',			'DA',	[0];
-  '(dend)',			'tonic',	[0:5:20];
-  '(dend-dend)',			'g_GAP',	[0:0.25:1];
-  '(soma-soma)',			'gsyn',	[0:0.05:0.2];
+  '(D1,dend, dend-dend, soma-soma)',			'DA',	[0];
+  '(dend)',			'tonic',	[0:10];
+  '(dend-dend)',			'g_GAP',	[0:0.05:0.5];
+  '(soma-soma)',			'gsyn',	[0:0.01:0.2];
 };
 
 %scope = {'(dend,dend-dend,soma-soma)','(soma-D1,soma-D2)','(D1,D2)','(D1,D2)'};
@@ -227,7 +227,9 @@ downsample_factor = 10;
 
 % local run of the simulation,
 %   i.e. in the interactive session you're running this same script in
-[~,~]=dsSimulate(spec,'save_data_flag',save_data_flag,'study_dir',[],...
+[~,~]=dsSimulate(spec,...
+              'analysis_functions', {@get_fft},...
+              'save_data_flag',save_data_flag,'study_dir','beefy_run',...
               'cluster_flag',cluster_flag,'verbose_flag',verbose_flag,...
               'overwrite_flag',overwrite_flag,'tspan',[0 T0],...
               'save_results_flag',save_results_flag,'solver','rk4',...
