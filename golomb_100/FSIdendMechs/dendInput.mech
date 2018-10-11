@@ -1,8 +1,8 @@
 DA = [0.5]
 tonic = [0]
 fs_noise = [0]
-tonic2 = tonic + 10.*DA + 10.*(t>6000)
+tonic2 = tonic + 10.*DA 
 
-dendInput(t) = tonic2 + fs_noise*rand
+dendInput(t) = tonic2 + fs_noise*rand + 10.*(t>6000)
 %.*randn(Npop,1).*sqrt(dt)
 @current += dendInput(t)
