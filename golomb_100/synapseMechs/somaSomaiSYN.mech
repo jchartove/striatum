@@ -10,7 +10,7 @@ i_con = [0.3]
 numcells = [100] 
 %this doesn't actually do anything
 
-gsyn2 = gsyn - DA.*(gsyn - 0.005)
+gsyn2 = gsyn - DA.*(gsyn - 0.005) - (t>6000).*(gsyn - 0.005)
  
 mask = genmask(Npre,Npost,i_con,gsyn2,1,1,0)
 

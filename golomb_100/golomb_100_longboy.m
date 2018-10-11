@@ -12,7 +12,7 @@ eqns={
 % for 
     numcells = [100]
 spec=[];
-T0 = 2000;
+T0 = 12000;
 spec.nodes(1).name = 'soma';
 spec.nodes(1).size = numcells;
 spec.nodes(1).equations = eqns;
@@ -193,7 +193,7 @@ spec.connections(8).parameters = {'g_gaba',g_gaba};
 %};
 
 vary={
-  '(D1,D2,dend-dend, soma-soma))',			'DA',	[0:0.01:1];
+  '(D1,D2,dend, dend-dend, soma-soma)',			'DA',	[0];
 };
 
 

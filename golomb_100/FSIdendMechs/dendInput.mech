@@ -1,7 +1,7 @@
 DA = [0.5]
 tonic = [0]
 fs_noise = [0]
-tonic2 = tonic + 10.*DA
+tonic2 = tonic + 10.*DA + 10.*(t>6000)
 
 dendInput(t) = tonic2 + fs_noise*rand
 %.*randn(Npop,1).*sqrt(dt)

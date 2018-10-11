@@ -18,7 +18,7 @@ gvObj.model.data.dsData.axis(end).values = 1;
 
 %% power data
 % import power data
-powerResults = dsImportResults(fullfile(pwd, 'power_results'), 'import_scope','custom', 'func','get_fft', 'as_cell',1);
+powerResults = dsImportResults(fullfile(pwd, 'results'), 'import_scope','custom', 'func','get_fft', 'as_cell',1);
 nFreqs = length(powerResults{1});
 freqs = 1:nFreqs;
 
@@ -27,6 +27,10 @@ simIDs = gvObj.model.data.dsData.data(end,:,:,:,:,:,:,:,:); % colons are for mor
 simIDs = cell2mat(simIDs);
 
 simIDsSize = size(simIDs);
+if length(simIDsSize) < dsDataNdims
+  simIDsSize(end+1:dsDataNdims) = dsDataSize(length(simIDsSize)+1:end);
+end
+
 simIDsSize(end+1) = nFreqs; % for later reshape
 
 simIDs = simIDs(:); % reshape to col vector
@@ -62,6 +66,11 @@ gvObj.model.data.dsData.merge(tempObj);
 %% add axis metadata
 axismeta.dataType{end+1} = 'numeric';
 gvObj.model.data.dsData.axis(1).axismeta = axismeta;
+
+%% save gvArrayData
+dynasimData = gvObj.model.data.dsData;
+filePath = fullfile(pwd, 'gvArrayData.mat');
+save(filePath, 'dynasimData') % save gvArray obj
 
 %% run
 gvObj.run();

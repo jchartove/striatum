@@ -8,7 +8,7 @@ DA = 0
 % onset = 0
 
 % current
-injectedCurrentD1(t)= injectedCurrent + sinmult*sin(2*pi*freq*t/1000) + 0.1*DA
+injectedCurrentD1(t)= injectedCurrent + sinmult*sin(2*pi*freq*t/1000) + 0.1*DA + 0.1*(t>6000)
 
 @current += injectedCurrentD1(t)
 % @current += injectedCurrent
