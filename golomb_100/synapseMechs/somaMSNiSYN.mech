@@ -13,7 +13,7 @@ numcells = [100]
 indegree = i_con*(Npre-ko)
 gsyn2 = (10*gsyn)/(indegree+1)
 
-mask = genmask(Npre,Npost,i_con,1,0,ko)
+mask = genmask(Npre,Npost,i_con,gsyn2,1,0,ko)
 
 somaMSNiSYN(X,s,t) = (gsyn2.*(s*mask).*(X-Esyn))
  

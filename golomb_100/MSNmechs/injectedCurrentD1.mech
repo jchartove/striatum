@@ -4,11 +4,11 @@
 injectedCurrent = 1.19
 freq = 1/(2*pi)
 sinmult = 0
-% DA = 0
+DA = 0
 % onset = 0
 
 % current
-injectedCurrentD1(t,@da)= injectedCurrent + sinmult*sin(2*pi*freq*t/1000) + 0.1*@da
+injectedCurrentD1(t)= injectedCurrent + sinmult*sin(2*pi*freq*t/1000) + 0.1*DA
 
-@current += injectedCurrentD1(t,@da)
+@current += injectedCurrentD1(t)
 % @current += injectedCurrent

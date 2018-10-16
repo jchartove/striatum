@@ -1,4 +1,4 @@
-function mask = genmask(Npre,Npost,con,dir,aut,ko)
+function mask = genmask(Npre,Npost,con,cond,dir,aut,ko)
 	mask = rand(Npost,Npre)<con;
 	if not(dir)
 		mask = triu(mask);
@@ -17,7 +17,7 @@ function mask = genmask(Npre,Npost,con,dir,aut,ko)
 	end
 	
 	mask(:,(Npre-ko):end)=0;
-	mask = mask' %remove semicolon for verbose
+	mask = mask'
 	save(strcat('/projectnb/crc-nak/chartove/dynasim/masks/', filename))
 	pwd
 end
