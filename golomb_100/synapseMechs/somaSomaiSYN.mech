@@ -1,4 +1,4 @@
-DA = [0.5]
+% DA = [0.5]
 gsyn = [0.08]
 Esyn = [-80]
 tauD = [13]
@@ -10,14 +10,14 @@ i_con = [0.3]
 numcells = [100] 
 %this doesn't actually do anything
 
-gsyn2 = gsyn - DA.*(gsyn - 0.005)
+gsyn2(@da) = gsyn - @da.*(gsyn - 0.005)
  
-mask = genmask(Npre,Npost,i_con,gsyn2,1,1,0)
+mask = genmask(Npre,Npost,i_con,1,1,0)
 
-somaSomaiSYN(X,s) = (gsyn2.*(s*mask).*(X-Esyn))
+somaSomaiSYN(X,s,@da) = (gsyn2(@da).*(s*mask).*(X-Esyn))
  
 s' = -s./tauD + ((1-s)/tauR).*(1+tanh(IN/10));
 s(0) = IC+IC_noise.*rand(1,Npre)
  
-@current += -somaSomaiSYN(OUT,s)
+@current += -somaSomaiSYN(OUT,s,@da)
  
