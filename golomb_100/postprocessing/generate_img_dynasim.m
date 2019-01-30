@@ -59,13 +59,13 @@ for file = datafiles'
         end
         
         V_new = data(T_start:T_total+1,:);
-        [avgfr,spike_pairs, spike_indicator] = generate_spikes(data, V_new, filenew, time, T_start, simulator_options.dt, numcells);
+        [avgfr,spike_pairs, spike_indicator, T_new] = generate_spikes(data, V_new, filenew, time, T_start, simulator_options.dt, numcells);
         %theres a bug here i haVen't fixed due to laziness
         %it should only be numcells in the line aboVe if data is soma_V.
         %should change for d1s and d2s. whateVer
         fileID = tempID7;
-        generate_spec(directory, avgfr, spike_pairs, V_new, filenew, time, simulator_options.dt, numcells, tempID7, formatSpec, simulator_options.modifications)
-        generate_spec(directory, avgfr, spike_pairs, sum(spike_indicator), strcat(filenew, '_spikes'), time, simulator_options.dt, 1, tempID7, formatSpec, simulator_options.modifications)
+        generate_spec(directory, avgfr, 0, 0, 1, spike_pairs, V_new, filenew, time, simulator_options.dt, numcells, tempID7, formatSpec, simulator_options.modifications)
+        generate_spec(directory, avgfr, 0, 0, 1, spike_pairs, sum(spike_indicator), strcat(filenew, '_spikes'), time, simulator_options.dt, 1, tempID7, formatSpec, simulator_options.modifications)
         
         %%%%%%%%%%%%%%%%%%%%% gating Variables
         handle4 = figure;

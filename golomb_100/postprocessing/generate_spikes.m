@@ -1,4 +1,4 @@
-function [avgfr,spike_pairs, spike_indicator] = generate_spikes(data, v_new, filenew, time, T_start, dt, numcells)
+function [avgfr,spike_pairs, spike_indicator, T_new] = generate_spikes(data, v_new, filenew, time, T_start, dt, numcells)
         T_new = length(time)-T_start-1; %this is dumb but saves me time rewriting
         if numcells > 1
             lfp = mean(data');
