@@ -6,7 +6,7 @@ function [y] = power_spectrum(d,t,ht,dec)
 %y = power spectrum
 
 %dt = (t(2)-t(1));                     %Define the sampling interval,
-dt = 0.1;
+dt = 0.1; %this is not the real dt it's the decimated dt
 % T  = t(end)*1000;                        %Define the total time of recording.
 % df  = 1/T;                          %Define the frequency resolution.
 % fNQ = floor(length(t)/2);                       %Define the Nyquist frequency.

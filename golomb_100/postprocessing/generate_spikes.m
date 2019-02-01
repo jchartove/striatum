@@ -1,23 +1,25 @@
-function [avgfr,spike_pairs, spike_indicator, T_new] = generate_spikes(data, v_new, filenew, time, T_start, dt, numcells)
-        T_new = length(time)-T_start-1; %this is dumb but saves me time rewriting
+function [avgfr,spike_pairs, spike_indicator] = generate_spikes(data, V_short, filenew, time, T_start, dt, numcells)
+        T_short = length(V_short)-1;
         if numcells > 1
             lfp = mean(data');
         else
             lfp = data';
         end
 
-        spike_indicator = zeros(numcells,T_new+1); 
-        synch_indicator = zeros(numcells, numcells, T_new);
+        spike_indicator = zeros(numcells,T_short); 
+        synch_indicator = zeros(numcells, numcells, T_short);
 
         spikes = zeros(1,numcells);
 
-        for t = 1:T_new
-            spike_indicator(:,t) = (v_new(t,:)<0) & (v_new(t+1,:) >= 0);
-            s = (v_new(t,:)<0) & (v_new(t+1,:) >= 0);
+        for t = 1:T_short
+            spike_indicator(:,t) = (V_short(t,:)<0) & (V_short(t+1,:) >= 0);
+            s = (V_short(t,:)<0) & (V_short(t+1,:) >= 0);
             spikes = spikes + s;
         end
 
-        avgfr = mean(spikes)/(T_new/(100/dt)); %was this 100? why was this 100?
+        T_in_sec = (T_short)*dt/100; %this is 100 for decimation reasons
+        
+        avgfr = mean(spikes)/T_in_sec; 
 
         spike_pairs = 0;
 %         if numcells<=10 % this calculation is so expensive i'm sorry
@@ -27,7 +29,7 @@ function [avgfr,spike_pairs, spike_indicator, T_new] = generate_spikes(data, v_n
 %             rect = rect(rect > eps);
 %             rect = [zeros(1,length(rect)) rect];
 % 
-%             wide_spikes = zeros(numcells,T_new+1);
+%             wide_spikes = zeros(numcells,T_short+1);
 %             for c = 1:numcells
 %                 wide_spikes(c,:) = conv(spike_indicator(c,:),rect,'same');
 %             end
@@ -48,7 +50,7 @@ function [avgfr,spike_pairs, spike_indicator, T_new] = generate_spikes(data, v_n
 
         %%%%%%%%%%%%%%%%%%%% spike plots
         handle0 = figure;
-        hist(spikes/(T_new/(100/dt))) %sometimes you have to make 1000s into 100s and i can't be bothered to figure out why
+        hist(spikes/T_in_sec); 
         xlabel('Firing rate');
         imgtitle = strcat(filenew,'hist.png')
         title(imgtitle);
@@ -65,7 +67,7 @@ function [avgfr,spike_pairs, spike_indicator, T_new] = generate_spikes(data, v_n
         title(imgtitle);
         saveas(handle1, imgtitle, 'png');
 
-        xlim([T_start*dt+10 (T_start*dt)+20]);
+        xlim([T_start*dt/100 (T_start*dt/100)+200]);
         imgtitle = strcat(filenew,'spikes_zoom.png')
         title(imgtitle);
         saveas(handle1, imgtitle, 'png');
@@ -73,7 +75,6 @@ function [avgfr,spike_pairs, spike_indicator, T_new] = generate_spikes(data, v_n
         %%%%%%%%%%%%%%%%%%%% rasters
         handle2 = figure;
         imagesc(data');
-		xlim([T_start length(time)])
         colorbar;
         xlabel('Time');
         ylabel('Cell number');
@@ -81,7 +82,7 @@ function [avgfr,spike_pairs, spike_indicator, T_new] = generate_spikes(data, v_n
         title(imgtitle);
         saveas(handle2, imgtitle, 'png');
 
-        xlim([T_start+(10/dt) T_start+(20/dt)]);
+        xlim([T_start*dt/100 (T_start*dt/100)+200]);
         imgtitle = strcat(filenew,'raster_zoom.png')
         title(imgtitle);
         saveas(handle2, imgtitle, 'png');

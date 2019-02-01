@@ -5,7 +5,7 @@ datafiles = dir(datadir);
 
 txtfile = strcat(directory,'.csv');
 txtfile = strrep(txtfile,'/','-')
-formatSpec = '%s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s \r\n';
+formatSpec = '%s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s \r\n';
 fileID = fopen(txtfile,'at+');
 tempID7 = fileID; %also kludgey
 fprintf(fileID,formatSpec, ...
@@ -18,25 +18,24 @@ for file = datafiles'
     load(file.name);
     T_total = size(soma_V,1)-1;
     T_start = T_total*0.25;
-    new_T = T_total + 1; %removed a factor of 10. this is all very silly at this point
     numcells = size(soma_V,2);
     
     %%%%%%%%image generation
     time = zeros(1,size(soma_V,1));
-    for j = 1:new_T
-        time(j) = (j-1)*simulator_options.dt;
+    for j = 1:T_total + 1 
+        time(j) = (j-1)*10*simulator_options.dt; %factor of 10 for decimation reasons
     end
     
         data = soma_V;
-        filenew = strcat(filename, '_FSI')
-        
-        V_new = data(T_start:T_total+1,:);
-        [avgfr,spike_pairs, spike_indicator, T_new] = generate_spikes(data, V_new, filenew, time, T_start, simulator_options.dt, numcells);
+        filenew = strcat(filename, '_FSI');
+        V_short = data(T_start:T_total,:);
+        T_in_sec = length(V_short)*simulator_options.dt/100;
+        [avgfr,spike_pairs, spike_indicator] = generate_spikes(data, V_short, filenew, time, T_start, simulator_options.dt, numcells);
         fileID = tempID7;
         
         handle5 = figure;
 		spike_times = find(spike_indicator == 1);
-        ISI = diff(spike_times);
+        ISI = diff(spike_times)*simulator_options.dt/100;
 		hist(ISI);
 		xlabel('Interspike interval');
         imgtitle = strcat(filenew,'isi.png')
@@ -44,10 +43,9 @@ for file = datafiles'
         saveas(handle5, imgtitle, 'png');
         min_ISI = min(ISI);
         max_ISI = max(ISI);
-        timefactor = T_new/(100/simulator_options.dt);
         
-        generate_spec(directory, avgfr, min_ISI, max_ISI, timefactor, spike_pairs, V_new, filenew, time, simulator_options.dt, numcells, tempID7, formatSpec, simulator_options.modifications)
-        generate_spec(directory, avgfr, min_ISI, max_ISI, timefactor, spike_pairs, spike_indicator, strcat(filenew, '_spikes'), time, simulator_options.dt, 1, tempID7, formatSpec, simulator_options.modifications)
+        generate_spec(directory, avgfr, min_ISI, max_ISI, spike_pairs, V_short, filenew, time, simulator_options.dt, numcells, tempID7, formatSpec, simulator_options.modifications)
+        generate_spec(directory, avgfr, min_ISI, max_ISI, spike_pairs, spike_indicator, strcat(filenew, '_spikes'), time, simulator_options.dt, 1, tempID7, formatSpec, simulator_options.modifications)
         
         %%%%%%%%%%%%%%%%%%%%% gating Variables
         handle4 = figure;
@@ -62,7 +60,7 @@ for file = datafiles'
         title(imgtitle);
         saveas(handle4, imgtitle, 'png');
         
-        xlim([T_start*simulator_options.dt+10 (T_start*simulator_options.dt)+20]);
+        xlim([T_start T_start+2000]);
         imgtitle = strcat(filenew,'ions_zoom.png')
         title(imgtitle);
         saveas(handle4, imgtitle, 'png');

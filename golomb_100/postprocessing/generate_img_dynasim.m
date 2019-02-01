@@ -18,12 +18,12 @@ for file = datafiles'
     load(file.name);
     T_total = size(soma_V,1)-1;
     T_start = T_total*0.25;
-    new_T = T_total + 1; %removed a factor of 10. this is all very silly at this point
+    T_total_plus_one = T_total + 1; %why did i write this like this
     numcells = size(soma_V,2);
     
     %%%%%%%%image generation
     time = zeros(1,size(soma_V,1));
-    for j = 1:new_T
+    for j = 1:T_total_plus_one
         time(j) = (j-1)*simulator_options.dt;
     end
     
@@ -58,13 +58,13 @@ for file = datafiles'
             filenew = strcat(filename, '_D2syn')
         end
         
-        V_new = data(T_start:T_total+1,:);
-        [avgfr,spike_pairs, spike_indicator, T_new] = generate_spikes(data, V_new, filenew, time, T_start, simulator_options.dt, numcells);
+        V_short = data(T_start:T_total_plus_one,:);
+        [avgfr,spike_pairs, spike_indicator, T_new] = generate_spikes(data, V_short, filenew, time, T_start, simulator_options.dt, numcells);
         %theres a bug here i haVen't fixed due to laziness
         %it should only be numcells in the line aboVe if data is soma_V.
         %should change for d1s and d2s. whateVer
         fileID = tempID7;
-        generate_spec(directory, avgfr, 0, 0, 1, spike_pairs, V_new, filenew, time, simulator_options.dt, numcells, tempID7, formatSpec, simulator_options.modifications)
+        generate_spec(directory, avgfr, 0, 0, 1, spike_pairs, V_short, filenew, time, simulator_options.dt, numcells, tempID7, formatSpec, simulator_options.modifications)
         generate_spec(directory, avgfr, 0, 0, 1, spike_pairs, sum(spike_indicator), strcat(filenew, '_spikes'), time, simulator_options.dt, 1, tempID7, formatSpec, simulator_options.modifications)
         
         %%%%%%%%%%%%%%%%%%%%% gating Variables
