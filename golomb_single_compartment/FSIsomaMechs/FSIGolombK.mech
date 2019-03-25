@@ -1,0 +1,19 @@
+vk = [-90]
+gd = [8] 
+%wilson has this as 3
+taub = [150];
+ 
+ainf(X) = 1./(1+exp(-(X+50)./20)) 
+%wilson has this as 1./(1+exp(-(X+50)./10))
+binf(X) = 1./(1+exp(-(X+70)./-6)) 
+%wilson has this as 1./(1+exp(-(X+65)./6))
+somaGolombK(X,a,b) = gd.*(a.^3).*b.*(X-vk)
+ 
+a' = (ainf(X)-a)./2; 
+%wilson has this as (ainf(X)-a)./4
+a(0) = 0.15 + 0.60*rand(1,Npop)
+b' = (binf(X)-b)./taub;
+b(0) = 0.15 + 0.45*rand(1,Npop)
+ 
+@current += -somaGolombK(X,a,b)
+ 

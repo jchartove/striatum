@@ -1,5 +1,9 @@
-function[h] = comodulogram(datafile,min_low,max_low,min_hi,max_hi, jnum)
-    load(datafile)                  %... then load the data
+function[h] = comodulogram(d,dt,min_low,max_low,min_hi,max_hi, jnum)
+    % Tort et al. Measuring phase-amplitude coupling between neuronal
+	% oscillations of different frequencies. JOURNAL OF NEUROPHYSIOLOGY
+	% (2010) vol. 104 (2) pp. 1195-210
+	
+	%input: d (a 1xn vector of data), jnum (the frequency interval)
 
     N = length(d);  
     Fs = 1/dt;          %Define useful parameters.
@@ -41,6 +45,12 @@ function[h] = comodulogram(datafile,min_low,max_low,min_hi,max_hi, jnum)
                 p_mean(k) = mean([pL, pR]);             %Label the phase bin with the center phase.
             end
             h((j/jnum)-(min_hi/jnum) + 1,i-min_low + 1) = max(a_mean)-min(a_mean);                %The difference between the max and min modulation.
+			
+			%figure(11)
+			%plot(p_mean, a_mean, 'k', 'LineWidth', 1);
+			%axis tight
+			%xlabel('Low frequency phase');  ylabel('High frequency envelope height difference');
+			%title(['Metric h=' num2str(h)])
         end
     end
 

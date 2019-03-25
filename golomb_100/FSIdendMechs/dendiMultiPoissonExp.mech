@@ -15,6 +15,7 @@ Tfinal = [4000]
  
 Ge = corrPoisson(Npop, N_einputs, rate, tau_i, tau_1, 2, .5, Tfinal, dt, fraction_shared)
 Gi = corrPoisson(Npop, N_iinputs, rate, tau_i, tau_1, 5, .5, Tfinal, dt, fraction_shared)
+%inputs: no_cells, inputs_per_cell, rate, tau_i, tau_1, tau_d, tau_r, T, dt, fraction_shared
 
 Gte(t) = g_esyn.*Ge(:, max(1,round(t/dt)))'
 dendiMultiPoissonExp_e(X,t) = Gte(t).*(X - E_esyn)

@@ -4,26 +4,23 @@ clear
 
 %addpath(genpath(pwd));
 
-eqns={
-  'dV/dt=Iapp+@current';
-	%'V''=(current)./cm'
-};
+eqns={ 'dV/dt = (Iapp + @current )/Cm;I=0; Cm=1; V(0)=-90 + 90.*rand(1,Npop)';};
 
 % for 
     numcells = [100]
 spec=[];
-T0 = 2000;
+T0 = 4000;
 spec.nodes(1).name = 'soma';
 spec.nodes(1).size = numcells;
 spec.nodes(1).equations = eqns;
 spec.nodes(1).mechanism_list = {'somaGolombK','somaGolombKdr','somaInput','somaGolombNa','somaLeak'}; 
-spec.nodes(1).parameters = {'v_IC',-90+90*rand(1,numcells), 'Tfinal', T0, 'Iapp',0};
+spec.nodes(1).parameters = {'Tfinal', T0, 'Iapp',0};
 
 spec.nodes(2).name = 'dend';
 spec.nodes(2).size = numcells;
 spec.nodes(2).equations = eqns;
 spec.nodes(2).mechanism_list = {'dendGolombK','dendGolombKdr','dendGolombNa','dendInput','dendLeak','dendiMultiPoissonExp'};
-spec.nodes(2).parameters = {'v_IC',-90+90*rand(1,numcells), 'Tfinal', T0, 'Iapp',0}; 
+spec.nodes(2).parameters = {'Tfinal', T0, 'Iapp',0}; 
 
 ncells = 100;  % number of MSN cells in the pool
 g_gaba = 0.1/(ncells-1); % recurrent gaba conductance, normalized to the number of cells
@@ -52,13 +49,13 @@ spec.connections(2).direction = 'soma->dend';
 % spec.connections(2).mechanism_list = {'somaDendiCOM'};
 % spec.connections(2).parameters = {'Tfinal', T0};
 spec.connections(2).mechanism_list = {'iCOM'};
-spec.connections(2).parameters = {'gCOM',.15};
+spec.connections(2).parameters = {'gCOM',.3};
 
 spec.connections(3).direction = 'dend->soma';
 % spec.connections(3).mechanism_list = {'dendSomaiCOM'};
 % spec.connections(3).parameters = {'Tfinal', T0};
 spec.connections(3).mechanism_list = {'iCOM'};
-spec.connections(3).parameters = {'gCOM', .15};
+spec.connections(3).parameters = {'gCOM', .3};
 
 spec.connections(4).direction = 'dend->dend';
 spec.connections(4).mechanism_list = {'dendDendiGAP'};
@@ -193,8 +190,14 @@ spec.connections(8).parameters = {'g_gaba',g_gaba};
 %};
 
 vary={
-  '(D1,D2,dend, dend-dend, soma-soma)',			'DA',	[0:0.1:1];
-  '(D1,D2)',		'g_m',[1.2:0.01:1.3];
+  %'(dend)',			'fs_noise', [0.05];
+  '(dend)',			'rate',	[2];
+%  '(dend)',			'N_einputs',	[0:50:500];
+  '(D1,D2)',		'g_m',[1.2];
+  '(dend)',			'tonic',	[0:10];
+  '(dend-dend)',			'g_GAP',	[0:0.1:1];
+  '(soma-soma)',			'gsyn',	[0.005,0.01];
+   '(soma-soma,dend-dend, soma, dend)', 'DA',	[0];
 };
 
 
@@ -235,20 +238,20 @@ downsample_factor = 10;
 %   i.e. in the interactive session you're running this same script in
 dsSimulate(spec,...
               'analysis_functions', {@gvFRsoma, @gvCalcPower},...
-              'save_data_flag',save_data_flag,'study_dir','gm_vs_da',...
+              'save_data_flag',save_data_flag,'study_dir','gj_vs_tonic',...
               'cluster_flag',cluster_flag,'verbose_flag',verbose_flag,...
               'overwrite_flag',overwrite_flag,'tspan',[0 T0],...
               'save_results_flag',save_results_flag,'solver','rk4',...
               'memlimit',memlimit,'compile_flag',compile_flag,...
 				'copy_run_file_flag',1, 'copy_mech_files_flag',1, ...
               'disk_flag',disk_flag,'downsample_factor',downsample_factor,...
-              'vary',vary, 'dt', .01, ...
-              'plot_functions',{@dsPlot,@dsPlot,@dsPlot,@dsPlot},...
-              'plot_options',{{'plot_type','waveform','format','png'},...
-							{'plot_type','rastergram','format','png'},...
-							{'plot_type','density','format','png'},...
-                              {'plot_type','power','format','png',...
-                               'freq_limits',[0 100]}});
+              'vary',vary, 'dt', .01);%, ...
+             % 'plot_functions',{@dsPlot,@dsPlot,@dsPlot,@dsPlot},...
+            %  'plot_options',{{'plot_type','waveform','format','png'},...
+			%				{'plot_type','rastergram','format','png'},...
+			%				{'plot_type','density','format','png'},...
+            %                  {'plot_type','power','format','png',...
+            %                   'freq_limits',[0 100]}});
 %dsPlot(data,'plot_type','raster');
 %dsPlot(data);
 % end

@@ -1,13 +1,22 @@
 vk = [-90]
-gd = [8]
+gd = [3]
 taub = [150]
+sigma_a = [20]
+%wilson: 10 golomb: 20
+tau_a = [2]
+%wilson: 4 golomb: 2
+theta_b = [-65]
+%wilson: -65 golomb: -70
+sigma_b = [-6]
+%wilson: 6 golomb: -6
+
 gd_dend = gd/10
  
-ainf(X) = 1./(1+exp(-(X+50)./20))
-binf(X) = 1./(1+exp(-(X+70)./-6))
+ainf(X) = 1./(1+exp(-(X+50)./sigma_a)) 
+binf(X) = 1./(1+exp(-(X-theta_b)./sigma_b)) 
 dendGolombK(X,a,b) = gd_dend.*(a.^3).*b.*(X-vk)
  
-a' = (ainf(X)-a)./2;
+a' = (ainf(X)-a)./tau_a; 
 a(0) = 0.15 + 0.60*rand(1,Npop)
 b' = (binf(X)-b)./taub;
 b(0) = 0.15 + 0.45*rand(1,Npop)

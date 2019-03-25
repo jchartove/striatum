@@ -1,7 +1,7 @@
-gl = [0.03]  
-%wilson has this as 0.13
-vl = [-54.4] 
-%wilson has this as -70
+gl = [0.13]
+%wilson has this as 0.13. i used to have this at 0.03 for some reason
+vl = [-70] 
+%where did i get -54.4 from
  
 somaLeak(X) = gl*(X-vl)
  

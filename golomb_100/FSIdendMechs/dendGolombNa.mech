@@ -1,12 +1,19 @@
 vna = [50]
-gna = [112]
+gna = [112.5]
+%wilson: 112 (140, 420) golomb: 112.5
 thetam = [-24]
+thetah = [-58.3]
+%wilson: -57 (-54, -60) golomb: -58.3
+tauhvar = [14]
+%wilson: 14.5 golomb: 14
+sigmath = -12
+%wilson: 12 golomb: -12
 
 gna_dend = gna/10
  
 minf(X) = 1./(1+exp(-(X-thetam)./11.5))
-hinf(X) = 1./(1+exp(-(X+58.3)./-6.7))
-tauh(X) = 0.5 + 14./(1+exp(-(X+60)./-12))
+hinf(X) = 1./(1+exp(-(X-thetah)./-6.7))
+tauh(X) = 0.5 + tauhvar./(1+exp(-(X+60)./sigmath))
 dendGolombNa(X,h) = gna_dend.*h.*(minf(X).^3).*(X-vna)
  
 h' = (hinf(X)-h)./tauh(X);

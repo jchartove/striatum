@@ -59,7 +59,7 @@ function [avgfr,spike_pairs, spike_indicator] = generate_spikes(data, V_short, f
         handle1 = figure;
         plot(time,data);
         hold on;
-        plot(time, lfp,'k','LineWidth',2);
+        plot(time, lfp,'k');
         hold off;
         xlabel('Time');
         ylabel('Voltage');

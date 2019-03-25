@@ -1,7 +1,7 @@
 clear
 
 eqns={
-  'dV/dt=Iapp+@current';
+  'dV/dt = (Iapp + @current )/Cm;I=0; Cm=1; V(0)=-90 + 90.*rand(1,Npop)';
 };
 
  numcells = [2]
@@ -11,13 +11,13 @@ spec.nodes(1).name = 'soma';
 spec.nodes(1).size = numcells;
 spec.nodes(1).equations = eqns;
 spec.nodes(1).mechanism_list = {'somaGolombK','somaGolombKdr','somaInput','somaGolombNa','somaLeak'}; 
-spec.nodes(1).parameters = {'v_IC',-90+90*rand(1,numcells), 'Tfinal', T0, 'Iapp',0};
+spec.nodes(1).parameters = {'Tfinal', T0, 'Iapp',0};
 
 spec.nodes(2).name = 'dend';
 spec.nodes(2).size = numcells;
 spec.nodes(2).equations = eqns;
 spec.nodes(2).mechanism_list = {'dendGolombK','dendGolombKdr','dendGolombNa','dendInput','dendLeak','dendiMultiPoissonExp'};
-spec.nodes(2).parameters = {'v_IC',-90+90*rand(1,numcells), 'Tfinal', T0, 'Iapp',0}; 
+spec.nodes(2).parameters = {'Tfinal', T0, 'Iapp',0}; 
 
 spec.connections(1).direction = 'soma->soma';
 spec.connections(1).mechanism_list = {'somaSomaiSYN'};
@@ -37,10 +37,17 @@ spec.connections(4).parameters = {'Tfinal', T0};
 
 vary={
   '(dend)',			'tonic',	[0:10];
-  '(dend)',			'rate',	[0:0.2:4];
-  '(dend)',			'DA',	[0];
-  '(dend-dend)',			'g_GAP',	[0];
+  '(dend)',			'rate',	[0:5];
+  '(soma,dend)',			'gd',	[3];
+  '(dend-dend)',			'g_GAP',	[0,0.5];
   '(soma-soma)',			'gsyn',	[0];
+  '(soma,dend)',			'sigma_a',	[20];
+  '(soma,dend)',			'tau_a',	[2];
+  '(soma,dend)',			'theta_b',	[-65];
+  '(soma,dend)',			'thetah',	[-58.3];
+  '(dend-dend)',			'gcon',	[1];
+  '(soma-soma)',			'i_con',	[1];
+  '(soma-soma,dend-dend, soma, dend)', 'DA',	[0];
 };
 
 namearray = cellfun(@num2str,vary,'UniformOutput',0);
@@ -57,18 +64,12 @@ disk_flag = 0;
 downsample_factor = 10;
 
 [~,~]=dsSimulate(spec,...
-              'analysis_functions', {@gvFRsoma, @gvCalcSpikePower},...
-              'save_data_flag',save_data_flag,'study_dir','spikepower_noise_sim',...
+              'analysis_functions', {@gvFRsoma, @gvCalcPower},...
+              'save_data_flag',save_data_flag,'study_dir','two_cell_gj_rate_vs_tonic',...
               'cluster_flag',cluster_flag,'verbose_flag',verbose_flag,...
               'overwrite_flag',overwrite_flag,'tspan',[0 T0],...
               'save_results_flag',save_results_flag,'solver','rk4',...
               'memlimit',memlimit,'compile_flag',compile_flag,...
 			  'copy_run_file_flag',1, 'copy_mech_files_flag',1, ...
               'disk_flag',disk_flag,'downsample_factor',downsample_factor,...
-              'vary',vary, 'dt', .01, ...
-				  'plot_functions',{@dsPlot,@dsPlot,@dsPlot,@dsPlot},...
-              'plot_options',{{'plot_type','waveform','format','png'},...
-							{'plot_type','rastergram','format','png'},...
-							{'plot_type','density','format','png'},...
-                              {'plot_type','power','format','png',...
-                               'freq_limits',[0 100]}});
+              'vary',vary, 'dt', .01);

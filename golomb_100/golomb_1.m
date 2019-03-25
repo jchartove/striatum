@@ -6,7 +6,7 @@ eqns={
 
  numcells = [1]
 spec=[];
-T0 = 4000;
+T0 = 2000;
 spec.nodes(1).name = 'soma';
 spec.nodes(1).size = numcells;
 spec.nodes(1).equations = eqns;
@@ -21,16 +21,21 @@ spec.nodes(2).parameters = {'v_IC',-90+90*rand(1,numcells), 'Tfinal', T0, 'Iapp'
 
 spec.connections(1).direction = 'soma->dend';
 spec.connections(1).mechanism_list = {'iCOM'};
-spec.connections(1).parameters = {'gCOM',.15};
+spec.connections(1).parameters = {'gCOM',.3};
 
 spec.connections(2).direction = 'dend->soma';
 spec.connections(2).mechanism_list = {'iCOM'};
-spec.connections(2).parameters = {'gCOM', .15};
+spec.connections(2).parameters = {'gCOM', .3};
+
 
 vary={
-  '(dend)',			'tonic',	[0:30];
-  '(dend)',			'rate',	[0:10];
-  '(dend)',			'DA',	[0];
+  '(dend)',			'tonic',	[10];
+  '(dend)',			'rate', [0];
+  '(soma,dend)',	'DA',	[0];
+  '(soma,dend)',			'gd',	[3];
+  '(soma,dend)',			'gl',	[0.13];
+  '(dend-soma,soma-dend)',	'gCOM', [0.3];
+  '(soma,dend)',			'tau_a',	[1:8];
 };
 
 namearray = cellfun(@num2str,vary,'UniformOutput',0);
@@ -47,8 +52,8 @@ disk_flag = 0;
 downsample_factor = 10;
 
 [~,~]=dsSimulate(spec,...
-              'analysis_functions', {@gvFRsoma, @gvCalcSpikePower},...
-              'save_data_flag',save_data_flag,'study_dir','single_cell_max_input',...
+              'analysis_functions', {@gvFRsoma, @gvCalcPower},...
+              'save_data_flag',save_data_flag,'study_dir','tau_a',...
               'cluster_flag',cluster_flag,'verbose_flag',verbose_flag,...
               'overwrite_flag',overwrite_flag,'tspan',[0 T0],...
               'save_results_flag',save_results_flag,'solver','rk4',...

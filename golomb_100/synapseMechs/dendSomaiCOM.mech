@@ -1,4 +1,4 @@
-gcom = [0.15]
+gcom = [0.3]
  
 compcon = eye(Npost,Npre)
 
