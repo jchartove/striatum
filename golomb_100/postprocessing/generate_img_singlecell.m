@@ -16,6 +16,9 @@ for file = datafiles'
     filename = strsplit(file.name,'.m');
     filename = filename{1};
     load(file.name);
+    if exist('FSI_V','var')
+        soma_V = FSI_V;
+    end
     T_total = size(soma_V,1)-1;
     T_start = T_total*0.25;
     numcells = size(soma_V,2);
@@ -44,26 +47,30 @@ for file = datafiles'
         min_ISI = min(ISI);
         max_ISI = max(ISI);
         
+        if numcells > 1
+            spike_indicator = spike_indicator(1,:);
+        end
+        
         generate_spec(directory, avgfr, min_ISI, max_ISI, spike_pairs, V_short, filenew, time, simulator_options.dt, numcells, tempID7, formatSpec, simulator_options.modifications)
         generate_spec(directory, avgfr, min_ISI, max_ISI, spike_pairs, spike_indicator, strcat(filenew, '_spikes'), time, simulator_options.dt, 1, tempID7, formatSpec, simulator_options.modifications)
         
         %%%%%%%%%%%%%%%%%%%%% gating Variables
-        handle4 = figure;
-		plot(time(T_start+1:end),soma_somaGolombNa_h(T_start+1:end,1), ...
-        time(T_start+1:end),soma_somaGolombKdr_n(T_start+1:end,1), time(T_start+1:end),soma_somaGolombK_a(T_start+1:end,1), ...
-        time(T_start+1:end),soma_somaGolombK_b(T_start+1:end,1));
-        legend('Sodium activation','Potassium activation','Potassium 2 activation', 'Potassium 2 inactivation')
-               
-        xlabel('Time');
-        
-        imgtitle = strcat(filenew,'ions.png')
-        title(imgtitle);
-        saveas(handle4, imgtitle, 'png');
-        
-        xlim([T_start T_start+2000]);
-        imgtitle = strcat(filenew,'ions_zoom.png')
-        title(imgtitle);
-        saveas(handle4, imgtitle, 'png');
+%         handle4 = figure;
+% 		plot(time(T_start+1:end),soma_somaGolombNa_h(T_start+1:end,1), ...
+%         time(T_start+1:end),soma_somaGolombKdr_n(T_start+1:end,1), time(T_start+1:end),soma_somaGolombK_a(T_start+1:end,1), ...
+%         time(T_start+1:end),soma_somaGolombK_b(T_start+1:end,1));
+%         legend('Sodium activation','Potassium activation','Potassium 2 activation', 'Potassium 2 inactivation')
+%                
+%         xlabel('Time');
+%         
+%         imgtitle = strcat(filenew,'ions.png')
+%         title(imgtitle);
+%         saveas(handle4, imgtitle, 'png');
+%         
+%         xlim([T_start T_start+2000]);
+%         imgtitle = strcat(filenew,'ions_zoom.png')
+%         title(imgtitle);
+%         saveas(handle4, imgtitle, 'png');
         
         %saVe(filename)
         close all

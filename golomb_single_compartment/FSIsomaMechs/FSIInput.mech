@@ -1,4 +1,4 @@
 tonic = [0]
-somaInput(t) = tonic
+FSIInput(t) = tonic
 
-@current += somaInput(t)
+@current += FSIInput(t)

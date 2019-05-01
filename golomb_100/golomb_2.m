@@ -1,7 +1,7 @@
 clear
 
 eqns={
-  'dV/dt = (Iapp + @current )/Cm;I=0; Cm=1; V(0)=-90 + 90.*rand(1,Npop)';
+  'dV/dt = (Iapp + @current )/Cm;I=0; Cm=1; V(0)=-90';
 };
 
  numcells = [2]
@@ -25,29 +25,29 @@ spec.connections(1).parameters = {'Tfinal', T0};
 
 spec.connections(2).direction = 'soma->dend';
 spec.connections(2).mechanism_list = {'iCOM'};
-spec.connections(2).parameters = {'gCOM',.15};
+spec.connections(2).parameters = {'gCOM',.3};
 
 spec.connections(3).direction = 'dend->soma';
 spec.connections(3).mechanism_list = {'iCOM'};
-spec.connections(3).parameters = {'gCOM', .15};
+spec.connections(3).parameters = {'gCOM', .3};
 
 spec.connections(4).direction = 'dend->dend';
 spec.connections(4).mechanism_list = {'dendDendiGAP'};
 spec.connections(4).parameters = {'Tfinal', T0};
 
 vary={
-  '(dend)',			'tonic',	[0:10];
-  '(dend)',			'rate',	[0:5];
-  '(soma,dend)',			'gd',	[3];
-  '(dend-dend)',			'g_GAP',	[0,0.5];
-  '(soma-soma)',			'gsyn',	[0];
-  '(soma,dend)',			'sigma_a',	[20];
-  '(soma,dend)',			'tau_a',	[2];
-  '(soma,dend)',			'theta_b',	[-65];
-  '(soma,dend)',			'thetah',	[-58.3];
-  '(dend-dend)',			'gcon',	[1];
-  '(soma-soma)',			'i_con',	[1];
   '(soma-soma,dend-dend, soma, dend)', 'DA',	[0];
+  '(dend)',			'tonic',	[20];
+  '(dend)',			'rate',	[0:5];
+  %'(soma,dend)',			'gd',	[4];
+  '(dend-dend)',			'g_GAP',	[0];
+  '(soma-soma)',			'gsyn',	[0:0.02:0.2];
+  %'(soma,dend)',			'sigma_a',	[20];
+  %'(soma,dend)',			'tau_a',	[2];
+  %'(soma,dend)',			'theta_b',	[-65];
+  %'(soma,dend)',			'thetah',	[-58.3];
+  '(dend-dend)',			'gcon',	[1];
+  '(soma-soma)',			'i_con',	[0];
 };
 
 namearray = cellfun(@num2str,vary,'UniformOutput',0);
@@ -65,7 +65,7 @@ downsample_factor = 10;
 
 [~,~]=dsSimulate(spec,...
               'analysis_functions', {@gvFRsoma, @gvCalcPower},...
-              'save_data_flag',save_data_flag,'study_dir','two_cell_gj_rate_vs_tonic',...
+              'save_data_flag',save_data_flag,'study_dir','two_cell_gsyn_noise_correct',...
               'cluster_flag',cluster_flag,'verbose_flag',verbose_flag,...
               'overwrite_flag',overwrite_flag,'tspan',[0 T0],...
               'save_results_flag',save_results_flag,'solver','rk4',...

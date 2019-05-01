@@ -30,13 +30,13 @@ vrand = 63*rand(1,ncells);
 
 spec.nodes(3).name = 'D1';
 spec.nodes(3).size = ncells;
-spec.nodes(3).equations = eqns;
+spec.nodes(3).equations = 'dV/dt = (Iapp + @current )/Cm;I=0; Cm=1; V(0)=-63 + 63.*rand(1,Npop)';
 spec.nodes(3).mechanism_list = {'naCurrentMSN','kCurrentMSN','mCurrentMSN','leakCurrentMSN','injectedCurrentD1','noisyInputMSN'};
 spec.nodes(3).parameters = {'cm',1,'V_IC',-63,'g_m',g_m,'Tfinal', T0, 'Iapp',0}; % V_IC refers to the initial condition for the membrane 
 
 spec.nodes(4).name = 'D2';
 spec.nodes(4).size = ncells;
-spec.nodes(4).equations = eqns;
+spec.nodes(4).equations = 'dV/dt = (Iapp + @current )/Cm;I=0; Cm=1; V(0)=-63 + 63.*rand(1,Npop)';
 spec.nodes(4).mechanism_list = {'naCurrentMSN','kCurrentMSN','mCurrentMSN','leakCurrentMSN','injectedCurrentD2','noisyInputMSN'};
 spec.nodes(4).parameters = {'cm',1,'V_IC',-63,'g_m',g_m,'Tfinal', T0, 'Iapp',0}; % V_IC refers to the initial condition for the membrane potential
 
@@ -190,14 +190,16 @@ spec.connections(8).parameters = {'g_gaba',g_gaba};
 %};
 
 vary={
-  %'(dend)',			'fs_noise', [0.05];
-  '(dend)',			'rate',	[2];
-%  '(dend)',			'N_einputs',	[0:50:500];
-  '(D1,D2)',		'g_m',[1.2];
-  '(dend)',			'tonic',	[0:10];
-  '(dend-dend)',			'g_GAP',	[0:0.1:1];
-  '(soma-soma)',			'gsyn',	[0.005,0.01];
-   '(soma-soma,dend-dend, soma, dend)', 'DA',	[0];
+  '(soma-soma,dend-dend, soma, dend, D1, D2)', 'DA',	[0:0.1:1];
+  '(soma,dend)',			'gd',	[4];
+  '(soma,dend)',			'gl',	[0.25];
+  '(soma,dend)',			'vl',	[-70];
+  '(D1,D2)',				'DAmult', [0.075];
+  %'(soma-D1, soma-D2)'		'm_gsyn'	[0.01];
+  %'(soma-soma)',			'tauD',	[1:25];
+  %'(soma-soma)',			'gsyn',	[0.005];
+  %'(dend)',			'tonic',	[1:16];
+  %'(dend-dend)',			'g_GAP',	[0.2];
 };
 
 
@@ -238,7 +240,7 @@ downsample_factor = 10;
 %   i.e. in the interactive session you're running this same script in
 dsSimulate(spec,...
               'analysis_functions', {@gvFRsoma, @gvCalcPower},...
-              'save_data_flag',save_data_flag,'study_dir','gj_vs_tonic',...
+              'save_data_flag',save_data_flag,'study_dir','DA_bomp',...
               'cluster_flag',cluster_flag,'verbose_flag',verbose_flag,...
               'overwrite_flag',overwrite_flag,'tspan',[0 T0],...
               'save_results_flag',save_results_flag,'solver','rk4',...

@@ -6,18 +6,18 @@ eqns={
 
  numcells = [1]
 spec=[];
-T0 = 2000;
+T0 = 4000;
 spec.nodes(1).name = 'soma';
 spec.nodes(1).size = numcells;
 spec.nodes(1).equations = eqns;
 spec.nodes(1).mechanism_list = {'somaGolombK','somaGolombKdr','somaInput','somaGolombNa','somaLeak'}; 
-spec.nodes(1).parameters = {'v_IC',-90+90*rand(1,numcells), 'Tfinal', T0, 'Iapp',0};
+spec.nodes(1).parameters = {'v_IC',-90, 'Tfinal', T0, 'Iapp',0};
 
 spec.nodes(2).name = 'dend';
 spec.nodes(2).size = numcells;
 spec.nodes(2).equations = eqns;
 spec.nodes(2).mechanism_list = {'dendGolombK','dendGolombKdr','dendGolombNa','dendInput','dendLeak','dendiMultiPoissonExp'};
-spec.nodes(2).parameters = {'v_IC',-90+90*rand(1,numcells), 'Tfinal', T0, 'Iapp',0}; 
+spec.nodes(2).parameters = {'v_IC',-90, 'Tfinal', T0, 'Iapp',0}; 
 
 spec.connections(1).direction = 'soma->dend';
 spec.connections(1).mechanism_list = {'iCOM'};
@@ -29,19 +29,20 @@ spec.connections(2).parameters = {'gCOM', .3};
 
 
 vary={
-  '(dend)',			'tonic',	[10];
-  '(dend)',			'rate', [0];
+  '(dend)',			'tonic',	[0,10,20];
+  '(dend)',			'rate', [0:0.5:10];
+  '(soma)',			'soma_tonic',	[0];
   '(soma,dend)',	'DA',	[0];
-  '(soma,dend)',			'gd',	[3];
-  '(soma,dend)',			'gl',	[0.13];
-  '(dend-soma,soma-dend)',	'gCOM', [0.3];
-  '(soma,dend)',			'tau_a',	[1:8];
+  %'(soma,dend)',	'taub',	[50:10:400];
+  %'(soma,dend)',	'tau_mult',	[1];
+  '(soma,dend)',			'gd',	[0,4];
+  '(soma,dend)',			'gl',	[0.25];
 };
 
 namearray = cellfun(@num2str,vary,'UniformOutput',0);
 namestr = strjoin(reshape(namearray, 1, []));
 cd '/projectnb/crc-nak/chartove/dynasim/'; %try to cd to this directory and leave data_dir blank
-memlimit = '64G';
+%memlimit = '64G';
 cluster_flag = 1;
 overwrite_flag = 1;
 save_data_flag = 1;
@@ -50,14 +51,17 @@ verbose_flag = 1;
 compile_flag = 0;
 disk_flag = 0;
 downsample_factor = 10;
+%Today = datestr(datenum(date),'yy-mm-dd');
+%Now = clock;
+%datename = sprintf('%g_%g',Now(4), Now(5));
 
 [~,~]=dsSimulate(spec,...
               'analysis_functions', {@gvFRsoma, @gvCalcPower},...
-              'save_data_flag',save_data_flag,'study_dir','tau_a',...
+              'save_data_flag',save_data_flag,'study_dir','single_cell_noise',...
               'cluster_flag',cluster_flag,'verbose_flag',verbose_flag,...
               'overwrite_flag',overwrite_flag,'tspan',[0 T0],...
-              'save_results_flag',save_results_flag,'solver','rk4',...
-              'memlimit',memlimit,'compile_flag',compile_flag,...
+              'save_results_flag',save_results_flag,'solver','rk4',... %'memlimit',memlimit, ...
+			  'compile_flag',compile_flag,...
 			  'copy_run_file_flag',1, 'copy_mech_files_flag',1, ...
               'disk_flag',disk_flag,'downsample_factor',downsample_factor,...
               'vary',vary, 'dt', .01, ...

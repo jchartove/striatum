@@ -1,4 +1,4 @@
-tonic = [0]
-somaInput(t) = tonic
+soma_tonic = [0]
+somaInput(t) = soma_tonic
 
 @current += somaInput(t)

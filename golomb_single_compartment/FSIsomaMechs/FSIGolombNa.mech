@@ -1,17 +1,21 @@
 vna = [50]
 gna = [112.5]
 thetam = [-24]
-trial = [1]
+sigmam = [11.5]
+thetah = [-58.3]
+sigmah = [-6.7]
+tauminh = [0.5]
+taumaxh = [14]
+sigmath = [-12]
+phih = [-60]
  
-minf(X) = 1./(1+exp(-(X-thetam)./11.5))
-hinf(X) = 1./(1+exp(-(X+58.3)./-6.7)) 
-%wilson has this as 1./(1+exp(-(X+57)./-6.7))
-tauh(X) = 0.5 + 14./(1+exp(-(X+60)./-12)) 
-%wilson has this as 0.5 + 14.5./(1+exp(-(X+60)./12))
-somaGolombNa(X,h) = gna.*h.*(minf(X).^3).*(X-vna)
- 
+minf(X) = 1./(1+exp(-(X-thetam)./sigmam))
+hinf(X) = 1./(1+exp(-(X-thetah)./sigmah)) 
+tauh(X) = tauminh + taumaxh./(1+exp(-(X-phih)./sigmath)) 
+FSIGolombNa(X,h) = gna.*h.*(minf(X).^3).*(X-vna)
+
 h' = (hinf(X)-h)./tauh(X);
-h(0) = 0.05 + 0.85*rand(1,Npop)
+h(0) = 0.05
  
-@current += -somaGolombNa(X,h)
+@current += -FSIGolombNa(X,h)
  

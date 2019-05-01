@@ -16,15 +16,6 @@ for file = datafiles'
     filename = strsplit(file.name,'.m');
     filename = filename{1};
     load(file.name);
-    T_total = size(soma_V,1)-1;
-    T_start = T_total*0.25;
-	numcells = size(soma_V,2);
-    
-    %%%%%%%%image generation
-    time = zeros(1,size(soma_V,1));
-    for j = 1:T_total + 1;
-        time(j) = (j-1)*10*simulator_options.dt; %factor of 10 for decimation reasons
-    end
     
     for datatype = datatype_range
         
@@ -57,6 +48,16 @@ for file = datafiles'
             filenew = strcat(filename, '_D2syn')
         end
         
+        T_total = size(data,1)-1;
+        T_start = T_total*0.25;
+        numcells = size(data,2);
+        
+        %%%%%%%%image generation
+        time = zeros(1,size(data,1));
+        for j = 1:T_total + 1;
+            time(j) = (j-1)*10*simulator_options.dt; %factor of 10 for decimation reasons
+        end
+        
         V_short = data(T_start:T_total,:);
         [avgfr,spike_pairs, spike_indicator] = generate_spikes(data, V_short, filenew, time, T_start, simulator_options.dt, numcells);
         %theres a bug here i haVen't fixed due to laziness
@@ -86,9 +87,9 @@ for file = datafiles'
         elseif datatype == 6
             plot(time(T_start+2:end),spike_indicator(1,:),time(T_start+1:end),D2_naCurrentMSN_h(T_start+1:end,1), ...
                 time(T_start+1:end),D2_kCurrentMSN_m(T_start+1:end,1), time(T_start+1:end),D2_naCurrentMSN_m(T_start+1:end,1), ...
-                time(T_start+1:end),D2_mCurrentMSN_m(T_start+1:end,1), time(T_start+1:end), D2_soma_somaMSNiSYN_s(T_start+1:end,1), ...
+                time(T_start+1:end),D2_mCurrentMSN_m(T_start+1:end,1),... %time(T_start+1:end), D2_soma_somaMSNiSYN_s(T_start+1:end,1), ...
                 time(T_start+1:end),D2_D2_gabaRecInputMSN_s(T_start+1:end,1));
-            legend('Spikes','Sodium activation','Potassium activation','Sodium inactivation', 'M current activation','FSI to D2 IPSC',...
+            legend('Spikes','Sodium activation','Potassium activation','Sodium inactivation', 'M current activation',...%'FSI to D2 IPSC',...
                 'D2 to D2 IPSC')
         elseif datatype == 8
             plot(time(T_start+1:end),D2_mCurrentMSN_m(T_start+1:end,1))

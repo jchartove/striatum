@@ -1,10 +1,10 @@
 DA = [0.5]
-g_GAP = [0.05]
+g_GAP = [0.02]
 %fanout = [0.5]
 gcon = [0.3] 
 %0.3 for >2 cells
 
-g_GAP2 = g_GAP + DA.*(0.5-g_GAP)
+g_GAP2 = g_GAP + DA.*(0.2-g_GAP)
  
 mask = genmask(Npre,Npost,gcon,g_GAP2,0,1,0)
 

@@ -1,10 +1,10 @@
 vk = [-90]
-gd = [3] 
+gd = [4] 
 taub = [150]
 theta_a = [-50]
 sigma_a = [20]
 tau_a = [2]
-theta_b = [-65]
+theta_b = [-70]
 sigma_b = [-6]
  
 ainf(X) = 1./(1+exp(-(X-theta_a)./sigma_a)) 

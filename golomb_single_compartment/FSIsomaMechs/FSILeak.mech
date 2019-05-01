@@ -1,9 +1,9 @@
-gl = [0.25]  
+gl = [0.03]  
 %wilson has this as 0.13. i used to have this at 0.03 for some reason
-vl = [-70] 
+vl = [-54.4] 
 %where did i get -54.4 from
  
-somaLeak(X) = gl*(X-vl)
+FSILeak(X) = gl*(X-vl)
  
-@current += -somaLeak(X)
+@current += -FSILeak(X)
  

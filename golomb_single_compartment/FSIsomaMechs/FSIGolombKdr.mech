@@ -2,13 +2,21 @@ vk = [-90]
 gkdr = [225]
 nexp = [2]
 tau_mult = [1]
+thetan = [-12.4]
+sigman = [6.8]
+tauminn = [0.087]
+taumaxn = [11.4]
+phin1 = [-14.6]
+phin2 = [1.3]
+sigman1 = [8.6]
+sigman2 = [18.7]
  
-ninf(X) = 1./(1+exp(-(X+12.4)./6.8))
-taun(X) = tau_mult*(0.087+11.4./(1+exp((X+14.6)./8.6))) .* (0.087+11.4./(1+exp(-(X-1.3)./18.7)))
-somaGolombKdr(X,n) = gkdr.*(n.^nexp).*(X-vk)
+ninf(X) = 1./(1+exp(-(X-thetan)./sigman))
+taun(X) = tau_mult*(tauminn+taumaxn./(1+exp((X-phin1)./sigman1))) .* (tauminn+taumaxn./(1+exp(-(X-phin2)./sigman2)))
+FSIGolombKdr(X,n) = gkdr.*(n.^nexp).*(X-vk)
  
 n' = (ninf(X)-n)./taun(X);
-n(0) = 0.05 + 0.45*rand(1,Npop)
+n(0) = 0.05
  
-@current += -somaGolombKdr(X,n)
+@current += -FSIGolombKdr(X,n)
  

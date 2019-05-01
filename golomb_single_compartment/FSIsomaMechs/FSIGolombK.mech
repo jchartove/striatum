@@ -1,19 +1,20 @@
 vk = [-90]
 gd = [8] 
-%wilson has this as 3
-taub = [150];
+taub = [150]
+theta_a = [-50]
+sigma_a = [20]
+tau_a = [2]
+theta_b = [-70]
+sigma_b = [-6]
  
-ainf(X) = 1./(1+exp(-(X+50)./20)) 
-%wilson has this as 1./(1+exp(-(X+50)./10))
-binf(X) = 1./(1+exp(-(X+70)./-6)) 
-%wilson has this as 1./(1+exp(-(X+65)./6))
-somaGolombK(X,a,b) = gd.*(a.^3).*b.*(X-vk)
+ainf(X) = 1./(1+exp(-(X-theta_a)./sigma_a)) 
+binf(X) = 1./(1+exp(-(X-theta_b)./sigma_b)) 
+FSIGolombK(X,a,b) = gd.*(a.^3).*b.*(X-vk)
  
-a' = (ainf(X)-a)./2; 
-%wilson has this as (ainf(X)-a)./4
-a(0) = 0.15 + 0.60*rand(1,Npop)
+a' = (ainf(X)-a)./tau_a; 
+a(0) = 0.15
 b' = (binf(X)-b)./taub;
-b(0) = 0.15 + 0.45*rand(1,Npop)
+b(0) = 0.15
  
-@current += -somaGolombK(X,a,b)
+@current += -FSIGolombK(X,a,b)
  
