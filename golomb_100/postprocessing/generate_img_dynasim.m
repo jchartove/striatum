@@ -46,6 +46,9 @@ for file = datafiles'
         elseif datatype == 9
             data = D2_D2_gabaRecInputMSN_s;
             filenew = strcat(filename, '_D2syn')
+		elseif datatype == 10
+            data = FSI_V;
+            filenew = strcat(filename, '_FSIsc')
         end
         
         T_total = size(data,1)-1;

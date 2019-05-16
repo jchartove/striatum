@@ -21,7 +21,7 @@ mean_D2 = nanmean(D2_V, 2);
 D1_spikes = diff(D1_V(time_index, :) >= 0) == 1;
 D2_spikes = diff(D2_V(time_index, :) >= 0) == 1;
 
-subplot(7, 1, 6)
+subplot(9, 1, 8)
 
 h1 = plot(time(time > low_time)', D2_spikes*diag(1:size(D1_V, 2))', '.', 'Color', [1 .85 0], 'MarkerSize', 15);
 hold on
@@ -38,7 +38,7 @@ set(gca, 'Position', pos)
 mean_D2_detrended = detrend(nanmean(D2_V(time_index, :), 2));
 mean_D1_detrended = detrend(nanmean(D1_V(time_index, :), 2));
 
-subplot(7, 1, 1)
+subplot(9, 1, 1)
 
 [ax, h1, h2] = plotyy(time(time_index), mean_D2_detrended, time(time_index), mean_D1_detrended);
 set(h2, 'LineWidth', 2, 'Color', [.8 .5 .7])
@@ -54,7 +54,7 @@ mean_D1_spikes = nanmean(D1_spikes, 2);
 [s,w,t] = spectrogram(mean_D1_detrended, 1200, 1100, [0:100], 10000, 'yaxis');
 % [s,w,t] = spectrogram(mean_D1_spikes, 1200,1100, [0:100], 10000, 'yaxis');
 
-subplot(7, 1, 2)
+subplot(9, 1, 2)
 
 imagesc(t,w,abs(s))
 axis xy
@@ -70,7 +70,7 @@ mean_D2_spikes = nanmean(D2_spikes, 2);
 [s,w,t] = spectrogram(mean_D2_detrended, 1200, 1100, [0:100], 10000, 'yaxis');
 % [s,w,t] = spectrogram(mean_D2_spikes,1200,1100,[0:100],10000,'yaxis');
 
-subplot(7, 1, 4)
+subplot(9, 1, 4)
 
 imagesc(t,w,abs(s))
 axis xy
@@ -82,6 +82,27 @@ pos(2) = pos(2) - pos(4);
 pos(4) = 2.2*pos(4);
 set(gca, 'Position', pos)
 % colorbar
+
+subplot(9, 1, 6)
+%[D1_hat, F] = pmtm(mean_D1_detrended,[],[],10000);
+%plot(F, D1_hat, 'LineWidth', 3, 'Color', [.8 .5 .7]);
+%hold on;
+%[D2_hat, F] = pmtm(mean_D2_detrended,[],[],10000);
+%plot(F, D2_hat, 'LineWidth', 3, 'Color', [1 .85 0]);
+plot(mean(D1_DA_1), 'LineWidth', 2, 'Color', [.8 .5 .7]);
+hold on;
+plot(mean(D1_DA_1)+std(D1_DA_1),'Color','magenta');
+plot(mean(D1_DA_1)-std(D1_DA_1),'Color','magenta');
+plot(mean(D2_DA_1), 'LineWidth', 2, 'Color', [1 .85 0]);
+plot(mean(D2_DA_1)+std(D2_DA_1),'Color','yellow');
+plot(mean(D2_DA_1)-std(D2_DA_1),'Color','yellow');
+xlim([0 100])
+xlabel('Freq. (Hz)')
+set(gca, 'FontSize', 12, 'YTick', [], 'box', 'off')
+pos = get(gca, 'Position');
+pos(2) = pos(2) - pos(4);
+pos(4) = 2.2*pos(4);
+set(gca, 'Position', pos)
 
 saveas(gcf, ['fig5_', sim_name(1:(end - length('.mat')))])
 

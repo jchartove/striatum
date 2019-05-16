@@ -1,10 +1,9 @@
-gcom = [0.3] 
-%wilson has this as 4
+gCOM = [0.3] 
  
-compcon = eye(Npost,Npre)
-
-dV(IN,OUT) = ((IN*ones(size(IN,2),1))'-(OUT*ones(size(OUT,2),1)))
-somaDendiCOM(IN,OUT) = gcom.*sum(dV(IN,OUT).*compcon,2)
+%compcon = eye(Npost,Npre)
+%dV(IN,OUT) = ((IN*ones(size(IN,2),1))'-(OUT*ones(size(OUT,2),1)))
+%somaDendiCOM(IN,OUT) = gCOM.*sum(dV(IN,OUT).*compcon,2)
+somaDendICOM(IN,OUT) = gCOM.*(IN-OUT)
  
-@current += somaDendiCOM(IN,OUT)'
+@current += somaDendICOM(IN,OUT)
  

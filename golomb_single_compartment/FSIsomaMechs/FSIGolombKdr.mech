@@ -16,7 +16,7 @@ taun(X) = tau_mult*(tauminn+taumaxn./(1+exp((X-phin1)./sigman1))) .* (tauminn+ta
 FSIGolombKdr(X,n) = gkdr.*(n.^nexp).*(X-vk)
  
 n' = (ninf(X)-n)./taun(X);
-n(0) = 0.05
+n(0) = 0.05 + 0.45*rand(1,Npop)
  
 @current += -FSIGolombKdr(X,n)
  

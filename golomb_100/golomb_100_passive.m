@@ -19,7 +19,8 @@ spec.nodes(1).parameters = {'Tfinal', T0, 'Iapp',0};
 spec.nodes(2).name = 'dend';
 spec.nodes(2).size = numcells;
 spec.nodes(2).equations = eqns;
-spec.nodes(2).mechanism_list = {'dendGolombK','dendGolombKdr','dendGolombNa','dendInput','dendLeak','dendiMultiPoissonExp'};
+spec.nodes(2).mechanism_list = {'dendInput','dendLeak','dendiMultiPoissonExp'};
+%spec.nodes(2).mechanism_list = {'dendGolombK','dendGolombKdr','dendGolombNa','dendInput','dendLeak','dendiMultiPoissonExp'};
 spec.nodes(2).parameters = {'Tfinal', T0, 'Iapp',0}; 
 
 ncells = 100;  % number of MSN cells in the pool
@@ -190,18 +191,18 @@ spec.connections(8).parameters = {'g_gaba',g_gaba};
 %};
 
 vary={
-  '(soma-soma,dend-dend, soma, dend, D1, D2)', 'DA',	[0:0.1:1];
+  '(soma-soma,dend-dend, soma, dend, D1, D2)', 'DA',	[0];
   '(soma,dend)',			'gd',	[4];
   '(soma,dend)',			'gl',	[0.25];
   '(soma,dend)',			'vl',	[-70];
-  %'(soma)',					'dummyvar',	[1:20];
+  %'(soma)',					'dummyvar',	[1:10];
   '(D1,D2)',				'DAmult', [0.075];
   %'(soma-D1, soma-D2)'		'm_gsyn'	[0.01];
   %'(soma-soma)',			'tauD',	[1:25];
-  %'(soma-soma)',			'gsyn',	[0.005];
-  %'(dend)',			'tonic',	[1:16];
-  '(dend)',			'rate',	[1:5];
-  %'(dend-dend)',			'g_GAP',	[0.2];
+  '(soma-soma)',			'gsyn',	[0.005];
+  '(dend)',			'tonic',	[0:0.5:5];
+  '(soma)',			'soma_tonic',	[0];
+  '(dend-dend)',			'g_GAP',	[0.2];
 };
 
 
@@ -242,7 +243,7 @@ downsample_factor = 10;
 %   i.e. in the interactive session you're running this same script in
 dsSimulate(spec,...
               'analysis_functions', {@gvFRsoma, @gvCalcPower},...
-              'save_data_flag',save_data_flag,'study_dir','DA_noisey',...
+              'save_data_flag',save_data_flag,'study_dir','passivedend_weaker_dend_input',...
               'cluster_flag',cluster_flag,'verbose_flag',verbose_flag,...
               'overwrite_flag',overwrite_flag,'tspan',[0 T0],...
               'save_results_flag',save_results_flag,'solver','rk4',...

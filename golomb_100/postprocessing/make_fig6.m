@@ -56,7 +56,7 @@ mean_FSI_detrended = detrend(nanmean(soma_V(time_index, :), 2));
 LFP = mean_FSI_detrended + 10*mean_D1_detrended;% + mean_D2_detrended;
 LFP_trimmed = LFP; %(time_index, :);
 
-subplot(4, 1, 1)
+subplot(4, 2, 1)
 
 plot(time(time_index), LFP_trimmed, 'LineWidth', 2, 'Color', 'k')
 axis tight
@@ -68,7 +68,7 @@ set(gca, 'Position', pos)
 
 [s,w,t] = spectrogram(LFP_trimmed,1200,1100,[0:100],10000,'yaxis');
 
-subplot(4, 1, 2)
+subplot(4, 2, 3)
 
 imagesc(t,w,abs(s))
 axis xy
@@ -82,7 +82,7 @@ set(gca, 'Position', pos)
 beta = s(w == 25, :);
 gamma = s(w == 60, :);
 
-subplot(4, 1, 4)
+subplot(4, 2, 7)
 
 [ax, h1, h2] = plotyy(t, abs(beta), t, abs(gamma));
 axis(ax, 'tight')
@@ -97,19 +97,22 @@ pos(4) = 1.2*pos(4);
 set(gca, 'Position', pos)
 set(ax, 'box', 'off')
 
+%figure('Units', 'inches', 'Position', [0 0 9.8*(3/7) 2])
+
+subplot(4, 2, [4,6])
+
+[LFP_hat, F] = pmtm(LFP_trimmed,[],[],10000);
+plot(LFP_hat, F, 'LineWidth', 3, 'Color', 'k')
+ylim([0 100])
+box off
+set(gca, 'FontSize', 12)
+ylabel('Freq. (Hz)')
+
+
 saveas(gcf, ['fig6_', sim_name(1:(end - length('.mat')))])
 
 saveas(gcf, ['fig6_', sim_name(1:(end - length('.mat')))], 'eps')
 
-figure('Units', 'inches', 'Position', [0 0 9.8*(3/7) 2])
+%saveas(gcf, ['LFP_pmtm_', sim_name(1:(end - length('.mat')))])
 
-[LFP_hat, F] = pmtm(LFP_trimmed,[],[],10000);
-plot(F, LFP_hat, 'LineWidth', 3, 'Color', 'k')
-xlim([0 100])
-box off
-set(gca, 'FontSize', 12)
-xlabel('Freq. (Hz)')
-
-saveas(gcf, ['LFP_pmtm_', sim_name(1:(end - length('.mat')))])
-
-saveas(gcf, ['LFP_pmtm_', sim_name(1:(end - length('.mat')))], 'eps')
+%saveas(gcf, ['LFP_pmtm_', sim_name(1:(end - length('.mat')))], 'eps')

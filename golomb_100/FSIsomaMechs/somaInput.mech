@@ -1,4 +1,5 @@
 soma_tonic = [0]
+dummyvar = [0]
 somaInput(t) = soma_tonic
 
 @current += somaInput(t)

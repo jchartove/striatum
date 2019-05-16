@@ -1,4 +1,7 @@
-tonic = [0]
-FSIInput(t) = tonic
+DA = [0.5]
+tonic = [10]
+fs_noise = [0]
+tonic2 = tonic + 6.*DA 
 
+FSIInput(t) = tonic2 + fs_noise.*randn(1,Npop) 
 @current += FSIInput(t)

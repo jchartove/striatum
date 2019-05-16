@@ -1,0 +1,15 @@
+DA = [0.5]
+g_GAP = [0.02]
+%fanout = [0.5]
+gcon = [0.3] 
+%0.3 for >2 cells
+
+g_GAP2 = g_GAP + DA.*(0.2-g_GAP)
+ 
+mask = genmask(Npre,Npost,gcon,g_GAP2,0,1,0)
+
+dV(IN,OUT) = ((IN'*ones(1,size(IN,2)))'-(OUT'*ones(1,size(OUT,2))))'
+FSIFSIiGAP(IN,OUT) = g_GAP2.*sum(dV(IN,OUT).*mask,1)
+ 
+@current += FSIFSIiGAP(IN,OUT)
+ 

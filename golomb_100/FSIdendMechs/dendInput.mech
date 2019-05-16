@@ -4,6 +4,11 @@ fs_noise = [0]
 tonic2 = tonic + 6.*DA 
 %tonic2 = tonic
 
-dendInput(t) = tonic2 + fs_noise.*randn(1,Npop) 
+%ramp = ones(1,4001);
+%ramp(1:1000) = 6;
+%ramp(1001:2000) = 9;
+%ramp(2001:3000) = 12;
+%ramp(3001:4001) = 15;
+dendInput(t) = tonic2 + fs_noise.*randn(1,Npop) %+ ramp(round(t)+1)
 %.*randn(Npop,1).*sqrt(dt)
 @current += dendInput(t)

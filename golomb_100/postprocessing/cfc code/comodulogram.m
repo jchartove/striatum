@@ -58,6 +58,6 @@ function[h] = comodulogram(d,dt,min_low,max_low,min_hi,max_hi, jnum)
     imagesc([min_low max_low], [min_hi max_hi], h);
     xlabel('Phase frequency');
     ylabel('Amplitude envelope frequency');
-    title(['Comodulogram of ' datafile]);
+    title(['Comodulogram']);
     colorbar;
 end

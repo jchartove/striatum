@@ -1,9 +1,9 @@
-gcom = [0.3]
+gCOM = [0.3]
  
-compcon = eye(Npost,Npre)
-
-dV(IN,OUT) = ((IN*ones(size(IN,2),1))'-(OUT*ones(size(OUT,2),1)))
-dendSomaiCOM(IN,OUT) = gcom.*sum(dV(IN,OUT).*compcon,2)
+%compcon = eye(Npost,Npre)
+%dV(IN,OUT) = ((IN*ones(size(IN,2),1))'-(OUT*ones(size(OUT,2),1)))
+%dendSomaiCOM(IN,OUT) = gCOM.*sum(dV(IN,OUT).*compcon,2)
+dendSomaICOM(IN,OUT) = gCOM.*(IN-OUT)
  
-@current += dendSomaiCOM(IN,OUT)'
+@current += dendSomaICOM(IN,OUT)
  

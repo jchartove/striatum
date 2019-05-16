@@ -1,5 +1,5 @@
 vk = [-90]
-gd = [8] 
+gd = [4] 
 taub = [150]
 theta_a = [-50]
 sigma_a = [20]
@@ -12,9 +12,9 @@ binf(X) = 1./(1+exp(-(X-theta_b)./sigma_b))
 FSIGolombK(X,a,b) = gd.*(a.^3).*b.*(X-vk)
  
 a' = (ainf(X)-a)./tau_a; 
-a(0) = 0.15
+a(0) = 0.15 + 0.60*rand(1,Npop)
 b' = (binf(X)-b)./taub;
-b(0) = 0.15
+b(0) = 0.15 + 0.45*rand(1,Npop)
  
 @current += -FSIGolombK(X,a,b)
  
