@@ -1,5 +1,9 @@
 soma_tonic = [0]
 dummyvar = [0]
-somaInput(t) = soma_tonic
+DA = [0.5]
+
+soma_tonic2 = soma_tonic + 0.*DA 
+%soma_tonic2 = soma_tonic
+somaInput(t) = soma_tonic2
 
 @current += somaInput(t)

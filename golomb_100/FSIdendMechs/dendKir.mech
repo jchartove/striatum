@@ -1,0 +1,15 @@
+vk = [-90]
+gkir = [3]
+thetakir = [-100]
+sigmakir = [-10]
+
+gkir_dend = gkir/10;
+ 
+minf(X) = 1./(1+exp(-(X-thetakir)./sigmakir))
+dendKir(X,m) = gkir_dend.*m.*(X-vk)
+
+m' = (minf(X)-m)./0.01;
+m(0) = 0
+ 
+@current += -dendKir(X,m)
+ 

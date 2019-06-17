@@ -1,5 +1,5 @@
 DA = [0.5]
-g_GAP = [0.02]
+g_GAP = [0.1]
 %fanout = [0.5]
 gcon = [0.3] 
 %0.3 for >2 cells

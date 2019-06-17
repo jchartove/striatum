@@ -1,0 +1,19 @@
+vca = [140]
+gca = [0.5]
+thetamca = [-8.9]
+sigmamca = [6.7]
+thetahca = [-55]
+sigmahca = [-8]
+
+minfca(X) = 1./(1+exp(-(X-thetamca)./sigmamca))
+hinfca(X) = 0.17 + 0.83*(1./(1+exp(-(X-thetahca)./sigmahca))) 
+taumca(X) = 1/(((40*(X + 9))./(exp((X + 9)/8.124)-1))+(exp(X/31.4))) 
+somaCaL(X,mca,hca) = gca.*hca.*mca.*(X-vca)
+
+mca' = (minfca(X)-mca)./taumca(X);
+mca(0) = 0
+hca' = (hinfca(X)-hca)./44.3;
+hca(0) = 0
+ 
+@current += -somaCaL(X,mca,hca)
+ 

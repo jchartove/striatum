@@ -1,7 +1,7 @@
 DA = [0.5]
-tonic = [10]
+tonic = [4]
 fs_noise = [0]
-tonic2 = tonic + 6.*DA 
+tonic2 = tonic + 10.*DA 
 %tonic2 = tonic
 
 %ramp = ones(1,4001);

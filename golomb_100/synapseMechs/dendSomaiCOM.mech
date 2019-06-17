@@ -1,4 +1,4 @@
-gCOM = [0.3]
+gCOM = [0.5]
  
 %compcon = eye(Npost,Npre)
 %dV(IN,OUT) = ((IN*ones(size(IN,2),1))'-(OUT*ones(size(OUT,2),1)))

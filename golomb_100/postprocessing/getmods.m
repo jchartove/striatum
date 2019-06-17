@@ -6,7 +6,7 @@ datafiles = dir(datadir);
 
 txtfile = strcat(directory,'mods.csv');
 txtfile = strrep(txtfile,'/','-')
-formatSpec = '%s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s \r\n';
+formatSpec = '%s %s %s %s \r\n';
 fileID = fopen(txtfile,'at+');
 
 for file = datafiles'

@@ -32,7 +32,7 @@ xlabel('Time (ms)')
 xlim([1000 4000])
 pos = get(gca, 'Position');
 pos(2) = pos(2) - pos(4);
-pos(4) = 2.2*pos(4);
+pos(4) = 2*pos(4);
 set(gca, 'Position', pos)
 
 mean_D2_detrended = detrend(nanmean(D2_V(time_index, :), 2));
@@ -84,18 +84,18 @@ set(gca, 'Position', pos)
 % colorbar
 
 subplot(9, 1, 6)
-%[D1_hat, F] = pmtm(mean_D1_detrended,[],[],10000);
-%plot(F, D1_hat, 'LineWidth', 3, 'Color', [.8 .5 .7]);
-%hold on;
-%[D2_hat, F] = pmtm(mean_D2_detrended,[],[],10000);
-%plot(F, D2_hat, 'LineWidth', 3, 'Color', [1 .85 0]);
-plot(mean(D1_DA_1), 'LineWidth', 2, 'Color', [.8 .5 .7]);
+[D1_hat, F] = pmtm(mean_D1_detrended,[],[],10000);
+plot(F, D1_hat, 'LineWidth', 3, 'Color', [.8 .5 .7]);
 hold on;
-plot(mean(D1_DA_1)+std(D1_DA_1),'Color','magenta');
-plot(mean(D1_DA_1)-std(D1_DA_1),'Color','magenta');
-plot(mean(D2_DA_1), 'LineWidth', 2, 'Color', [1 .85 0]);
-plot(mean(D2_DA_1)+std(D2_DA_1),'Color','yellow');
-plot(mean(D2_DA_1)-std(D2_DA_1),'Color','yellow');
+[D2_hat, F] = pmtm(mean_D2_detrended,[],[],10000);
+plot(F, D2_hat, 'LineWidth', 3, 'Color', [1 .85 0]);
+% plot(mean(D1_DA_1), 'LineWidth', 2, 'Color', [.8 .5 .7]);
+% hold on;
+% plot(mean(D1_DA_1)+std(D1_DA_1),'Color','magenta');
+% plot(mean(D1_DA_1)-std(D1_DA_1),'Color','magenta');
+% plot(mean(D2_DA_1), 'LineWidth', 2, 'Color', [1 .85 0]);
+% plot(mean(D2_DA_1)+std(D2_DA_1),'Color','yellow');
+% plot(mean(D2_DA_1)-std(D2_DA_1),'Color','yellow');
 xlim([0 100])
 xlabel('Freq. (Hz)')
 set(gca, 'FontSize', 12, 'YTick', [], 'box', 'off')

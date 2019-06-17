@@ -46,16 +46,12 @@ spec.connections(1).mechanism_list = {'somaSomaiSYN'};
 spec.connections(1).parameters = {'Tfinal', T0};
 
 spec.connections(2).direction = 'soma->dend';
-% spec.connections(2).mechanism_list = {'somaDendiCOM'};
-% spec.connections(2).parameters = {'Tfinal', T0};
-spec.connections(2).mechanism_list = {'iCOM'};
-spec.connections(2).parameters = {'gCOM',.3};
+spec.connections(2).mechanism_list = {'somaDendiCOM'};
+spec.connections(2).parameters = {'gCOM',.5};
 
 spec.connections(3).direction = 'dend->soma';
-% spec.connections(3).mechanism_list = {'dendSomaiCOM'};
-% spec.connections(3).parameters = {'Tfinal', T0};
-spec.connections(3).mechanism_list = {'iCOM'};
-spec.connections(3).parameters = {'gCOM', .3};
+spec.connections(3).mechanism_list = {'dendSomaiCOM'};
+spec.connections(3).parameters = {'gCOM', .5};
 
 spec.connections(4).direction = 'dend->dend';
 spec.connections(4).mechanism_list = {'dendDendiGAP'};
@@ -185,23 +181,23 @@ spec.connections(8).parameters = {'g_gaba',g_gaba};
 
 % vary={
 %  '(D1,D2,dend-dend, soma-soma))',			'DA',	[0:0.1:1];
-%  '(soma->D1,soma->D2)',           			'gsyn',	[0.00];
+
 %  '(D1,D2)',   			'g_m',	[1.3];
 %};
 
 vary={
-  '(soma-soma,dend-dend, soma, dend, D1, D2)', 'DA',	[0:0.1:1];
-  '(soma,dend)',			'gd',	[4];
-  '(soma,dend)',			'gl',	[0.25];
-  '(soma,dend)',			'vl',	[-70];
-  %'(soma)',					'dummyvar',	[1:20];
-  '(D1,D2)',				'DAmult', [0.075];
-  %'(soma-D1, soma-D2)'		'm_gsyn'	[0.01];
-  %'(soma-soma)',			'tauD',	[1:25];
-  %'(soma-soma)',			'gsyn',	[0.005];
-  %'(dend)',			'tonic',	[1:16];
-  '(dend)',			'rate',	[1:5];
-  %'(dend-dend)',			'g_GAP',	[0.2];
+  '(soma-soma,dend-dend, soma, dend, D1, D2)', 'DA',	[0,1];
+  '(soma,dend)',			'gd',	[4:8];
+  %'(soma)',					'dummyvar',	[1:4];
+  %'(D1,D2)',				'DAmult', [0.05];
+  '(D1,D2)',           			'injectedCurrent',	[1.1:0.01:1.2];
+  %'(D1,D2)',           			'sigma_noise',	[1:4];
+  %'(D1,D2)',   			'g_m',	[1.25];
+  %'(soma-soma)',			'gsyn',	[0.1];
+  %'(dend)',			'tonic',	[2:2:20];
+  %'(soma)',			'soma_tonic',	[0];
+  %'(dend)',			'rate',	[3];
+  %'(dend-dend)',			'g_GAP',	[0.1];
 };
 
 
@@ -228,28 +224,31 @@ namestr = strjoin(reshape(namearray, 1, []));
 cd '/projectnb/crc-nak/chartove/dynasim/'; %try to cd to this directory and leave data_dir blank
 memlimit = '64G';
 cluster_flag = 1;
-overwrite_flag = 1;
+overwrite_flag = 0;
 save_data_flag = 1;
-% Even if `save_data_flag` is 0, if running on cluster this must be off too in
-%   order to not save data?
 save_results_flag = 1;
 verbose_flag = 1;
 compile_flag = 0;
 disk_flag = 0;
 downsample_factor = 10;
+one_solve_file_flag = 0;
+mex_flag = 0;
+qsub_mode = 'array';
 
 % local run of the simulation,
 %   i.e. in the interactive session you're running this same script in
 dsSimulate(spec,...
               'analysis_functions', {@gvFRsoma, @gvCalcPower},...
-              'save_data_flag',save_data_flag,'study_dir','DA_noisey',...
+              'save_data_flag',save_data_flag,'study_dir','DA_check_gd',...
               'cluster_flag',cluster_flag,'verbose_flag',verbose_flag,...
               'overwrite_flag',overwrite_flag,'tspan',[0 T0],...
               'save_results_flag',save_results_flag,'solver','rk4',...
               'memlimit',memlimit,'compile_flag',compile_flag,...
 				'copy_run_file_flag',1, 'copy_mech_files_flag',1, ...
               'disk_flag',disk_flag,'downsample_factor',downsample_factor,...
+			  'one_solve_file_flag', one_solve_file_flag, 'mex_flag', mex_flag,  ...
               'vary',vary, 'dt', .01);%, ...
+			  %'qsub_mode', qsub_mode,
              % 'plot_functions',{@dsPlot,@dsPlot,@dsPlot,@dsPlot},...
             %  'plot_options',{{'plot_type','waveform','format','png'},...
 			%				{'plot_type','rastergram','format','png'},...

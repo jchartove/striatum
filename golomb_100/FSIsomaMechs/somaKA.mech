@@ -1,0 +1,20 @@
+vk = [-90]
+gka = [64]
+thetama = [-45]
+sigmama = [-13]
+thetaha = [-77]
+sigmaha = [-8]
+sigmatma = [-13]
+phima = [-70]
+ 
+minf(X) = 1./(1+exp(-(X-thetama)./sigmama))
+hinf(X) = 1./(1+exp(-(X-thetaha)./sigmaha)) 
+taum(X) = 1+exp(-(X-phima)./sigmatma) 
+somaKA(X,m,h) = gka.*h.*(m.^4).*(X-vk)
+
+m' = (minf(X)-h)./taum(X);
+m(0) = 0
+h' = (hinf(X)-h)./14;
+h(0) = 0
+ 
+@current += -somaKA(X,m,h)

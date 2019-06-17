@@ -56,7 +56,7 @@ mean_FSI_detrended = detrend(nanmean(soma_V(time_index, :), 2));
 LFP = mean_FSI_detrended + 10*mean_D1_detrended;% + mean_D2_detrended;
 LFP_trimmed = LFP; %(time_index, :);
 
-subplot(4, 2, 1)
+subplot(4, 5, [1,2,3,4,5])
 
 plot(time(time_index), LFP_trimmed, 'LineWidth', 2, 'Color', 'k')
 axis tight
@@ -68,21 +68,21 @@ set(gca, 'Position', pos)
 
 [s,w,t] = spectrogram(LFP_trimmed,1200,1100,[0:100],10000,'yaxis');
 
-subplot(4, 2, 3)
+subplot(4, 5, [6,7,8,9,11,12,13,14])
 
 imagesc(t,w,abs(s))
 axis xy
 set(gca, 'FontSize', 12, 'XTick', [], 'YTick', (0:20:100))
 ylabel('Freq. (Hz)')
-pos = get(gca, 'Position');
-pos(2) = pos(2) - 1.2*pos(4);
-pos(4) = 2.2*pos(4);
-set(gca, 'Position', pos)
+%pos = get(gca, 'Position');
+%pos(2) = pos(2) - 1.2*pos(4);
+%pos(4) = 2.2*pos(4);
+%set(gca, 'Position', pos)
 
 beta = s(w == 25, :);
 gamma = s(w == 60, :);
 
-subplot(4, 2, 7)
+subplot(4, 5, [16,17,18,19])
 
 [ax, h1, h2] = plotyy(t, abs(beta), t, abs(gamma));
 axis(ax, 'tight')
@@ -96,16 +96,19 @@ pos = get(gca, 'Position');
 pos(4) = 1.2*pos(4);
 set(gca, 'Position', pos)
 set(ax, 'box', 'off')
+set(ax, 'YTickLabel', [])
 
 %figure('Units', 'inches', 'Position', [0 0 9.8*(3/7) 2])
 
-subplot(4, 2, [4,6])
+subplot(4, 5, [10,15])
 
 [LFP_hat, F] = pmtm(LFP_trimmed,[],[],10000);
 plot(LFP_hat, F, 'LineWidth', 3, 'Color', 'k')
+axis tight
 ylim([0 100])
 box off
 set(gca, 'FontSize', 12)
+set(gca, 'visible', 'off')
 ylabel('Freq. (Hz)')
 
 
