@@ -84,18 +84,54 @@ set(gca, 'Position', pos)
 % colorbar
 
 subplot(9, 1, 6)
-[D1_hat, F] = pmtm(mean_D1_detrended,[],[],10000);
-plot(F, D1_hat, 'LineWidth', 3, 'Color', [.8 .5 .7]);
-hold on;
-[D2_hat, F] = pmtm(mean_D2_detrended,[],[],10000);
-plot(F, D2_hat, 'LineWidth', 3, 'Color', [1 .85 0]);
-% plot(mean(D1_DA_1), 'LineWidth', 2, 'Color', [.8 .5 .7]);
+% [D1_hat, F] = pmtm(mean_D1_detrended,[],[],10000);
+% plot(F, D1_hat, 'LineWidth', 3, 'Color', [.8 .5 .7]);
 % hold on;
-% plot(mean(D1_DA_1)+std(D1_DA_1),'Color','magenta');
-% plot(mean(D1_DA_1)-std(D1_DA_1),'Color','magenta');
-% plot(mean(D2_DA_1), 'LineWidth', 2, 'Color', [1 .85 0]);
-% plot(mean(D2_DA_1)+std(D2_DA_1),'Color','yellow');
-% plot(mean(D2_DA_1)-std(D2_DA_1),'Color','yellow');
+% [D2_hat, F] = pmtm(mean_D2_detrended,[],[],10000);
+% plot(F, D2_hat, 'LineWidth', 3, 'Color', [1 .85 0]);
+
+% if DA_level == 'lo'
+% load('stats_D1_DA_low.mat');
+% else
+% load('stats_D1_DA_high.mat');
+% end
+% plot(mean(datatable), 'LineWidth', 2, 'Color', [.8 .5 .7]);
+% hold on;
+% errorghost(datatable,1:151, [.8 .5 .7]);
+% axis('tight');
+% 
+% if DA_level == 'lo'
+% load('stats_D2_DA_low.mat');
+% else
+% load('stats_D2_DA_high.mat');
+% end
+% plot(mean(datatable), 'LineWidth', 2, 'Color', [1 .85 0]);
+% errorghost(datatable,1:151, [1 .85 0]);
+
+load('spn_stats.mat');
+
+DA_level = 'lo';
+
+if DA_level == 'lo'
+plot(mean(dataD1spikeslow), 'LineWidth', 2, 'Color', [.8 .5 .7]);
+hold on;
+errorghost(dataD1spikeslow,1:151, [.8 .5 .7]);
+else
+plot(mean(dataD1spikeshigh), 'LineWidth', 2, 'Color', [.8 .5 .7]);
+hold on;
+errorghost(dataD1spikeshigh,1:151, [.8 .5 .7]);
+end
+
+axis('tight');
+
+if DA_level == 'lo'
+plot(mean(dataD2spikeslow), 'LineWidth', 2, 'Color', [1 .85 0]);
+errorghost(dataD2spikeslow,1:151, [1 .85 0]);
+else
+plot(mean(dataD2spikeshigh), 'LineWidth', 2, 'Color', [1 .85 0]);
+errorghost(dataD2spikeshigh,1:151, [1 .85 0]);
+end
+
 xlim([0 100])
 xlabel('Freq. (Hz)')
 set(gca, 'FontSize', 12, 'YTick', [], 'box', 'off')

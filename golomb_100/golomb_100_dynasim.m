@@ -24,7 +24,7 @@ spec.nodes(2).parameters = {'Tfinal', T0, 'Iapp',0};
 
 ncells = 100;  % number of MSN cells in the pool
 g_gaba = 0.1/(ncells-1); % recurrent gaba conductance, normalized to the number of cells
-g_m = 1.3; % 1.2; % 1.3; % 1.2 parkinsonian, 1.3 normal
+g_m = 1.25; % 1.2; % 1.3; % 1.2 parkinsonian, 1.3 normal
 %V_ic = -63;
 vrand = 63*rand(1,ncells);
 
@@ -47,11 +47,11 @@ spec.connections(1).parameters = {'Tfinal', T0};
 
 spec.connections(2).direction = 'soma->dend';
 spec.connections(2).mechanism_list = {'somaDendiCOM'};
-spec.connections(2).parameters = {'gCOM',.5};
+spec.connections(2).parameters = {};
 
 spec.connections(3).direction = 'dend->soma';
 spec.connections(3).mechanism_list = {'dendSomaiCOM'};
-spec.connections(3).parameters = {'gCOM', .5};
+spec.connections(3).parameters = {};
 
 spec.connections(4).direction = 'dend->dend';
 spec.connections(4).mechanism_list = {'dendDendiGAP'};
@@ -186,11 +186,13 @@ spec.connections(8).parameters = {'g_gaba',g_gaba};
 %};
 
 vary={
-  '(soma-soma,dend-dend, soma, dend, D1, D2)', 'DA',	[0,1];
-  '(soma,dend)',			'gd',	[4:8];
+  '(soma-soma,dend-dend, soma, dend,D1,D2)', 'DA',	[0,1];
+  %'(soma-dend,dend-soma)',			'gCOM',	[0.1:0.1:1];
+  %'(soma,dend)',			'gd',	[4:8];
   %'(soma)',					'dummyvar',	[1:4];
-  %'(D1,D2)',				'DAmult', [0.05];
+  '(D1,D2)',				'DAmult', [0];
   '(D1,D2)',           			'injectedCurrent',	[1.1:0.01:1.2];
+  '(soma-D1,soma-D2)',		'm_gsyn', [0:0.1:0.6]
   %'(D1,D2)',           			'sigma_noise',	[1:4];
   %'(D1,D2)',   			'g_m',	[1.25];
   %'(soma-soma)',			'gsyn',	[0.1];
@@ -239,7 +241,7 @@ qsub_mode = 'array';
 %   i.e. in the interactive session you're running this same script in
 dsSimulate(spec,...
               'analysis_functions', {@gvFRsoma, @gvCalcPower},...
-              'save_data_flag',save_data_flag,'study_dir','DA_check_gd',...
+              'save_data_flag',save_data_flag,'study_dir','m_gsyn_vs_spn_iapp',...
               'cluster_flag',cluster_flag,'verbose_flag',verbose_flag,...
               'overwrite_flag',overwrite_flag,'tspan',[0 T0],...
               'save_results_flag',save_results_flag,'solver','rk4',...

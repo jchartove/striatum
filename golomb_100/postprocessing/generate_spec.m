@@ -60,26 +60,26 @@ function generate_spec(directory, avgfr, min_ISI, max_ISI, spike_pairs, v_new, f
         title(imgtitle);
         saveas(handle3pt5, imgtitle, 'png');
 		
-		xlim([0.1 0.2]);
-        imgtitle = strcat(filenew,'sg_zoom.png')
-        title(imgtitle);
-        saveas(handle3pt5, imgtitle, 'png');
+		%xlim([0.1 0.2]);
+        %imgtitle = strcat(filenew,'sg_zoom.png')
+        %title(imgtitle);
+        %saveas(handle3pt5, imgtitle, 'png');
 		
-		handle3pt6 = figure;
-		imagesc(t,[1:151],zscore(abs(s)')');
-        set(gca,'YTick',[0:5:150]);
-        ylim([0 100]);
-		axis xy
-		colorbar
-        title('Z-scored spectrogram')
-        imgtitle = strcat(filenew,'zspectrogram.png')
-        title(imgtitle);
-        saveas(handle3pt6, imgtitle, 'png');
+		%handle3pt6 = figure;
+		%imagesc(t,[1:151],zscore(abs(s)')');
+        %set(gca,'YTick',[0:5:150]);
+        %ylim([0 100]);
+		%axis xy
+		%colorbar
+        %title('Z-scored spectrogram')
+        %imgtitle = strcat(filenew,'zspectrogram.png')
+        %title(imgtitle);
+        %saveas(handle3pt6, imgtitle, 'png');
 		
-		xlim([0.1 0.2]);
-        imgtitle = strcat(filenew,'sgz_zoom.png')
-        title(imgtitle);
-        saveas(handle3pt6, imgtitle, 'png');
+		%xlim([0.1 0.2]);
+        %imgtitle = strcat(filenew,'sgz_zoom.png')
+        %title(imgtitle);
+        %saveas(handle3pt6, imgtitle, 'png');
 		
 		checksum = sum(sum(v_new))
         

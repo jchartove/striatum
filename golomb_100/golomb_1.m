@@ -21,23 +21,20 @@ spec.nodes(2).parameters = {'v_IC',-90, 'Tfinal', T0, 'Iapp',0};
 
 spec.connections(1).direction = 'soma->dend';
 spec.connections(1).mechanism_list = {'somaDendiCOM'};
-spec.connections(1).parameters = {};
+spec.connections(1).parameters = {'gCOM', .5};
 
 spec.connections(2).direction = 'dend->soma';
 spec.connections(2).mechanism_list = {'dendSomaiCOM'};
-spec.connections(2).parameters = {};
+spec.connections(2).parameters = {'gCOM', .5};
 
 
 vary={
-  '(dend)',			'tonic',	[1:25];
-  '(dend)',			'rate', [0];
-  %'(soma,dend)',			'gCaL',	[0,5];
+  '(dend)',			'tonic',	[0];
+  '(dend)',			'rate', [1:25];
   %'(soma)',			'soma_tonic',	[0];
   '(soma,dend)',	'DA',	[0];
-  %soma)',					'dummyvar',	[1:20];
-  %'(soma,dend)',	'taub',	[50:10:400];
-  %'(soma,dend)',	'tau_mult',	[1];
-  '(soma,dend)',			'gd',	[1:0.5:12];
+  %'(soma)',					'dummyvar',	[1:20];
+  %'(soma,dend)',			'gd',	[1:0.5:12];
   %'(soma,dend)',			'gl',	[0.25];
   '(soma-dend,dend-soma)',			'gCOM',	[0.5];
 };
@@ -60,7 +57,7 @@ downsample_factor = 10;
 
 [~,~]=dsSimulate(spec,...
               'analysis_functions', {@gvFRsoma, @gvCalcPower},...
-              'save_data_flag',save_data_flag,'study_dir','single_cell_tonic_vs_gd_broad',...
+              'save_data_flag',save_data_flag,'study_dir','single_cell_noise_vtwo',...
               'cluster_flag',cluster_flag,'verbose_flag',verbose_flag,...
               'overwrite_flag',overwrite_flag,'tspan',[0 T0],...
               'save_results_flag',save_results_flag,'solver','rk4',... %'memlimit',memlimit, ...

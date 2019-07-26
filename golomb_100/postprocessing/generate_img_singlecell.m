@@ -101,7 +101,7 @@ for file = datafiles'
         save(spectitle,'y');
         imgtitle = strcat(filenew,'spectrum.png')
         title(imgtitle);
-        saveas(handle3, imgtitle, 'png');
+        saveas(gcf, imgtitle, 'png');
         
         %%%%%%%%%%%%%%%%%%%%% spectrogram
         handle3pt5 = figure;

@@ -53,14 +53,14 @@ mean_FSI_detrended = detrend(nanmean(soma_V(time_index, :), 2));
 % pos(4) = 1.2*pos(4);
 % set(gca, 'Position', pos)
 
-LFP = mean_FSI_detrended + 10*mean_D1_detrended;% + mean_D2_detrended;
+LFP = mean_FSI_detrended + 5*mean_D1_detrended + 5*mean_D2_detrended;
 LFP_trimmed = LFP; %(time_index, :);
 
-subplot(4, 5, [1,2,3,4,5])
+subplot(4, 5, [1,2,3,4])
 
 plot(time(time_index), LFP_trimmed, 'LineWidth', 2, 'Color', 'k')
 axis tight
-set(gca, 'Visible', 'off')
+%set(gca, 'Visible', 'off')
 pos = get(gca, 'Position');
 pos(2) = pos(2) - .1*pos(4);
 pos(4) = 1.2*pos(4);
@@ -79,8 +79,8 @@ ylabel('Freq. (Hz)')
 %pos(4) = 2.2*pos(4);
 %set(gca, 'Position', pos)
 
-beta = s(w == 25, :);
-gamma = s(w == 60, :);
+beta = s(w == 20, :);
+gamma = s(w == 80, :);
 
 subplot(4, 5, [16,17,18,19])
 
@@ -89,8 +89,8 @@ axis(ax, 'tight')
 set(h1, 'LineWidth', 3)
 set(h2, 'LineWidth', 3)
 legend({'\beta Power', '\gamma Power'})
-xlim([0 1.5])
-set(gca, 'FontSize', 12, 'XTick', [0 .5 1 1.5])
+%xlim([0 1.5])
+%set(gca, 'FontSize', 12, 'XTick', [0 .5 1 1.5])
 xlabel('Time (s)')
 pos = get(gca, 'Position');
 pos(4) = 1.2*pos(4);

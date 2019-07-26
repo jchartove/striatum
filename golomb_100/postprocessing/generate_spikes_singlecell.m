@@ -5,7 +5,7 @@ datafiles = dir(datadir);
 
 txtfile = strcat(directory,'.csv');
 txtfile = strrep(txtfile,'/','-')
-formatSpec = '%s %s %s %s %s %s %s  \r\n';
+formatSpec = '%s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s \r\n';
 fileID = fopen(txtfile,'at+');
 tempID7 = fileID; %also kludgey
 fprintf(fileID,formatSpec, ...
@@ -92,6 +92,8 @@ for file = datafiles'
 		strcat(strjoin(mods(:,1)'),',') strcat(strjoin(mods(:,2)'),',') num2str(cell2mat(mods(:,3)')) }
 		fprintf(fileID,formatSpec,output{1,:});
         
+		generate_spec(directory, avgfr, 0, 0, 0, spike_indicator, strcat(filenew, '_spikes'), time, simulator_options.dt, 1, tempID7, formatSpec, simulator_options.modifications)
+		
         close all
     
     close all
