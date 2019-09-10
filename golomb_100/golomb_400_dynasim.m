@@ -9,7 +9,7 @@ eqns={ 'dV/dt = (Iapp + @current )/Cm;I=0; Cm=1; V(0)=-90 + 90.*rand(1,Npop)';};
 % for 
     numcells = [100]
 spec=[];
-T0 = 4000;
+T0 = 2000;
 spec.nodes(1).name = 'soma';
 spec.nodes(1).size = numcells;
 spec.nodes(1).equations = eqns;
@@ -22,7 +22,7 @@ spec.nodes(2).equations = eqns;
 spec.nodes(2).mechanism_list = {'dendGolombK','dendGolombKdr','dendGolombNa','dendInput','dendLeak','dendiMultiPoissonExp'};
 spec.nodes(2).parameters = {'Tfinal', T0, 'Iapp',0}; 
 
-ncells = 100;  % number of MSN cells in the pool
+ncells = 200;  % number of MSN cells in the pool
 g_gaba = 0.1/(ncells-1); % recurrent gaba conductance, normalized to the number of cells
 g_m = 1.25; % 1.2; % 1.3; % 1.2 parkinsonian, 1.3 normal
 %V_ic = -63;
@@ -203,10 +203,10 @@ spec.connections(8).parameters = {'g_gaba',g_gaba};
 %};
 
 vary={
-  '(soma-soma,dend-dend, soma, dend,D1,D2)', 'DA',	[1];
-  '(dend)',			'tonic',	[2:2:20];
-  '(soma)',			'soma_tonic',	[0];
-  '(dend)',			'rate',	[0:10];
+  '(soma-soma,dend-dend, soma, dend,D1,D2)', 'DA',	[0,1];
+ % '(dend)',			'tonic',	[2:2:20];
+ % '(soma)',			'soma_tonic',	[0];
+ % '(dend)',			'rate',	[0:10];
   %'(soma,dend)',			'gd_het',	[0:10];
 };
 
@@ -249,7 +249,7 @@ qsub_mode = 'array';
 %   i.e. in the interactive session you're running this same script in
 dsSimulate(spec,...
               'analysis_functions', {@gvFRsoma, @gvCalcPower},...
-              'save_data_flag',save_data_flag,'study_dir','noise_vs_tonic',...
+              'save_data_flag',save_data_flag,'study_dir','the_ratio',...
               'cluster_flag',cluster_flag,'verbose_flag',verbose_flag,...
               'overwrite_flag',overwrite_flag,'tspan',[0 T0],...
               'save_results_flag',save_results_flag,'solver','rk4',...
