@@ -4,8 +4,8 @@ vl = [-70]
 %where did i get -54.4 from
 gl_het = [0]
  
-gl2 = gl + gl*gl_het*2*(rand(1,Npop) - 0.5)
-somaLeak(X) = gl2*(X-vl)
+gl2 = gl + gl.*gl_het.*2.*(rand(1,Npop) - 0.5)
+somaLeak(X) = gl2.*(X-vl)
  
 @current += -somaLeak(X)
  
