@@ -11,7 +11,7 @@ function generate_spec(directory, avgfr, min_ISI, max_ISI, spike_pairs, v_new, f
         m = mean(lfp);
         signal = lfp - m; %zero-center
         signal = double(detrend(signal));
-        [y] = power_spectrum(signal',time,0,0);
+        [y,f] =  pmtm(signal',[],[0:150],1000/dt);
         totalp = sum(y(1:150)); %total power. below: eeg bands
         dp = sum(y(1:3));
         thp = sum(y(4:7));

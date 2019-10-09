@@ -84,11 +84,15 @@ set(gca, 'Position', pos)
 % colorbar
 
 subplot(9, 1, 6)
-% [D1_hat, F] = pmtm(mean_D1_detrended,[],[],10000);
-% plot(F, D1_hat, 'LineWidth', 3, 'Color', [.8 .5 .7]);
-% hold on;
-% [D2_hat, F] = pmtm(mean_D2_detrended,[],[],10000);
-% plot(F, D2_hat, 'LineWidth', 3, 'Color', [1 .85 0]);
+
+%% 
+
+[D1_hat, F] = pmtm(mean_D1_detrended,[],[],10000);
+plot(F, D1_hat, 'LineWidth', 3, 'Color', [.8 .5 .7]);
+hold on;
+[D2_hat, F] = pmtm(mean_D2_detrended,[],[],10000);
+plot(F, D2_hat, 'LineWidth', 3, 'Color', [1 .85 0]);
+%% 
 
 % if DA_level == 'lo'
 % load('stats_D1_DA_low.mat');
@@ -107,42 +111,44 @@ subplot(9, 1, 6)
 % end
 % plot(mean(datatable), 'LineWidth', 2, 'Color', [1 .85 0]);
 % errorghost(datatable,1:151, [1 .85 0]);
+%% 
 
-load('spn_stats.mat');
-
-DA_level = 'lo';
-
-if DA_level == 'lo'
-plot(mean(dataD1spikeslow), 'LineWidth', 2, 'Color', [.8 .5 .7]);
-hold on;
-errorghost(dataD1spikeslow,1:151, [.8 .5 .7]);
-else
-plot(mean(dataD1spikeshigh), 'LineWidth', 2, 'Color', [.8 .5 .7]);
-hold on;
-errorghost(dataD1spikeshigh,1:151, [.8 .5 .7]);
-end
-
-axis('tight');
-
-if DA_level == 'lo'
-plot(mean(dataD2spikeslow), 'LineWidth', 2, 'Color', [1 .85 0]);
-errorghost(dataD2spikeslow,1:151, [1 .85 0]);
-else
-plot(mean(dataD2spikeshigh), 'LineWidth', 2, 'Color', [1 .85 0]);
-errorghost(dataD2spikeshigh,1:151, [1 .85 0]);
-end
-
-xlim([0 100])
-xlabel('Freq. (Hz)')
-set(gca, 'FontSize', 12, 'YTick', [], 'box', 'off')
-pos = get(gca, 'Position');
-pos(2) = pos(2) - pos(4);
-pos(4) = 2.2*pos(4);
-set(gca, 'Position', pos)
-
-saveas(gcf, ['fig5_', sim_name(1:(end - length('.mat')))])
-
-saveas(gcf, ['fig5_', sim_name(1:(end - length('.mat')))], 'eps')
+% load('spn_stats.mat');
+% 
+% DA_level = 'lo';
+% 
+% if DA_level == 'lo'
+% plot(mean(dataD1spikeslow), 'LineWidth', 2, 'Color', [.8 .5 .7]);
+% hold on;
+% errorghost(dataD1spikeslow,1:151, [.8 .5 .7]);
+% else
+% plot(mean(dataD1spikeshigh), 'LineWidth', 2, 'Color', [.8 .5 .7]);
+% hold on;
+% errorghost(dataD1spikeshigh,1:151, [.8 .5 .7]);
+% end
+% 
+% axis('tight');
+% 
+% if DA_level == 'lo'
+% plot(mean(dataD2spikeslow), 'LineWidth', 2, 'Color', [1 .85 0]);
+% errorghost(dataD2spikeslow,1:151, [1 .85 0]);
+% else
+% plot(mean(dataD2spikeshigh), 'LineWidth', 2, 'Color', [1 .85 0]);
+% errorghost(dataD2spikeshigh,1:151, [1 .85 0]);
+% end
+% 
+% xlim([0 100])
+% xlabel('Freq. (Hz)')
+% set(gca, 'FontSize', 12, 'YTick', [], 'box', 'off')
+% pos = get(gca, 'Position');
+% pos(2) = pos(2) - pos(4);
+% pos(4) = 2.2*pos(4);
+% set(gca, 'Position', pos)
+% 
+% saveas(gcf, ['fig5_', sim_name(1:(end - length('.mat')))])
+% 
+% saveas(gcf, ['fig5_', sim_name(1:(end - length('.mat')))], 'eps')
+%% 
 
 % figure
 % 

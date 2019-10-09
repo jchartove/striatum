@@ -4,7 +4,8 @@ clear
 
 %addpath(genpath(pwd));
 
-eqns={ 'dV/dt = (Iapp + @current )/Cm;I=0; Cm=1; V(0)=-90 + 90.*rand(1,Npop)';};
+%eqns={ 'dV/dt = (Iapp + @current )/Cm;I=0; Cm=1; V(0)=-90 + 90.*rand(1,Npop)';};
+eqns={ 'dV/dt = (Iapp + @current )/Cm;I=0; Cm=1; V(0)=-90';};
 
 % for 
     numcells = [100]
@@ -203,11 +204,14 @@ spec.connections(8).parameters = {'g_gaba',g_gaba};
 %};
 
 vary={
-  '(soma-soma,dend-dend, soma, dend,D1,D2)', 'DA',	[1];
-  '(dend)',			'tonic',	[2:2:20];
-  '(soma)',			'soma_tonic',	[0];
-  '(dend)',			'rate',	[0:10];
-  %'(soma,dend)',			'gd_het',	[0:10];
+  '(soma-soma,dend-dend, soma, dend,D1,D2)', 'DA',	[0,1];
+  %'(dend)',			'tonic',	[2:2:20];
+  %'(soma)',			'soma_tonic',	[0];
+  '(dend)',			'rate',	[0,2];
+  %'(dend)',			'tau_i',	[0:10];
+  %'(dend)',			'N_einputs',	[50:50:150];
+  '(soma,dend)',			'gd_het',	[0:0.1:1];
+  %'(soma,dend)',			'gd',	[0:2:12];
 };
 
 
@@ -249,7 +253,7 @@ qsub_mode = 'array';
 %   i.e. in the interactive session you're running this same script in
 dsSimulate(spec,...
               'analysis_functions', {@gvFRsoma, @gvCalcPower},...
-              'save_data_flag',save_data_flag,'study_dir','noise_vs_tonic',...
+              'save_data_flag',save_data_flag,'study_dir','gd_het5',...
               'cluster_flag',cluster_flag,'verbose_flag',verbose_flag,...
               'overwrite_flag',overwrite_flag,'tspan',[0 T0],...
               'save_results_flag',save_results_flag,'solver','rk4',...
