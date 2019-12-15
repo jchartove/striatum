@@ -1,9 +1,9 @@
 DA = [0.5]
-tonic = [4]
+tonic = [7]
 fs_noise = [0]
 tonic_het = [0]
 
-tonic2 = (tonic + 10.*DA).*(1 + tonic_het.*2.*(rand(1,Npop) - 0.5))
+tonic2 = (tonic + 7.*DA).*(1 + tonic_het.*2.*(rand(1,Npop) - 0.5))
 %tonic2 = tonic
 
 %ramp = ones(1,4001);

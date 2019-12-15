@@ -1,4 +1,8 @@
+sim_name = 'study_sim1_data';
+DA = 'lo';
+
 load(sim_name)
+load('FSI_spectrastats')
 
 figure('Units', 'inches', 'Position', [0 0 6 9.8])
 
@@ -31,10 +35,17 @@ set(gca, 'Position', pos)
 subplot(9, 1, 4)
 [FSI_hat, F] = pmtm(mean_FSI_detrended,[],[],10000);
 plot(F, FSI_hat, 'LineWidth', 3, 'Color', [0 .8 .8])
-%plot(mean(fsi_DA_0pt2), 'LineWidth', 2, 'Color', [0 .8 .8]);
-%hold on;
-%plot(mean(fsi_DA_0pt2)+std(fsi_DA_0pt2),'Color','cyan');
-%plot(mean(fsi_DA_0pt2)-std(fsi_DA_0pt2),'Color','cyan');
+if DA == 'lo'
+    plot(mean(datatable0), 'LineWidth', 2, 'Color', [0 .8 .8]);
+    hold on;
+    plot(mean(datatable0)+std(datatable0),'Color','cyan');
+    plot(mean(datatable0)-std(datatable0),'Color','cyan');
+elseif DA == 'hi'
+    plot(mean(datatable1), 'LineWidth', 2, 'Color', [0 .8 .8]);
+    hold on;
+    plot(mean(datatable1)+std(datatable1),'Color','cyan');
+    plot(mean(datatable1)-std(datatable1),'Color','cyan');
+end
 xlim([0 100])
 xlabel('Freq. (Hz)')
 set(gca, 'FontSize', 12, 'YTick', [], 'box', 'off')

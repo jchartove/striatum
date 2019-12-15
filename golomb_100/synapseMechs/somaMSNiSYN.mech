@@ -1,19 +1,18 @@
-m_gsyn = [0.6] 
+m_gsyn = [0.006] 
 ko = [0]
 Esyn = [-80]
 tauD = [13]
 tauR = [0.25]
 IC = [0.1]
 IC_noise = [0]
-i_con = [0.1]
+i_con = [0.375]
 numcells = [100] 
 
 indegree = i_con*(Npre-ko)
-m_gsyn2 = m_gsyn/(10*(indegree+1))
 
-mask = genmask(Npre,Npost,i_con,m_gsyn2,1,0,ko)
+mask = genmask(Npre,Npost,i_con,m_gsyn,1,0,ko)
 
-somaMSNiSYN(X,s,t) = (m_gsyn2.*(s*mask).*(X-Esyn))
+somaMSNiSYN(X,s,t) = (m_gsyn.*(s*mask).*(X-Esyn))
  
 s' = -s./tauD + ((1-s)/tauR).*(1+tanh(IN/10));
 s(0) = IC+IC_noise.*rand(1,Npre)

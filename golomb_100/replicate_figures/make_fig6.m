@@ -5,9 +5,9 @@ figure('Units', 'inches', 'Position', [0 0 6 9.8*(5/7)])
 low_time = 500;
 time_index = time >= low_time;
 
-mean_FSI = nanmean(soma_V, 2);
-mean_D1 = nanmean(D1_V, 2);
-mean_D2 = nanmean(D2_V, 2);
+mean_FSI = nanmean(soma_soma_somaSomaiSYN_s, 2);
+mean_D1 = 5*nanmean(D1_D1_gabaRecInputMSN_s, 2)+nanmean(D1_soma_somaMSNiSYN_s, 2);
+mean_D2 = 5*nanmean(D2_D2_gabaRecInputMSN_s, 2)+nanmean(D2_soma_somaMSNiSYN_s, 2);
 
 % if strcmp(sim_name, 'study_sim1_data.mat')
 %     
@@ -19,9 +19,9 @@ mean_D2 = nanmean(D2_V, 2);
 %     
 % end
 
-mean_D2_detrended = detrend(nanmean(D2_V(time_index, :), 2));
-mean_D1_detrended = detrend(nanmean(D1_V(time_index, :), 2));
-mean_FSI_detrended = detrend(nanmean(soma_V(time_index, :), 2));
+mean_D2_detrended = detrend(mean_D2(time_index, :));
+mean_D1_detrended = detrend(mean_D1(time_index, :));
+mean_FSI_detrended = detrend(mean_FSI(time_index, :));
 
 % subplot(15, 1, 4)
 % 
@@ -53,7 +53,7 @@ mean_FSI_detrended = detrend(nanmean(soma_V(time_index, :), 2));
 % pos(4) = 1.2*pos(4);
 % set(gca, 'Position', pos)
 
-LFP = mean_FSI_detrended + 5*mean_D1_detrended + 5*mean_D2_detrended;
+LFP = mean_FSI_detrended + mean_D1_detrended + mean_D2_detrended;
 LFP_trimmed = LFP; %(time_index, :);
 
 subplot(4, 5, [1,2,3,4])
@@ -79,7 +79,7 @@ ylabel('Freq. (Hz)')
 %pos(4) = 2.2*pos(4);
 %set(gca, 'Position', pos)
 
-beta = s(w == 16, :);
+beta = s(w == 18, :);
 gamma = s(w == 80, :);
 
 subplot(4, 5, [16,17,18,19])

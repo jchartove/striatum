@@ -7,7 +7,7 @@ clear
 eqns={ 'dV/dt = (Iapp + @current )/Cm;I=0; Cm=1; V(0)=-90 + 90.*rand(1,Npop)';};
 
 % for 
-    numcells = [100]
+    numcells = [50]
 spec=[];
 T0 = 4000;
 spec.nodes(1).name = 'soma';
@@ -75,11 +75,11 @@ spec.connections(8).parameters = {'g_gaba',g_gaba};
 
 vary={
   '(soma-soma,dend-dend, soma, dend, D1, D2)', 'DA',	[0];
-  '(soma)',					'dummyvar',	[1:10];
-  '(D1,D2)',				'DAmult', [0.075];
-  '(soma-soma)',			'gsyn',	[0.005];
-  '(dend)',			'tonic',	[1:14];
-  '(dend-dend)',			'g_GAP',	[0.2];
+  %'(soma)',					'dummyvar',	[1:10];
+  %'(D1,D2)',				'DAmult', [0.075];
+  '(soma-soma)',			'gsyn',	[0.1];
+  '(dend)',			'tonic',	[0:25];
+  '(dend-dend)',			'g_GAP',	[0.15:0.05:0.3];
 };
 
 
@@ -101,7 +101,7 @@ downsample_factor = 10;
 %   i.e. in the interactive session you're running this same script in
 dsSimulate(spec,...
               'analysis_functions', {@gvFRsoma, @gvCalcPower},...
-              'save_data_flag',save_data_flag,'study_dir','tonic_stats',...
+              'save_data_flag',save_data_flag,'study_dir','tonic_stats_low_DA',...
               'cluster_flag',cluster_flag,'verbose_flag',verbose_flag,...
               'overwrite_flag',overwrite_flag,'tspan',[0 T0],...
               'save_results_flag',save_results_flag,'solver','rk4',...

@@ -5,7 +5,7 @@ injectedCurrent = [1.19]
 freq = 1/(2*pi)
 sinmult = 0
 DA = [0]
-DAmult = [0.04]
+DAmult = [0.1]
 % onset = 0
 
 % current

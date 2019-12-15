@@ -1,3 +1,8 @@
+%sim_name = 'study_sim1_data';
+%DA_level = 'lo';
+sim_name = 'study_sim60_data';
+DA_level = 'hi';
+
 load(sim_name)
 
 figure('Units', 'inches', 'Position', [0 0 6 9.8])
@@ -7,6 +12,9 @@ time_index = time >= low_time;
 
 mean_D1 = nanmean(D1_V, 2);
 mean_D2 = nanmean(D2_V, 2);
+
+%mean_D1 = nanmean(D1_D1_gabaRecInputMSN_s, 2);
+%mean_D2 = nanmean(D2_D2_gabaRecInputMSN_s, 2);
 
 % if strcmp(sim_name, 'study_sim1_data.mat')
 %     
@@ -35,8 +43,8 @@ pos(2) = pos(2) - pos(4);
 pos(4) = 2*pos(4);
 set(gca, 'Position', pos)
 
-mean_D2_detrended = detrend(nanmean(D2_V(time_index, :), 2));
-mean_D1_detrended = detrend(nanmean(D1_V(time_index, :), 2));
+mean_D2_detrended = detrend(mean_D2(time_index, :));
+mean_D1_detrended = detrend(mean_D1(time_index, :));
 
 subplot(9, 1, 1)
 
@@ -87,30 +95,36 @@ subplot(9, 1, 6)
 
 %% 
 
-[D1_hat, F] = pmtm(mean_D1_detrended,[],[],10000);
-plot(F, D1_hat, 'LineWidth', 3, 'Color', [.8 .5 .7]);
-hold on;
-[D2_hat, F] = pmtm(mean_D2_detrended,[],[],10000);
-plot(F, D2_hat, 'LineWidth', 3, 'Color', [1 .85 0]);
+% [D1_hat, F] = pmtm(mean_D1_detrended,[],[],10000);
+% plot(F, D1_hat, 'LineWidth', 3, 'Color', [.8 .5 .7]);
+% hold on;
+% [D2_hat, F] = pmtm(mean_D2_detrended,[],[],10000);
+% plot(F, D2_hat, 'LineWidth', 3, 'Color', [1 .85 0]);
 %% 
 
-% if DA_level == 'lo'
-% load('stats_D1_DA_low.mat');
-% else
-% load('stats_D1_DA_high.mat');
-% end
-% plot(mean(datatable), 'LineWidth', 2, 'Color', [.8 .5 .7]);
-% hold on;
-% errorghost(datatable,1:151, [.8 .5 .7]);
-% axis('tight');
-% 
-% if DA_level == 'lo'
-% load('stats_D2_DA_low.mat');
-% else
-% load('stats_D2_DA_high.mat');
-% end
-% plot(mean(datatable), 'LineWidth', 2, 'Color', [1 .85 0]);
-% errorghost(datatable,1:151, [1 .85 0]);
+load('D1_spectrastats')
+if DA_level == 'lo'
+datatable = datatable0;
+else
+datatable = datatable1;
+end
+plot(mean(datatable), 'LineWidth', 2, 'Color', [.8 .5 .7]);
+hold on;
+errorghost(datatable,1:151, [.8 .5 .7]);
+    plot(mean(datatable)+std(datatable),'Color',[.8 .5 .7]);
+    plot(mean(datatable)-std(datatable),'Color',[.8 .5 .7]);
+axis('tight');
+
+load('D2_spectrastats')
+if DA_level == 'lo'
+datatable = datatable0;
+else
+datatable = datatable1;
+end
+plot(mean(datatable), 'LineWidth', 2, 'Color', [1 .85 0]);
+    plot(mean(datatable)+std(datatable),'Color',[1 .85 0]);
+    plot(mean(datatable)-std(datatable),'Color',[1 .85 0]);
+errorghost(datatable,1:151, [1 .85 0]);
 %% 
 
 % load('spn_stats.mat');
@@ -127,7 +141,7 @@ plot(F, D2_hat, 'LineWidth', 3, 'Color', [1 .85 0]);
 % errorghost(dataD1spikeshigh,1:151, [.8 .5 .7]);
 % end
 % 
-% axis('tight');
+ axis('tight');
 % 
 % if DA_level == 'lo'
 % plot(mean(dataD2spikeslow), 'LineWidth', 2, 'Color', [1 .85 0]);
@@ -137,17 +151,16 @@ plot(F, D2_hat, 'LineWidth', 3, 'Color', [1 .85 0]);
 % errorghost(dataD2spikeshigh,1:151, [1 .85 0]);
 % end
 % 
-% xlim([0 100])
-% xlabel('Freq. (Hz)')
-% set(gca, 'FontSize', 12, 'YTick', [], 'box', 'off')
-% pos = get(gca, 'Position');
-% pos(2) = pos(2) - pos(4);
-% pos(4) = 2.2*pos(4);
-% set(gca, 'Position', pos)
+xlim([0 100])
+xlabel('Freq. (Hz)')
+set(gca, 'FontSize', 12, 'YTick', [], 'box', 'off')
+pos = get(gca, 'Position');
+pos(2) = pos(2) - pos(4);
+pos(4) = 2.2*pos(4);
+set(gca, 'Position', pos)
 % 
-% saveas(gcf, ['fig5_', sim_name(1:(end - length('.mat')))])
-% 
-% saveas(gcf, ['fig5_', sim_name(1:(end - length('.mat')))], 'eps')
+saveas(gcf, ['fig5_', sim_name(1:(end - length('.mat')))]) 
+saveas(gcf, ['fig5_', sim_name(1:(end - length('.mat')))], 'eps')
 %% 
 
 % figure

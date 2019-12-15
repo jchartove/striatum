@@ -29,12 +29,13 @@ spec.connections(2).parameters = {'gCOM', .5};
 
 
 vary={
-  '(dend)',			'tonic',	[0];
-  '(dend)',			'rate', [1:25];
+  '(dend)',			'tonic',	[0:2:10];
+  %'(dend)',			'rate', [0:2:20];
   %'(soma)',			'soma_tonic',	[0];
   '(soma,dend)',	'DA',	[0];
   %'(soma)',					'dummyvar',	[1:20];
-  %'(soma,dend)',			'gd',	[1:0.5:12];
+  '(soma,dend)',			'gd',	[0:2:12];
+  '(dend)',					'tau_i',	[0:2:10];
   %'(soma,dend)',			'gl',	[0.25];
   '(soma-dend,dend-soma)',			'gCOM',	[0.5];
 };
@@ -44,7 +45,7 @@ namestr = strjoin(reshape(namearray, 1, []));
 cd '/projectnb/crc-nak/chartove/dynasim/'; %try to cd to this directory and leave data_dir blank
 %memlimit = '64G';
 cluster_flag = 1;
-overwrite_flag = 1;
+overwrite_flag = 0;
 save_data_flag = 1;
 save_results_flag = 1;
 verbose_flag = 1;
@@ -57,7 +58,7 @@ downsample_factor = 10;
 
 [~,~]=dsSimulate(spec,...
               'analysis_functions', {@gvFRsoma, @gvCalcPower},...
-              'save_data_flag',save_data_flag,'study_dir','single_cell_noise_vtwo',...
+              'save_data_flag',save_data_flag,'study_dir','single_cell_tonic_gd_amplitude',...
               'cluster_flag',cluster_flag,'verbose_flag',verbose_flag,...
               'overwrite_flag',overwrite_flag,'tspan',[0 T0],...
               'save_results_flag',save_results_flag,'solver','rk4',... %'memlimit',memlimit, ...

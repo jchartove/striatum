@@ -7,7 +7,7 @@ clear
 eqns={ 'dV/dt = (Iapp + @current )/Cm;I=0; Cm=1; V(0)=-90 + 90.*rand(1,Npop)';};
 
 % for 
-    numcells = [100]
+    numcells = [50]
 spec=[];
 T0 = 4000;
 spec.nodes(1).name = 'soma';
@@ -77,10 +77,10 @@ spec.connections(8).parameters = {'g_gaba',g_gaba};
 vary={
   '(soma-soma,dend-dend, soma, dend, D1, D2)', 'DA',	[0];
   '(soma)',					'dummyvar',	[1:10];
-  '(D1,D2)',				'DAmult', [0.075];
+  %'(D1,D2)',				'DAmult', [0.075];
   '(soma-soma)',			'gsyn',	[0:0.005:0.1];
   '(dend)',			'tonic',	[14];
-  '(dend-dend)',			'g_GAP',	[0.2];
+  '(dend-dend)',			'g_GAP',	[0.3];
 };
 
 namearray = cellfun(@num2str,vary,'UniformOutput',0);

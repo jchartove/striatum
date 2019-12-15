@@ -7,7 +7,7 @@ clear
 eqns={ 'dV/dt = (Iapp + @current )/Cm;I=0; Cm=1; V(0)=-90 + 90.*rand(1,Npop)';};
 
 % for 
-    numcells = [100]
+    numcells = [50]
 spec=[];
 T0 = 4000;
 spec.nodes(1).name = 'soma';

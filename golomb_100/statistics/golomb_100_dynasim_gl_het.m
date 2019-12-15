@@ -32,13 +32,13 @@ g_m = 1.3; % 1.2; % 1.3; % 1.2 parkinsonian, 1.3 normal
 spec.nodes(3).name = 'D1';
 spec.nodes(3).size = ncells;
 spec.nodes(3).equations = 'dV/dt = (Iapp + @current )/Cm;I=0; Cm=1; V(0)=-63'; %+ 63.*rand(1,Npop)
-spec.nodes(3).mechanism_list = {'naCurrentMSN','kCurrentMSN','mCurrentMSN','leakCurrentMSN','injectedCurrentD1','noisyInputMSN','AMPAMSN'};
+spec.nodes(3).mechanism_list = {'naCurrentMSN','kCurrentMSN','mCurrentMSN','leakCurrentMSN','injectedCurrentD1','noisyInputMSN'};
 spec.nodes(3).parameters = {'cm',1,'V_IC',-63,'g_m',g_m,'Tfinal', T0, 'Iapp',0}; % V_IC refers to the initial condition for the membrane 
 
 spec.nodes(4).name = 'D2';
 spec.nodes(4).size = ncells;
 spec.nodes(4).equations = 'dV/dt = (Iapp + @current )/Cm;I=0; Cm=1; V(0)=-63'; %+ 63.*rand(1,Npop)
-spec.nodes(4).mechanism_list = {'naCurrentMSN','kCurrentMSN','mCurrentMSN','leakCurrentMSN','injectedCurrentD2','noisyInputMSN','AMPAMSN'};
+spec.nodes(4).mechanism_list = {'naCurrentMSN','kCurrentMSN','mCurrentMSN','leakCurrentMSN','injectedCurrentD2','noisyInputMSN'};
 spec.nodes(4).parameters = {'cm',1,'V_IC',-63,'g_m',g_m,'Tfinal', T0, 'Iapp',0}; % V_IC refers to the initial condition for the membrane potential
 
 
@@ -204,7 +204,7 @@ spec.connections(8).parameters = {'g_gaba',g_gaba};
 %};
 
 vary={
-  '(soma-soma,dend-dend, soma, dend,D1,D2)', 'DA',	[1];
+  '(soma-soma,dend-dend, soma, dend,D1,D2)', 'DA',	[0,1];
   %'(soma-soma)',			'i_con',	[0.58];
   %'(dend)',			'tonic',	[7];
   %'(dend-dend)',			'g_GAP',	[0.15];
@@ -212,19 +212,19 @@ vary={
   %'(dend)',			'rate',	[2:2:20];
   %'(dend)',			'tau_i',	[0:10];
   %'(dend)',			'N_einputs',	[50:50:150];
-  %'(soma,dend)',			'gd_het',	[0:0.1:1];
-  %'(soma)',					'dummyvar',	[1:20];
+  '(soma,dend)',			'gl_het',	[0:0.1:1];
+  '(soma)',					'dummyvar',	[1:20];
   %'(soma,dend)',			'gd',	[0:3:12];
   %'(soma,dend)',			'gl_het',	[0:0.5:1];
   %'(soma,dend)',			'gl',	[0:0.03:0.3];
   %'(dend)',			'tonic_het',	[0:0.1:1];
-  '(soma-D1,soma-D2)',		'i_con', [0,0.375];
+  %'(soma-D1,soma-D2)',		'i_con', [0.375,0.45];
   %'(D1,D2)',		'DAmult', [0.1];
   %'(D1,D2)',		'injectedCurrent', [1.1:0.01:1.2];
-  '(D1,D2)',		'tau_i', [1];
+  %'(D1,D2)',		'tau_i', [1];
   %'(D1,D2)',		'pulse_len', [2];
-  '(D1,D2)',		'AMPA_onset', [1000:20:3700];
-  '(D1,D2)',		'onset2_delay', [200,300];
+  %'(D1,D2)',		'AMPA_onset', [1000:100:1500];
+  %'(D1,D2)',		'onset2_delay', [100:100:500];
 };
 
 
@@ -265,9 +265,8 @@ qsub_mode = 'array';
 % local run of the simulation,
 %   i.e. in the interactive session you're running this same script in
 dsSimulate(spec,...
-              'analysis_functions', {@gvFRsoma, @gvCalcPower},... 
-			  'random_seed', 188888,...
-              'save_data_flag',save_data_flag,'study_dir','supp_2_2',...
+              'analysis_functions', {@gvFRsoma, @gvCalcPower},... %'random_seed', 166667,...
+              'save_data_flag',save_data_flag,'study_dir','gl_het_stats',...
               'cluster_flag',cluster_flag,'verbose_flag',verbose_flag,...
               'overwrite_flag',overwrite_flag,'tspan',[0 T0],...
               'save_results_flag',save_results_flag,'solver','rk4',...

@@ -18,7 +18,7 @@ for file = datafiles'
 	hold on
 	h2 = plot(time(time > low_time)', D1_spikes*diag(1:size(D2_V, 2))', '.', 'Color', [.8 .5 .7], 'MarkerSize', 10); %, 'LineWidth', 3)
 	xlabel('Time (ms)')
-	xlim([500 2000])
+	xlim([500 4000])
 	
 	mods = simulator_options.modifications;
 	val1 = num2str(cell2mat(mods(9,3)'))
@@ -28,9 +28,9 @@ for file = datafiles'
 	title(fulltitle)
 
 	saveas(gcf, ['fig5_', filename], 'png')
-	xlim([1000 1500])
+	%xlim([1000 1500])
 	
-	saveas(gcf, ['fig5_zoom_', filename], 'png')
+	%saveas(gcf, ['fig5_zoom_', filename], 'png')
 	close all
 end
 %raster_whoops
