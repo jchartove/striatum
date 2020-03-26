@@ -1,19 +1,18 @@
+% dendDendiGAP:  gap junctions between FSIs
+
+% Parameters
 DA = [0.5]
 g_GAP = [0.15]
-%fanout = [0.5]
 gcon = [0.33] 
-%0.33 for >2 cells
 
+%adjust for dopamine level
 g_GAP2 = g_GAP + DA.*(0.3-g_GAP)
- 
+
+%connectivity mask
 mask = genmask(Npre,Npost,gcon,g_GAP2,0,1,0)
-
-%dV(IN,OUT) = ((IN*ones(size(IN,2),1))'-(OUT*ones(size(OUT,2),1)))
-%dendDendiGAP(IN,OUT) = g_GAP2.*sum(dV(IN,OUT).*mask,2)
-%@current += dendDendiGAP(IN,OUT)'
-
 dV(IN,OUT) = ((IN'*ones(1,size(IN,2)))'-(OUT'*ones(1,size(OUT,2))))'
 dendDendiGAP(IN,OUT) = g_GAP2.*sum(dV(IN,OUT).*mask,1)
- 
+
+%current
 @current += dendDendiGAP(IN,OUT)
  

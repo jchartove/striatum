@@ -1,9 +1,11 @@
+% dendSomaiCOM:  compartmental conductance from dendrite to soma of FSI
+
+% Parameters
 gCOM = [0.5] 
- 
-%compcon = eye(Npost,Npre)
-%dV(IN,OUT) = ((IN*ones(size(IN,2),1))'-(OUT*ones(size(OUT,2),1)))
-%somaDendiCOM(IN,OUT) = gCOM.*sum(dV(IN,OUT).*compcon,2)
+
+%connectivity mask
 somaDendICOM(IN,OUT) = gCOM.*(IN-OUT)
  
+%current
 @current += somaDendICOM(IN,OUT)
  

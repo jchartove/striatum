@@ -121,49 +121,52 @@ for file = datafiles'
             strcat(num2str(hfopeak),',') strcat(num2str(gpeak),',') strcat(num2str(hipeak),',')  ...
             strcat(strjoin(mods(:,1)'),',') strcat(strjoin(mods(:,2)'),',') num2str(cell2mat(mods(:,3)')) }
         fprintf(fileID,formatSpec,output{1,:});
-		
-		%the following absolutely should be in a loop and i'm a bad programmer
-		
-		if numcells > 1
-			m = mean(sum(spike_indicator));
-        signal = sum(spike_indicator) - m; %zero-center
-        signal = double(detrend(signal));
         
-        [y,f] =  pmtm(signal',[],[0:150],1000/dt);
-        totalp = sum(y(1:150)); %total power. below: eeg bands
-        dp = sum(y(1:3));
-        thp = sum(y(4:7));
-        ap = sum(y(8:12));
+        %the following absolutely should be in a loop and i'm a bad programmer
         
-        %for the broader peaks, also find peak location
-        [~,lowpeak] = max(y(1:12));
-        bp = sum(y(13:35));
-        [~,bpeak] = max(y(13:35));
-        bpeak = bpeak + 12;
-        gplow = sum(y(36:65));
-        [~,glopeak] = max(y(36:65));
-        glopeak = glopeak + 35;
-        gphigh = sum(y(66:100));
-        [~,ghipeak] = max(y(66:100));
-        ghipeak = ghipeak + 65;
-        hfop = sum(y(101:150));
-        [~,hfopeak] = max(y(101:150));
-        hfopeak = hfopeak + 100;
-        [~,gpeak] = max(y(36:100));
-        gpeak = gpeak + 35;
-        [~,hipeak] = max(y(66:150));
-        hipeak = hipeak + 65;
+        if numcells > 1
+            m = mean(sum(spike_indicator));
+            signal = sum(spike_indicator) - m; %zero-center
+        else
+            m = mean(spike_indicator);
+            signal = spike_indicator- m; %zero-center
+        end
+            signal = double(detrend(signal));
+            
+            [y,f] =  pmtm(signal',[],[0:150],1000/dt);
+            totalp = sum(y(1:150)); %total power. below: eeg bands
+            dp = sum(y(1:3));
+            thp = sum(y(4:7));
+            ap = sum(y(8:12));
+            
+            %for the broader peaks, also find peak location
+            [~,lowpeak] = max(y(1:12));
+            bp = sum(y(13:35));
+            [~,bpeak] = max(y(13:35));
+            bpeak = bpeak + 12;
+            gplow = sum(y(36:65));
+            [~,glopeak] = max(y(36:65));
+            glopeak = glopeak + 35;
+            gphigh = sum(y(66:100));
+            [~,ghipeak] = max(y(66:100));
+            ghipeak = ghipeak + 65;
+            hfop = sum(y(101:150));
+            [~,hfopeak] = max(y(101:150));
+            hfopeak = hfopeak + 100;
+            [~,gpeak] = max(y(36:100));
+            gpeak = gpeak + 35;
+            [~,hipeak] = max(y(66:150));
+            hipeak = hipeak + 65;
+            
+            output = {strcat(filename,'_spikes,') strcat(num2str(aVgfr),',') ...
+                strcat(num2str(totalp),',') strcat(num2str(dp),',') strcat(num2str(thp),',') strcat(num2str(ap),',') ...
+                strcat(num2str(bp),',') strcat(num2str(gplow),',') strcat(num2str(gphigh),',') strcat(num2str(hfop),',')  ...
+                strcat(num2str(lowpeak),',') strcat(num2str(bpeak),',') strcat(num2str(glopeak),',') strcat(num2str(ghipeak),',') ...
+                strcat(num2str(hfopeak),',') strcat(num2str(gpeak),',') strcat(num2str(hipeak),',')  ...
+                strcat(strjoin(mods(:,1)'),',') strcat(strjoin(mods(:,2)'),',') num2str(cell2mat(mods(:,3)')) }
+            fprintf(fileID,formatSpec,output{1,:});
         
-        output = {strcat(filename,'_spikes,') strcat(num2str(aVgfr),',') ...
-            strcat(num2str(totalp),',') strcat(num2str(dp),',') strcat(num2str(thp),',') strcat(num2str(ap),',') ...
-            strcat(num2str(bp),',') strcat(num2str(gplow),',') strcat(num2str(gphigh),',') strcat(num2str(hfop),',')  ...
-            strcat(num2str(lowpeak),',') strcat(num2str(bpeak),',') strcat(num2str(glopeak),',') strcat(num2str(ghipeak),',') ...
-            strcat(num2str(hfopeak),',') strcat(num2str(gpeak),',') strcat(num2str(hipeak),',')  ...
-            strcat(strjoin(mods(:,1)'),',') strcat(strjoin(mods(:,2)'),',') num2str(cell2mat(mods(:,3)')) }
-        fprintf(fileID,formatSpec,output{1,:});
-		end
-		
-		
+        
         close all
     end
 end

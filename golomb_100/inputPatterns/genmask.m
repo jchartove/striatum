@@ -1,24 +1,19 @@
 function mask = genmask(Npre,Npost,con,cond,dir,aut,ko)
+	%con is the connection probability
+	%cond and ko were stuff i removed, sorry
 	mask = rand(Npost,Npre)<con;
+	
+	%if not directed (ie gap junctions), make symmetrical
 	if not(dir)
 		mask = triu(mask);
 		mask = mask + mask.';
+		mask = mask - diag(diag(mask));
 	end
 	
+	%aut = 1 if autapses not allowed
 	if aut
 		mask = mask - diag(diag(mask));
 	end
-	
-	if dir
-		filename = strcat('synmask_', mat2str(clock),'.mat')
-	else
-		mask = mask - diag(diag(mask));
-		filename = strcat('gjmask_', mat2str(clock),'.mat')
-	end
-	
-	%mask(:,(Npre-ko):end)=0;
-	%mask((Npost-ko):end,:)=0;
-	mask = mask'
-	save(strcat('/projectnb/crc-nak/chartove/dynasim/masks/', filename))
-	pwd
+
+	mask = mask';
 end

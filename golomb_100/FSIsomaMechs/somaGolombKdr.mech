@@ -1,3 +1,6 @@
+%somaGolombKdr: delayed rectifier (spiking potassium) current for FSIs
+
+%parameters
 vk = [-90]
 gkdr = [225]
 nexp = [2]
@@ -10,13 +13,18 @@ phin1 = [-14.6]
 phin2 = [1.3]
 sigman1 = [8.6]
 sigman2 = [18.7]
- 
+
+%n, tau
 ninf(X) = 1./(1+exp(-(X-thetan)./sigman))
 taun(X) = tau_mult*(tauminn+taumaxn./(1+exp((X-phin1)./sigman1))) .* (tauminn+taumaxn./(1+exp(-(X-phin2)./sigman2)))
 somaGolombKdr(X,n) = gkdr.*(n.^nexp).*(X-vk)
- 
+
+%ode
 n' = (ninf(X)-n)./taun(X);
+
+%initial conditions
 n(0) = 0.05 + 0.45*rand(1,Npop)
  
+%current
 @current += -somaGolombKdr(X,n)
  

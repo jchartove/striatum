@@ -1,4 +1,5 @@
 function [datatable] = indiv(soma_V)
+%this gets power spectra of individual voltage traces from FSI somas for figure 4
 datatable = zeros(size(soma_V,2),151);
 T_total = size(soma_V,1)-1;
 T_start = T_total*0.25;

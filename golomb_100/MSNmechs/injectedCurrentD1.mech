@@ -1,4 +1,4 @@
-% injectedCurrentMSN
+% injectedCurrentD1
 
 % parameters
 injectedCurrent = [1.19]
@@ -6,10 +6,8 @@ freq = 1/(2*pi)
 sinmult = 0
 DA = [0]
 DAmult = [0.1]
-% onset = 0
 
 % current
 injectedCurrentD1(t)= injectedCurrent + sinmult*sin(2*pi*freq*t/1000) + DAmult*DA
 
 @current += injectedCurrentD1(t)
-% @current += injectedCurrent

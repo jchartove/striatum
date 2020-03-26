@@ -1,4 +1,5 @@
 function psps = corrPoisson(no_cells, inputs_per_cell, rate, tau_i, tau_1, tau_d, tau_r, T, dt, fraction_shared)
+%this function generates poisson noise input that can be correlated between different cells
 
 t = 0:dt:T;
 

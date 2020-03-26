@@ -46,7 +46,7 @@ for file = datafiles'
         elseif datatype == 9
             data = D2_D2_gabaRecInputMSN_s;
             filenew = strcat(filename, '_D2syn')
-		elseif datatype == 10
+        elseif datatype == 10
             data = FSI_V;
             filenew = strcat(filename, '_FSIsc')
         end
@@ -68,7 +68,12 @@ for file = datafiles'
         %should change for d1s and d2s. whateVer
         fileID = tempID7;
         generate_spec(directory, avgfr, 0, 0, spike_pairs, V_short, filenew, time, simulator_options.dt, numcells, tempID7, formatSpec, simulator_options.modifications)
-        generate_spec(directory, avgfr, 0, 0, spike_pairs, sum(spike_indicator), strcat(filenew, '_spikes'), time, simulator_options.dt, 1, tempID7, formatSpec, simulator_options.modifications)
+        if numcells > 1
+            generate_spec(directory, avgfr, 0, 0, spike_pairs, sum(spike_indicator), strcat(filenew, '_spikes'), time, simulator_options.dt, 1, tempID7, formatSpec, simulator_options.modifications)
+        else
+            generate_spec(directory, avgfr, 0, 0, spike_pairs, spike_indicator, strcat(filenew, '_spikes'), time, simulator_options.dt, 1, tempID7, formatSpec, simulator_options.modifications)
+            
+        end
         
         %%%%%%%%%%%%%%%%%%%%% gating Variables
         handle4 = figure;

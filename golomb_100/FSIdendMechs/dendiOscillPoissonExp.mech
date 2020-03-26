@@ -12,13 +12,14 @@ tau_1 = [1]
 N_einputs = [50]
 N_iinputs = [0]
 fraction_shared = [0]
-fraction_gamma =[0]
+fraction_oscill =[0]
 randstart = [0]
+oscillfreq = [70]
 Tfinal = [4000]
  
-Ge = corrPoisson(Npop, N_einputs, rate, tau_i, tau_1, 2, .5, Tfinal, dt, fraction_shared)
-Gi = corrPoisson(Npop, N_iinputs, rate, tau_i, tau_1, 5, .5, Tfinal, dt, fraction_shared)
-%inputs: no_cells, inputs_per_cell, rate, tau_i, tau_1, tau_d, tau_r, T, dt, fraction_shared
+Ge = oscillPoisson(Npop, N_einputs, rate, tau_i, tau_1, 2, .5, Tfinal, dt, fraction_shared, fraction_oscill, randstart, oscillfreq)
+Gi = oscillPoisson(Npop, N_iinputs, rate, tau_i, tau_1, 5, .5, Tfinal, dt, fraction_shared, fraction_oscill, randstart, oscillfreq)
+%inputs: no_cells, inputs_per_cell, rate, tau_i, tau_1, tau_d, tau_r, T, dt, fraction_shared, fraction_oscill, randstart, oscillfreq
 
 %odes
 Gte(t) = g_esyn.*Ge(:, max(1,round(t/dt)))'
