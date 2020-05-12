@@ -16,7 +16,7 @@ spec.nodes(1).parameters = {'v_IC',-90, 'Tfinal', T0, 'Iapp',0};
 spec.nodes(2).name = 'dend';
 spec.nodes(2).size = numcells;
 spec.nodes(2).equations = eqns;
-spec.nodes(2).mechanism_list = {'dendGolombK','dendGolombKdr','dendGolombNa','dendInput','dendLeak','iPoisson'};
+spec.nodes(2).mechanism_list = {'dendGolombK','dendGolombKdr','dendGolombNa','dendInput','dendLeak','iPeriodicPulsesBen'};
 spec.nodes(2).parameters = {'v_IC',-90, 'Tfinal', T0, 'Iapp',0}; 
 
 spec.connections(1).direction = 'soma->dend';
@@ -31,11 +31,14 @@ spec.connections(2).parameters = {'gCOM', .5};
 vary={
   '(soma,dend)',	'DA',	[0];
   '(dend)',			'tonic',	[0];
-  '(dend)',			'AC',	[4000];
-  '(dend)',			'f',	[0.5:0.5:15];
-  '(soma,dend)',	'gd',	[0:12];
-  '(dend)',			'DC',	[0];
-  '(dend)',			'gext',	[0.1];
+  '(dend)',			'PPstim',	[-50,-100]
+  '(dend)',			'PPfreq',	[0.25:0.25:2]
+  '(dend)',			'PPduty',	[0.1:0.1:1]
+  '(dend)',			'kernel_type',	[25]
+  %'(dend)',			'AC',	[4000];
+  %'(dend)',			'f',	[0.5:0.5:15];
+  %'(dend)',			'DC',	[0];
+  %'(dend)',			'gext',	[0.1];
 };
 
 namearray = cellfun(@num2str,vary,'UniformOutput',0);
@@ -56,7 +59,7 @@ downsample_factor = 10;
 
 [~,~]=dsSimulate(spec,...
               'analysis_functions', {@gvFRsoma, @gvCalcPower},...
-              'save_data_flag',save_data_flag,'study_dir','poiss_vary_gd',...
+              'save_data_flag',save_data_flag,'study_dir','PP_low_duty_cycle',...
               'cluster_flag',cluster_flag,'verbose_flag',verbose_flag,...
               'overwrite_flag',overwrite_flag,'tspan',[0 T0],...
               'save_results_flag',save_results_flag,'solver','rk4',... %'memlimit',memlimit, ...

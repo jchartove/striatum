@@ -22,7 +22,7 @@ options=dsCheckOptions(varargin,{...
 var = 'D1_V';
 
 % calculate the power
-data = dsCalcPower(data, varargin{:});
+data = dsCalcPower(data, 'variable', 'D1_V', varargin{:});
 
 % pull out power and freqs
 switch options.unit_type

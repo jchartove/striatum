@@ -155,7 +155,7 @@ for file = datafiles'
      		plot(time(T_start+1:end),soma_somaGolombNa_h(T_start+1:end,1), ...
              time(T_start+1:end),soma_somaGolombKdr_n(T_start+1:end,1), time(T_start+1:end),soma_somaGolombK_a(T_start+1:end,1), ...
              time(T_start+1:end),soma_somaGolombK_b(T_start+1:end,1));
-             legend('Sodium activation','Potassium activation','Potassium 2 activation', 'Potassium 2 inactivation')
+             legend('Sodium inactivation','Potassium activation','Potassium 2 activation', 'Potassium 2 inactivation')
     
              xlabel('Time');
     
