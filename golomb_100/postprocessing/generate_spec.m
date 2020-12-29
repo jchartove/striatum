@@ -11,14 +11,18 @@ function generate_spec(directory, avgfr, min_ISI, max_ISI, spike_pairs, v_new, f
         m = mean(lfp);
         signal = lfp - m; %zero-center
         signal = double(detrend(signal));
-        [y,f] =  pmtm(signal',[],[0:150],1000/0.1);
+        if ~isnan(sum(signal))
+        [y,f] =  pmtm(signal',[],[0:200],1000/0.1);
+        else
+        y = zeros(1,200);
+        end
 		plot(y)
 		ylabel('Power')
 		xlabel('Freq [Hz]')
-		xlim([0 150])
-		set(gca,'XTick',[0:5:150]);
+		xlim([0 100])
+		set(gca,'XTick',[0:5:100]);
 		title('Power spectrum')
-        totalp = sum(y(1:150)); %total power. below: eeg bands
+        totalp = sum(y(1:200)); %total power. below: eeg bands
         dp = sum(y(1:3));
         thp = sum(y(4:7));
         ap = sum(y(8:12));
@@ -52,9 +56,10 @@ function generate_spec(directory, avgfr, min_ISI, max_ISI, spike_pairs, v_new, f
 
         %%%%%%%%%%%%%%%%%%%%% spectrogram
         handle3pt5 = figure;
-        [s,w,t] = spectrogram(signal,1000,900,[0:150],100/dt,'yaxis'); %everything is off by 10 in my life
-		imagesc(t,[1:151],abs(s));
-        set(gca,'YTick',[0:5:150]);
+		 if ~isnan(sum(signal))
+        [s,w,t] = spectrogram(signal,1000,900,[0:200],100/dt,'yaxis'); %everything is off by 10 in my life
+        imagesc(t,[1:151],abs(s));
+        set(gca,'YTick',[0:5:100]);
         ylim([0 100]);
 		axis xy
 		colorbar
@@ -65,7 +70,8 @@ function generate_spec(directory, avgfr, min_ISI, max_ISI, spike_pairs, v_new, f
         imgtitle = strcat(filenew,'spectrogram.png')
         title(imgtitle);
         saveas(handle3pt5, imgtitle, 'png');
-		
+         end 
+         
 		%xlim([0.1 0.2]);
         %imgtitle = strcat(filenew,'sg_zoom.png')
         %title(imgtitle);

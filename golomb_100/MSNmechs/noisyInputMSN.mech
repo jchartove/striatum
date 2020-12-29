@@ -6,4 +6,6 @@ sigma_noise = 4
 % current
 noisyInputMSN(t) = sigma_noise.*randn(Npop,1).*sqrt(dt)
 
+%this averages to zero because randn returns numbers distributed around 0
+
 @current += noisyInputMSN(t)

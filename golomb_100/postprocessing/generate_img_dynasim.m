@@ -85,7 +85,7 @@ for file = datafiles'
         elseif datatype == 2
             plot(time(T_start+2:end),spike_indicator(1,:),time(T_start+1:end),D1_naCurrentMSN_h(T_start+1:end,1), ...
                 time(T_start+1:end),D1_kCurrentMSN_m(T_start+1:end,1), time(T_start+1:end),D1_naCurrentMSN_m(T_start+1:end,1), ...
-                time(T_start+1:end),D1_mCurrentMSN_m(T_start+1:end,1), time(T_start+1:end), D1_soma_somaMSNiSYN_s(T_start+1:end,1), ...
+                time(T_start+1:end),D1_mCurrentMSN_m(T_start+1:end,1), ... %time(T_start+1:end), D1_soma_somaMSNiSYN_s(T_start+1:end,1), ...
                 time(T_start+1:end),D1_D1_gabaRecInputMSN_s(T_start+1:end,1));
             legend('Spikes','Sodium activation','Potassium activation','Sodium inactivation', 'M current activation','FSI to D1 IPSC',...
                 'D1 to D1 IPSC')
@@ -110,7 +110,7 @@ for file = datafiles'
         title(imgtitle);
         saveas(handle4, imgtitle, 'png');
         
-        xlim([T_start T_start+2000]);
+        xlim([T_start/10 T_start/10+200]);
         imgtitle = strcat(filenew,'ions_zoom.png')
         title(imgtitle);
         saveas(handle4, imgtitle, 'png');

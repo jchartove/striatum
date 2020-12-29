@@ -20,7 +20,12 @@ function [ plv, plv_s] = PLV_F(signal, stim, foi, time)
 dt = 0.01; %hardcoding for personal convenience
 
 %preprocessing
-mean_signal = nanmean(signal, 2);
+n = size(signal); %check dimensionality
+if n(1) > 1
+    mean_signal = nanmean(signal, 2);
+else
+    mean_signal = signal;
+end
 low_time = 500;
 time_index = time >= low_time;
 mean_signal_detrended = detrend(mean_signal(time_index, :));
