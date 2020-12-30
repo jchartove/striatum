@@ -1,0 +1,12 @@
+Tfinal = [2000]
+pulse_str = [0]
+pulse_len = [50]
+onset = [1000]
+
+halfpop = Npop/2;
+pulsetime = horzcat(zeros(1,onset),ones(1,pulse_len),zeros(1,Tfinal-(onset+pulse_len)+1));
+%cellmask = horzcat(zeros(1,halfpop),ones(1,halfpop));
+cellmask = zeros(1,Npop);
+cellmask(20) = 1;
+pulseInputMSN(t) = pulse_str.*cellmask.*pulsetime(round(t)+1)
+@current += pulseInputMSN(t)
